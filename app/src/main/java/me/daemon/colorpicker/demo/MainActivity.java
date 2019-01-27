@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("MainActivity", "onColor: " + color + " " + String.format("#%06X", (0xFFFFFF & color)));
             }
         });
+        colorPickerView.setIndicatorPainter(new ShowPopIndicator());
 
     }
 }

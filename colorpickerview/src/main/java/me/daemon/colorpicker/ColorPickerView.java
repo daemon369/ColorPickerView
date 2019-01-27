@@ -36,7 +36,6 @@ public class ColorPickerView extends View implements ColorObservable {
 
     private final Paint huePaint;
     private final Paint saturationPaint;
-    private final Paint indicatorPaint;
 
     private final PointF currentPoint;
 
@@ -66,7 +65,6 @@ public class ColorPickerView extends View implements ColorObservable {
 
         huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         currentPoint = new PointF();
 
@@ -186,7 +184,7 @@ public class ColorPickerView extends View implements ColorObservable {
 
     protected void drawIndicator(@NonNull final Canvas canvas) {
         final IndicatorPainter provider = indicatorPainter != null ? indicatorPainter : defaultIndicatorPainter;
-        provider.drawIndicator(canvas, indicatorPaint, currentPoint, indicatorRadius, isChanging);
+        provider.drawIndicator(canvas, currentPoint, indicatorRadius, isChanging);
     }
 
     private int getRadius() {
@@ -226,19 +224,23 @@ public class ColorPickerView extends View implements ColorObservable {
 
         void drawIndicator(
                 @NonNull final Canvas canvas,
-                @NonNull final Paint indicatorPaint,
                 @NonNull final PointF point,
                 final int indicatorRadius,
                 final boolean isChanging
         );
     }
 
+    public void setIndicatorPainter(final IndicatorPainter indicatorPainter) {
+        this.indicatorPainter = indicatorPainter;
+    }
+
     public static class DefaultIndicatorPainter implements IndicatorPainter {
+
+        private final Paint indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         @Override
         public void drawIndicator(
                 @NonNull Canvas canvas,
-                @NonNull Paint indicatorPaint,
                 @NonNull PointF point,
                 int indicatorRadius,
                 final boolean isChanging) {
