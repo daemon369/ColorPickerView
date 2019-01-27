@@ -1,13 +1,16 @@
 package me.daemon.colorpicker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +33,9 @@ public class ColorPickerView extends View {
 
     private final Paint huePaint;
     private final Paint saturationPaint;
+    private final Paint indicatorPaint;
+
+    private final PointF currentPoint;
 
     private int paletteCenterX;
     private int paletteCenterY;
@@ -62,6 +68,9 @@ public class ColorPickerView extends View {
 
         huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        currentPoint = new PointF();
     }
 
     public void setPaletteRadius(final int paletteRadius) {
@@ -124,11 +133,35 @@ public class ColorPickerView extends View {
 
         canvas.drawCircle(paletteCenterX, paletteCenterY, radius, huePaint);
         canvas.drawCircle(paletteCenterX, paletteCenterY, radius, saturationPaint);
+
+        drawIndicator(canvas, indicatorPaint, currentPoint, indicatorRadius);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                updateIndicator(event.getX(), event.getY());
+                return true;
+
+            case MotionEvent.ACTION_UP:
+                updateIndicator(event.getX(), event.getY());
+                return true;
+        }
         return super.onTouchEvent(event);
+    }
+
+    protected void drawIndicator(
+            @NonNull final Canvas canvas,
+            @NonNull final Paint indicatorPaint,
+            @NonNull final PointF point,
+            final int indicatorRadius
+    ) {
+        indicatorPaint.setColor(Color.BLACK);
+        canvas.drawLine(point.x - indicatorRadius, point.y, point.x + indicatorRadius, point.y, indicatorPaint);
+        canvas.drawLine(point.x, point.y - indicatorRadius, point.x, point.y + indicatorRadius, indicatorPaint);
     }
 
     private int getRadius() {
@@ -144,5 +177,21 @@ public class ColorPickerView extends View {
         }
 
         return radius;
+    }
+
+    private void updateIndicator(final float eventX, final float eventY) {
+        float x = eventX - paletteCenterX;
+        float y = eventY - paletteCenterY;
+        double r = Math.sqrt(x * x + y * y);
+
+        final int radius = getRadius();
+        if (r > radius) {
+            x *= radius / r;
+            y *= radius / r;
+        }
+        currentPoint.x = x + paletteCenterX;
+        currentPoint.y = y + paletteCenterY;
+
+        invalidate();
     }
 }
