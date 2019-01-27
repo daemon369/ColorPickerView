@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ColorPickerView">
+        <attr name="paletteRadius" format="dimension" />
+        <attr name="indicatorRadius" format="dimension" />
+        <attr name="initialColor" format="color" />
+    </declare-styleable>
+
+</resources>
