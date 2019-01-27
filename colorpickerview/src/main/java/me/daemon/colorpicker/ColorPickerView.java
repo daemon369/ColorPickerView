@@ -171,12 +171,12 @@ public class ColorPickerView extends View implements ColorObservable {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 isChanging = true;
-                updateIndicator(event.getX(), event.getY());
+                update(event.getX(), event.getY());
                 return true;
 
             case MotionEvent.ACTION_UP:
                 isChanging = false;
-                updateIndicator(event.getX(), event.getY());
+                update(event.getX(), event.getY());
                 return true;
         }
         return super.onTouchEvent(event);
@@ -184,7 +184,7 @@ public class ColorPickerView extends View implements ColorObservable {
 
     protected void drawIndicator(@NonNull final Canvas canvas) {
         final IndicatorPainter provider = indicatorPainter != null ? indicatorPainter : defaultIndicatorPainter;
-        provider.drawIndicator(canvas, currentPoint, indicatorRadius, isChanging);
+        provider.drawIndicator(canvas, currentPoint, color, indicatorRadius, isChanging);
     }
 
     private int getRadius() {
@@ -202,6 +202,11 @@ public class ColorPickerView extends View implements ColorObservable {
         return radius;
     }
 
+    private void update(final float eventX, final float eventY) {
+        setColor(getColorAtPoint(eventX, eventY));
+        notifyObservers(color);
+    }
+
     private void updateIndicator(final float eventX, final float eventY) {
         float x = eventX - paletteCenterX;
         float y = eventY - paletteCenterY;
@@ -217,7 +222,6 @@ public class ColorPickerView extends View implements ColorObservable {
 
         invalidate();
 
-        notifyObservers(getColorAtPoint(eventX, eventY));
     }
 
     public interface IndicatorPainter {
@@ -225,6 +229,7 @@ public class ColorPickerView extends View implements ColorObservable {
         void drawIndicator(
                 @NonNull final Canvas canvas,
                 @NonNull final PointF point,
+                final int color,
                 final int indicatorRadius,
                 final boolean isChanging
         );
@@ -242,10 +247,12 @@ public class ColorPickerView extends View implements ColorObservable {
         public void drawIndicator(
                 @NonNull Canvas canvas,
                 @NonNull PointF point,
+                final int color,
                 int indicatorRadius,
-                final boolean isChanging) {
+                final boolean isChanging
+        ) {
 
-            indicatorPaint.setColor(Color.BLACK);
+            indicatorPaint.setColor(color);
             indicatorPaint.setStrokeWidth(2);
             canvas.drawLine(
                     point.x - indicatorRadius,

@@ -25,6 +25,7 @@ public class ShowPopIndicator implements ColorPickerView.IndicatorPainter {
     @Override
     public void drawIndicator(@NonNull Canvas canvas,
                               @NonNull PointF point,
+                              final int color,
                               int indicatorRadius,
                               boolean isChanging) {
 
@@ -36,7 +37,7 @@ public class ShowPopIndicator implements ColorPickerView.IndicatorPainter {
             canvas.drawCircle(point.x, point.y - 123, outerSize2, paint);
         }
 
-        paint.setColor(Color.BLUE);
+        paint.setColor(color);
 
         canvas.drawCircle(point.x, point.y, innerSize1, paint);
 
