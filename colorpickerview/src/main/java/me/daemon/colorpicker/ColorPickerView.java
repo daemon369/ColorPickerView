@@ -16,11 +16,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewDebug;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author daemon
  * @since 2019-01-27 18:04
  */
-public class ColorPickerView extends View {
+public class ColorPickerView extends View implements ColorObservable {
 
     @ViewDebug.ExportedProperty(category = "daemon")
     private int indicatorRadius;
@@ -44,6 +47,10 @@ public class ColorPickerView extends View {
 
     private IndicatorPainter indicatorPainter = null;
 
+    private final List<ColorObserver> observers = new ArrayList<>();
+
+    private int color;
+
     public ColorPickerView(Context context) {
         this(context, null);
     }
@@ -54,6 +61,12 @@ public class ColorPickerView extends View {
 
     public ColorPickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        currentPoint = new PointF();
 
         final TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
 
@@ -66,15 +79,11 @@ public class ColorPickerView extends View {
 
             final int initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK);
             setInitialColor(initialColor);
+            setColor(initialColor);
         } finally {
             t.recycle();
         }
 
-        huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        currentPoint = new PointF();
     }
 
     public void setPaletteRadius(final int paletteRadius) {
@@ -96,6 +105,20 @@ public class ColorPickerView extends View {
     public void setInitialColor(final int initialColor) {
         if (this.initialColor != initialColor) {
             this.initialColor = initialColor;
+
+            invalidate();
+        }
+    }
+
+    public void setColor(final int color) {
+        if (this.color != color) {
+            this.color = color;
+
+            float[] hsv = new float[3];
+            Color.colorToHSV(color, hsv);
+            float r = hsv[1] * getRadius();
+            float radian = (float) (hsv[0] / 180f * Math.PI);
+            updateIndicator((float) (r * Math.cos(radian) + paletteCenterX), (float) (-r * Math.sin(radian) + paletteCenterY));
 
             invalidate();
         }
@@ -191,6 +214,8 @@ public class ColorPickerView extends View {
         currentPoint.y = y + paletteCenterY;
 
         invalidate();
+
+        notifyObservers(getColorAtPoint(eventX, eventY));
     }
 
     public interface IndicatorPainter {
@@ -206,8 +231,14 @@ public class ColorPickerView extends View {
     public static class DefaultIndicatorPainter implements IndicatorPainter {
 
         @Override
-        public void drawIndicator(@NonNull Canvas canvas, @NonNull Paint indicatorPaint, @NonNull PointF point, int indicatorRadius) {
+        public void drawIndicator(
+                @NonNull Canvas canvas,
+                @NonNull Paint indicatorPaint,
+                @NonNull PointF point,
+                int indicatorRadius) {
+
             indicatorPaint.setColor(Color.BLACK);
+            indicatorPaint.setStrokeWidth(2);
             canvas.drawLine(
                     point.x - indicatorRadius,
                     point.y,
@@ -220,6 +251,41 @@ public class ColorPickerView extends View {
                     point.x,
                     point.y + indicatorRadius,
                     indicatorPaint);
+        }
+    }
+
+    @Override
+    public void subscribe(ColorObserver observer) {
+        if (observer != null) {
+            observers.add(observer);
+        }
+    }
+
+    @Override
+    public void unsubscribe(ColorObserver observer) {
+        if (observer != null) {
+            observers.remove(observer);
+        }
+    }
+
+    @Override
+    public int getColor() {
+        return color;
+    }
+
+    private int getColorAtPoint(float eventX, float eventY) {
+        float x = eventX - paletteCenterX;
+        float y = eventY - paletteCenterY;
+        double r = Math.sqrt(x * x + y * y);
+        float[] hsv = {0, 0, 1};
+        hsv[0] = (float) (Math.atan2(y, -x) / Math.PI * 180f) + 180;
+        hsv[1] = Math.max(0f, Math.min(1f, (float) (r / getRadius())));
+        return Color.HSVToColor(hsv);
+    }
+
+    private void notifyObservers(final int color) {
+        for (ColorObserver observer : observers) {
+            observer.onColor(color);
         }
     }
 }
