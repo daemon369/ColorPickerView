@@ -51,6 +51,8 @@ public class ColorPickerView extends View implements ColorObservable {
 
     private int color;
 
+    private boolean isChanging = false;
+
     public ColorPickerView(Context context) {
         this(context, null);
     }
@@ -170,10 +172,12 @@ public class ColorPickerView extends View implements ColorObservable {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
+                isChanging = true;
                 updateIndicator(event.getX(), event.getY());
                 return true;
 
             case MotionEvent.ACTION_UP:
+                isChanging = false;
                 updateIndicator(event.getX(), event.getY());
                 return true;
         }
@@ -182,7 +186,7 @@ public class ColorPickerView extends View implements ColorObservable {
 
     protected void drawIndicator(@NonNull final Canvas canvas) {
         final IndicatorPainter provider = indicatorPainter != null ? indicatorPainter : defaultIndicatorPainter;
-        provider.drawIndicator(canvas, indicatorPaint, currentPoint, indicatorRadius);
+        provider.drawIndicator(canvas, indicatorPaint, currentPoint, indicatorRadius, isChanging);
     }
 
     private int getRadius() {
@@ -224,7 +228,8 @@ public class ColorPickerView extends View implements ColorObservable {
                 @NonNull final Canvas canvas,
                 @NonNull final Paint indicatorPaint,
                 @NonNull final PointF point,
-                final int indicatorRadius
+                final int indicatorRadius,
+                final boolean isChanging
         );
     }
 
@@ -235,7 +240,8 @@ public class ColorPickerView extends View implements ColorObservable {
                 @NonNull Canvas canvas,
                 @NonNull Paint indicatorPaint,
                 @NonNull PointF point,
-                int indicatorRadius) {
+                int indicatorRadius,
+                final boolean isChanging) {
 
             indicatorPaint.setColor(Color.BLACK);
             indicatorPaint.setStrokeWidth(2);
