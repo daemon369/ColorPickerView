@@ -40,6 +40,10 @@ public class ColorPickerView extends View {
     private int paletteCenterX;
     private int paletteCenterY;
 
+    private final IndicatorPainter defaultIndicatorPainter = new DefaultIndicatorPainter();
+
+    private IndicatorPainter indicatorPainter = null;
+
     public ColorPickerView(Context context) {
         this(context, null);
     }
@@ -134,7 +138,7 @@ public class ColorPickerView extends View {
         canvas.drawCircle(paletteCenterX, paletteCenterY, radius, huePaint);
         canvas.drawCircle(paletteCenterX, paletteCenterY, radius, saturationPaint);
 
-        drawIndicator(canvas, indicatorPaint, currentPoint, indicatorRadius);
+        drawIndicator(canvas);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -153,15 +157,9 @@ public class ColorPickerView extends View {
         return super.onTouchEvent(event);
     }
 
-    protected void drawIndicator(
-            @NonNull final Canvas canvas,
-            @NonNull final Paint indicatorPaint,
-            @NonNull final PointF point,
-            final int indicatorRadius
-    ) {
-        indicatorPaint.setColor(Color.BLACK);
-        canvas.drawLine(point.x - indicatorRadius, point.y, point.x + indicatorRadius, point.y, indicatorPaint);
-        canvas.drawLine(point.x, point.y - indicatorRadius, point.x, point.y + indicatorRadius, indicatorPaint);
+    protected void drawIndicator(@NonNull final Canvas canvas) {
+        final IndicatorPainter provider = indicatorPainter != null ? indicatorPainter : defaultIndicatorPainter;
+        provider.drawIndicator(canvas, indicatorPaint, currentPoint, indicatorRadius);
     }
 
     private int getRadius() {
@@ -193,5 +191,35 @@ public class ColorPickerView extends View {
         currentPoint.y = y + paletteCenterY;
 
         invalidate();
+    }
+
+    public interface IndicatorPainter {
+
+        void drawIndicator(
+                @NonNull final Canvas canvas,
+                @NonNull final Paint indicatorPaint,
+                @NonNull final PointF point,
+                final int indicatorRadius
+        );
+    }
+
+    public static class DefaultIndicatorPainter implements IndicatorPainter {
+
+        @Override
+        public void drawIndicator(@NonNull Canvas canvas, @NonNull Paint indicatorPaint, @NonNull PointF point, int indicatorRadius) {
+            indicatorPaint.setColor(Color.BLACK);
+            canvas.drawLine(
+                    point.x - indicatorRadius,
+                    point.y,
+                    point.x + indicatorRadius,
+                    point.y,
+                    indicatorPaint);
+            canvas.drawLine(
+                    point.x,
+                    point.y - indicatorRadius,
+                    point.x,
+                    point.y + indicatorRadius,
+                    indicatorPaint);
+        }
     }
 }
