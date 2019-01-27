@@ -27,36 +27,118 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "com.android.support:appcompat-v7:$support_library_version"
+    implementation "com.android.support:support-annotations:$support_library_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
 
+apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
-group = 'me.daemon'
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'colorpickerview'
 
-// build a jar with source files
+    publishedGroupId = 'me.daemon'
+    libraryName = 'ColorPickerView'
+    artifact = 'colorpickerview'
+
+    libraryDescription = 'An Android Library providing a color picker view'
+
+    siteUrl = 'https://github.com/daemon369/ColorPickerView'
+    gitUrl = 'https://github.com/daemon369/ColorPickerView.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'daemon369'
+    developerName = 'daemon369'
+    developerEmail = 'daemon336699@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+group = publishedGroupId
+version = libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            packaging 'aar'
+            groupId publishedGroupId
+            artifactId artifact
+
+            name libraryName
+            description libraryDescription
+            url siteUrl
+
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+
 task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
 }
 
 task javadoc(type: Javadoc) {
-    failOnError false
-    source = android.sourceSets.main.java.sourceFiles
+    source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
 }
 
-// build a jar with javadoc
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
 artifacts {
-    archives sourcesJar
     archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
 }
