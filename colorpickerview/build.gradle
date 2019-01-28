@@ -39,7 +39,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 ext {
-    bintrayRepo = 'maven'
+    bintrayRepo = 'android'
     bintrayName = 'colorpickerview'
 
     publishedGroupId = 'me.daemon'
