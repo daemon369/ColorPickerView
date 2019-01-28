@@ -23,11 +23,12 @@ public class ShowPopIndicator implements ColorPickerView.IndicatorPainter {
     private final float outerSize2 = 63;
 
     @Override
-    public void drawIndicator(@NonNull Canvas canvas,
-                              @NonNull PointF point,
-                              final int color,
-                              int indicatorRadius,
-                              boolean isChanging) {
+    public void drawIndicator(
+            @NonNull ColorPickerView colorPickerView,
+            @NonNull Canvas canvas,
+            @NonNull PointF point,
+            final int color,
+            boolean isChanging) {
 
         paint.setColor(Color.WHITE);
 

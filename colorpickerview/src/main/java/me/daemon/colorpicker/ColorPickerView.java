@@ -26,13 +26,10 @@ import java.util.List;
 public class ColorPickerView extends View implements ColorObservable {
 
     @ViewDebug.ExportedProperty(category = "daemon")
-    private int indicatorRadius;
-
-    @ViewDebug.ExportedProperty(category = "daemon")
     private int initialColor;
 
     @ViewDebug.ExportedProperty(category = "daemon")
-    private int paletteRadius;
+    private int palettePadding;
 
     private final Paint huePaint;
     private final Paint saturationPaint;
@@ -71,11 +68,8 @@ public class ColorPickerView extends View implements ColorObservable {
         final TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
 
         try {
-            final int paletteRadius = (int) t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0);
-            setPaletteRadius(paletteRadius);
-
-            final int indicatorRadius = (int) t.getDimension(R.styleable.ColorPickerView_indicatorRadius, 0);
-            setIndicatorRadius(indicatorRadius);
+            final int palettePadding = (int) t.getDimension(R.styleable.ColorPickerView_palettePadding, 0);
+            setPalettePadding(palettePadding);
 
             final int initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK);
             setInitialColor(initialColor);
@@ -86,20 +80,16 @@ public class ColorPickerView extends View implements ColorObservable {
 
     }
 
-    public void setPaletteRadius(final int paletteRadius) {
-        if (this.paletteRadius != paletteRadius) {
-            this.paletteRadius = paletteRadius;
+    public void setPalettePadding(final int palettePadding) {
+        if (this.palettePadding != palettePadding) {
+            this.palettePadding = palettePadding;
 
             invalidate();
         }
     }
 
-    public void setIndicatorRadius(final int indicatorRadius) {
-        if (this.indicatorRadius != indicatorRadius) {
-            this.indicatorRadius = indicatorRadius;
-
-            invalidate();
-        }
+    public int getPalettePadding() {
+        return palettePadding;
     }
 
     public void setInitialColor(final int initialColor) {
@@ -108,6 +98,10 @@ public class ColorPickerView extends View implements ColorObservable {
 
             invalidate();
         }
+    }
+
+    public int getInitialColor() {
+        return initialColor;
     }
 
     public void setColor(final int color) {
@@ -183,22 +177,15 @@ public class ColorPickerView extends View implements ColorObservable {
 
     protected void drawIndicator(@NonNull final Canvas canvas) {
         final IndicatorPainter provider = indicatorPainter != null ? indicatorPainter : defaultIndicatorPainter;
-        provider.drawIndicator(canvas, currentPoint, color, indicatorRadius, isChanging);
+        provider.drawIndicator(this, canvas, currentPoint, color, isChanging);
     }
 
     private int getRadius() {
-        final int width = getMeasuredWidth() - getPaddingLeft() - getPaddingRight() - indicatorRadius * 2;
-        final int height = getMeasuredHeight() - getPaddingTop() - getPaddingBottom() - indicatorRadius * 2;
+        final int width = getMeasuredWidth() - getPaddingLeft() - getPaddingRight() - palettePadding * 2;
+        final int height = getMeasuredHeight() - getPaddingTop() - getPaddingBottom() - palettePadding * 2;
         final int limit = Math.max(Math.min(width, height), 0);
 
-        final int radius;
-        if (paletteRadius == 0) {
-            radius = limit / 2;
-        } else {
-            radius = Math.max(Math.min(limit / 2, paletteRadius - indicatorRadius), 0);
-        }
-
-        return radius;
+        return limit / 2;
     }
 
     private void update(final float eventX, final float eventY) {
@@ -226,10 +213,10 @@ public class ColorPickerView extends View implements ColorObservable {
     public interface IndicatorPainter {
 
         void drawIndicator(
+                @NonNull final ColorPickerView colorPickerView,
                 @NonNull final Canvas canvas,
                 @NonNull final PointF point,
                 final int color,
-                final int indicatorRadius,
                 final boolean isChanging
         );
     }
@@ -244,26 +231,26 @@ public class ColorPickerView extends View implements ColorObservable {
 
         @Override
         public void drawIndicator(
+                @NonNull final ColorPickerView colorPickerView,
                 @NonNull Canvas canvas,
                 @NonNull PointF point,
                 final int color,
-                int indicatorRadius,
                 final boolean isChanging
         ) {
 
             indicatorPaint.setColor(color);
             indicatorPaint.setStrokeWidth(2);
             canvas.drawLine(
-                    point.x - indicatorRadius,
+                    point.x - colorPickerView.getPalettePadding(),
                     point.y,
-                    point.x + indicatorRadius,
+                    point.x + colorPickerView.getPalettePadding(),
                     point.y,
                     indicatorPaint);
             canvas.drawLine(
                     point.x,
-                    point.y - indicatorRadius,
+                    point.y - colorPickerView.getPalettePadding(),
                     point.x,
-                    point.y + indicatorRadius,
+                    point.y + colorPickerView.getPalettePadding(),
                     indicatorPaint);
         }
     }

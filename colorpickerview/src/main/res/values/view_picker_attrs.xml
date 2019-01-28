@@ -2,8 +2,7 @@
 <resources>
 
     <declare-styleable name="ColorPickerView">
-        <attr name="paletteRadius" format="dimension" />
-        <attr name="indicatorRadius" format="dimension" />
+        <attr name="palettePadding" format="dimension" />
         <attr name="initialColor" format="color" />
     </declare-styleable>
 
