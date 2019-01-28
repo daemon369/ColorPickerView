@@ -79,7 +79,7 @@ public class ColorPickerView extends View implements ColorObservable {
 
             final int initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK);
             setInitialColor(initialColor);
-            setColor(initialColor);
+            setColorInternal(initialColor, false);
 
             final int disabledColor = t.getColor(R.styleable.ColorPickerView_disabledColor, Color.GRAY);
             setDisabledColor(disabledColor);
@@ -127,6 +127,10 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     public void setColor(final int color) {
+        setColorInternal(color, true);
+    }
+
+    private void setColorInternal(final int color, final boolean notify) {
         this.color = color;
 
         float[] hsv = new float[3];
@@ -135,9 +139,12 @@ public class ColorPickerView extends View implements ColorObservable {
         float radian = (float) (hsv[0] / 180f * Math.PI);
         updateIndicator((float) (r * Math.cos(radian) + paletteCenterX), (float) (-r * Math.sin(radian) + paletteCenterY));
 
+        if (notify) {
+            notifyObservers(color);
+        }
+
         invalidate();
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -167,6 +174,8 @@ public class ColorPickerView extends View implements ColorObservable {
         final Shader saturationShader = new RadialGradient(paletteCenterX, paletteCenterY, radius,
                 Color.WHITE, 0x00FFFFFF, Shader.TileMode.CLAMP);
         saturationPaint.setShader(saturationShader);
+
+        setColorInternal(color, false);
     }
 
     @Override
@@ -217,8 +226,8 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     private void update(final float eventX, final float eventY) {
-        setColor(getColorAtPoint(eventX, eventY));
-        notifyObservers(color);
+        final int color = getColorAtPoint(eventX, eventY);
+        setColorInternal(color, true);
     }
 
     private void updateIndicator(final float eventX, final float eventY) {
