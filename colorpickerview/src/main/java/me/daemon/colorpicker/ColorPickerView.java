@@ -111,18 +111,17 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     public void setColor(final int color) {
-        if (this.color != color) {
-            this.color = color;
+        this.color = color;
 
-            float[] hsv = new float[3];
-            Color.colorToHSV(color, hsv);
-            float r = hsv[1] * getRadius();
-            float radian = (float) (hsv[0] / 180f * Math.PI);
-            updateIndicator((float) (r * Math.cos(radian) + paletteCenterX), (float) (-r * Math.sin(radian) + paletteCenterY));
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        float r = hsv[1] * getRadius();
+        float radian = (float) (hsv[0] / 180f * Math.PI);
+        updateIndicator((float) (r * Math.cos(radian) + paletteCenterX), (float) (-r * Math.sin(radian) + paletteCenterY));
 
-            invalidate();
-        }
+        invalidate();
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
