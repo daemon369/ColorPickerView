@@ -34,16 +34,23 @@ public class ShowPopIndicator implements ColorPickerView.IndicatorPainter {
 
         canvas.drawCircle(point.x, point.y, outerSize1, paint);
 
-        if (isChanging) {
-            canvas.drawCircle(point.x, point.y - 123, outerSize2, paint);
-        }
+        if (colorPickerView.isEnabled()) {
+            if (isChanging) {
+                canvas.drawCircle(point.x, point.y - 123, outerSize2, paint);
+            }
 
-        paint.setColor(color);
+            paint.setColor(color);
 
-        canvas.drawCircle(point.x, point.y, innerSize1, paint);
+            canvas.drawCircle(point.x, point.y, innerSize1, paint);
 
-        if (isChanging) {
-            canvas.drawCircle(point.x, point.y - 123, innerSize2, paint);
+            if (isChanging) {
+                canvas.drawCircle(point.x, point.y - 123, innerSize2, paint);
+            }
+        } else {
+
+            paint.setColor(colorPickerView.getDisabledColor());
+
+            canvas.drawCircle(point.x, point.y, innerSize1, paint);
         }
     }
 }

@@ -31,8 +31,12 @@ public class ColorPickerView extends View implements ColorObservable {
     @ViewDebug.ExportedProperty(category = "daemon")
     private int palettePadding;
 
+    @ViewDebug.ExportedProperty(category = "daemon")
+    private int disabledColor = Color.GRAY;
+
     private final Paint huePaint;
     private final Paint saturationPaint;
+    private final Paint disabledPaint;
 
     private final PointF currentPoint;
 
@@ -62,6 +66,8 @@ public class ColorPickerView extends View implements ColorObservable {
 
         huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        disabledPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        disabledPaint.setColor(disabledColor);
 
         currentPoint = new PointF();
 
@@ -74,6 +80,9 @@ public class ColorPickerView extends View implements ColorObservable {
             final int initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK);
             setInitialColor(initialColor);
             setColor(initialColor);
+
+            final int disabledColor = t.getColor(R.styleable.ColorPickerView_disabledColor, Color.GRAY);
+            setDisabledColor(disabledColor);
         } finally {
             t.recycle();
         }
@@ -102,6 +111,19 @@ public class ColorPickerView extends View implements ColorObservable {
 
     public int getInitialColor() {
         return initialColor;
+    }
+
+    public void setDisabledColor(final int color) {
+        if (this.disabledColor != color) {
+            this.disabledColor = color;
+            this.disabledPaint.setColor(color);
+
+            invalidate();
+        }
+    }
+
+    public int getDisabledColor() {
+        return disabledColor;
     }
 
     public void setColor(final int color) {
@@ -151,8 +173,12 @@ public class ColorPickerView extends View implements ColorObservable {
     protected void onDraw(Canvas canvas) {
         final int radius = getRadius();
 
-        canvas.drawCircle(paletteCenterX, paletteCenterY, radius, huePaint);
-        canvas.drawCircle(paletteCenterX, paletteCenterY, radius, saturationPaint);
+        if (isEnabled()) {
+            canvas.drawCircle(paletteCenterX, paletteCenterY, radius, huePaint);
+            canvas.drawCircle(paletteCenterX, paletteCenterY, radius, saturationPaint);
+        } else {
+            canvas.drawCircle(paletteCenterX, paletteCenterY, radius, disabledPaint);
+        }
 
         drawIndicator(canvas);
     }
@@ -160,6 +186,8 @@ public class ColorPickerView extends View implements ColorObservable {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!isEnabled()) return false;
+
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
