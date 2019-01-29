@@ -54,7 +54,7 @@ public class ColorPickerView extends View implements ColorObservable {
 
     private boolean isChanging = false;
 
-    private boolean disallowParentInterceptTouchEven = false;
+    private boolean disallowInterceptTouchEven = false;
 
     public ColorPickerView(Context context) {
         this(context, null);
@@ -155,8 +155,8 @@ public class ColorPickerView extends View implements ColorObservable {
      * @param disallow whether to disallow it's parent and ancestors to intercept touch event<br/>
      *                 是否禁止父View或祖先View拦截触摸事件冲突
      */
-    public void setDisallowParentInterceptTouchEven(final boolean disallow) {
-        this.disallowParentInterceptTouchEven = disallow;
+    public void setDisallowInterceptTouchEven(final boolean disallow) {
+        this.disallowInterceptTouchEven = disallow;
     }
 
     private void setColorInternal(final int color, final boolean notify) {
@@ -229,7 +229,7 @@ public class ColorPickerView extends View implements ColorObservable {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                if (disallowParentInterceptTouchEven) {
+                if (disallowInterceptTouchEven) {
                     final ViewParent parent = getParent();
                     if (parent != null) {
                         parent.requestDisallowInterceptTouchEvent(true);
@@ -244,7 +244,7 @@ public class ColorPickerView extends View implements ColorObservable {
                 isChanging = false;
                 update(event.getX(), event.getY());
 
-                if (disallowParentInterceptTouchEven) {
+                if (disallowInterceptTouchEven) {
                     final ViewParent parent = getParent();
                     if (parent != null) {
                         parent.requestDisallowInterceptTouchEvent(false);
