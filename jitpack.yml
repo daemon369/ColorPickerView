@@ -1,2 +1,2 @@
 before_install:
-- curl https://gist.github.com/daemon369/c3c1cfcc3d083adc66954669129692b0
+- curl https://gist.githubusercontent.com/daemon369/c3c1cfcc3d083adc66954669129692b0/raw/d98694346c3a08cdba93109649a9f71b3c334938/android-sdk-license.sh | sh
