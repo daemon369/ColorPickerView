@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewDebug;
+import android.view.ViewParent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,8 @@ public class ColorPickerView extends View implements ColorObservable {
     private int color;
 
     private boolean isChanging = false;
+
+    private boolean disallowParentInterceptTouchEven = false;
 
     public ColorPickerView(Context context) {
         this(context, null);
@@ -130,6 +133,32 @@ public class ColorPickerView extends View implements ColorObservable {
         setColorInternal(color, true);
     }
 
+    /**
+     * resolve touch conflict with it's parent and ancestors<br/><br/>
+     * <p>
+     * if disallow is set to be true, {@link ColorPickerView}  will call
+     * it's {@link ViewParent#getParent() parent}'s
+     * {@link ViewParent#requestDisallowInterceptTouchEvent(boolean)}
+     * when received {@link MotionEvent#ACTION_DOWN} event in
+     * {@link ColorPickerView#onTouchEvent(MotionEvent)}
+     * to disallow it's parent and ancestors to intercept touch event,
+     * and restore when received {@link MotionEvent#ACTION_UP} event
+     * <br/><br/>
+     * 解决{@link ColorPickerView}与其父View或祖先View的触摸事件冲突<br/><br/>
+     * <p>
+     * disallow设置为true时，在{@link ColorPickerView#onTouchEvent(MotionEvent)}
+     * 方法中接收到{@link MotionEvent#ACTION_DOWN} 触摸事件时会调用
+     * {@link ViewParent#getParent() 父View}的
+     * {@link ViewParent#requestDisallowInterceptTouchEvent(boolean)}方法来紧张父View
+     * 及祖先View拦截触摸事件，并在收到{@link MotionEvent#ACTION_UP}触摸事件时恢复
+     *
+     * @param disallow whether to disallow it's parent and ancestors to intercept touch event<br/>
+     *                 是否禁止父View或祖先View拦截触摸事件冲突
+     */
+    public void setDisallowParentInterceptTouchEven(final boolean disallow) {
+        this.disallowParentInterceptTouchEven = disallow;
+    }
+
     private void setColorInternal(final int color, final boolean notify) {
         this.color = color;
 
@@ -195,11 +224,18 @@ public class ColorPickerView extends View implements ColorObservable {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!isEnabled()) return false;
+        if (!isEnabled()) return super.onTouchEvent(event);
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
+                if (disallowParentInterceptTouchEven) {
+                    final ViewParent parent = getParent();
+                    if (parent != null) {
+                        parent.requestDisallowInterceptTouchEvent(true);
+                    }
+                }
+
                 isChanging = true;
                 update(event.getX(), event.getY());
                 return true;
@@ -207,6 +243,13 @@ public class ColorPickerView extends View implements ColorObservable {
             case MotionEvent.ACTION_UP:
                 isChanging = false;
                 update(event.getX(), event.getY());
+
+                if (disallowParentInterceptTouchEven) {
+                    final ViewParent parent = getParent();
+                    if (parent != null) {
+                        parent.requestDisallowInterceptTouchEvent(false);
+                    }
+                }
                 return true;
         }
         return super.onTouchEvent(event);
