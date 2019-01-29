@@ -22,6 +22,8 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@android:color/white"
+        app:disabledColor="@android:color/darker_gray"
+        app:disallowInterceptTouchEvent="true"
         app:initialColor="@android:color/white"
         app:palettePadding="10dp" />
 

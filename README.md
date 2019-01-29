@@ -26,4 +26,27 @@ dependencies {
 
 ## 2. 使用
 
-TODO
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff00aa00"
+    android:clipChildren="false"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <me.daemon.colorpicker.ColorPickerView
+        android:id="@+id/color_picker"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@android:color/white"
+        app:disabledColor="@android:color/darker_gray"
+        app:disallowInterceptTouchEvent="true"
+        app:initialColor="@android:color/white"
+        app:palettePadding="10dp" />
+
+</LinearLayout>
+```

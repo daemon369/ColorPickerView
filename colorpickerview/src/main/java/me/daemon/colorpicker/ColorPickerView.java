@@ -88,7 +88,7 @@ public class ColorPickerView extends View implements ColorObservable {
             setDisabledColor(disabledColor);
 
             final boolean disallowInterceptTouchEven = t.getBoolean(
-                    R.styleable.ColorPickerView_disallowInterceptTouchEven,
+                    R.styleable.ColorPickerView_disallowInterceptTouchEvent,
                     false);
             setDisallowInterceptTouchEven(disallowInterceptTouchEven);
         } finally {
