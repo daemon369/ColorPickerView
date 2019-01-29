@@ -1,0 +1,2 @@
+before_install:
+- curl https://gist.github.com/daemon369/c3c1cfcc3d083adc66954669129692b0
