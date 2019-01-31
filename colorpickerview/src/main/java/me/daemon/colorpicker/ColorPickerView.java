@@ -10,7 +10,6 @@ import android.graphics.PointF;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -260,7 +259,7 @@ public class ColorPickerView extends View implements ColorObservable {
         return super.onTouchEvent(event);
     }
 
-    protected void drawIndicator(@NonNull final Canvas canvas) {
+    protected void drawIndicator(final Canvas canvas) {
         final IndicatorPainter provider = indicatorPainter != null ? indicatorPainter : defaultIndicatorPainter;
         provider.drawIndicator(this, canvas, currentPoint, color, isChanging);
     }
@@ -295,30 +294,57 @@ public class ColorPickerView extends View implements ColorObservable {
 
     }
 
+    /**
+     * indicator painter, draw color picker indicator
+     * 颜色选择指示器绘制
+     */
     public interface IndicatorPainter {
 
+        /**
+         * draw indicator
+         * 绘制指示器
+         *
+         * @param colorPickerView color picker view
+         *                        颜色选择View
+         * @param canvas          canvas for indicator
+         *                        画布
+         * @param point           current position of indicator
+         *                        指示器当前位置
+         * @param color           current color
+         *                        当前颜色
+         * @param isChanging      whether color is changing, true when finger down and false when finger up
+         *                        颜色是否在变化中，手指按下到抬起之前的过程属于变化中
+         */
         void drawIndicator(
-                @NonNull final ColorPickerView colorPickerView,
-                @NonNull final Canvas canvas,
-                @NonNull final PointF point,
+                final ColorPickerView colorPickerView,
+                final Canvas canvas,
+                final PointF point,
                 final int color,
                 final boolean isChanging
         );
     }
 
+    /**
+     * set custom indicator painter, using {@link ColorPickerView#defaultIndicatorPainter}
+     * if custom indicator not been set
+     * <p>
+     * 设置自定义指示器绘制器，如果没有设置则使用{@link ColorPickerView#defaultIndicatorPainter 默认绘制器}
+     *
+     * @param indicatorPainter custom indicator painter
+     */
     public void setIndicatorPainter(final IndicatorPainter indicatorPainter) {
         this.indicatorPainter = indicatorPainter;
     }
 
-    public static class DefaultIndicatorPainter implements IndicatorPainter {
+    public static final class DefaultIndicatorPainter implements IndicatorPainter {
 
         private final Paint indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         @Override
         public void drawIndicator(
-                @NonNull final ColorPickerView colorPickerView,
-                @NonNull Canvas canvas,
-                @NonNull PointF point,
+                final ColorPickerView colorPickerView,
+                final Canvas canvas,
+                final PointF point,
                 final int color,
                 final boolean isChanging
         ) {
