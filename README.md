@@ -2,6 +2,8 @@
 A color picker view for Android
 Android颜色选择器
 
+[![Release](https://jitpack.io/v/daemon369/ColorPickerView.svg)](https://jitpack.io/#daemon369/ColorPickerView)
+
 ----
 
 # 使用方法
