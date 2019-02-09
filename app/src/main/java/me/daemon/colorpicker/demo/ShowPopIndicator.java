@@ -7,12 +7,13 @@ import android.graphics.PointF;
 import android.support.annotation.NonNull;
 
 import me.daemon.colorpicker.ColorPickerView;
+import me.daemon.colorpicker.IndicatorPainter;
 
 /**
  * @author daemon
  * @since 2019-01-27 23:27
  */
-public class ShowPopIndicator implements ColorPickerView.IndicatorPainter {
+public class ShowPopIndicator implements IndicatorPainter {
 
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 

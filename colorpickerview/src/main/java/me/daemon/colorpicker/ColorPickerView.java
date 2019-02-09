@@ -295,36 +295,6 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     /**
-     * indicator painter, draw color picker indicator
-     * 颜色选择指示器绘制
-     */
-    public interface IndicatorPainter {
-
-        /**
-         * draw indicator
-         * 绘制指示器
-         *
-         * @param colorPickerView color picker view
-         *                        颜色选择View
-         * @param canvas          canvas for indicator
-         *                        画布
-         * @param point           current position of indicator
-         *                        指示器当前位置
-         * @param color           current color
-         *                        当前颜色
-         * @param isChanging      whether color is changing, true when finger down and false when finger up
-         *                        颜色是否在变化中，手指按下到抬起之前的过程属于变化中
-         */
-        void drawIndicator(
-                final ColorPickerView colorPickerView,
-                final Canvas canvas,
-                final PointF point,
-                final int color,
-                final boolean isChanging
-        );
-    }
-
-    /**
      * set custom indicator painter, using {@link ColorPickerView#defaultIndicatorPainter}
      * if custom indicator not been set
      * <p>
@@ -334,36 +304,6 @@ public class ColorPickerView extends View implements ColorObservable {
      */
     public void setIndicatorPainter(final IndicatorPainter indicatorPainter) {
         this.indicatorPainter = indicatorPainter;
-    }
-
-    public static final class DefaultIndicatorPainter implements IndicatorPainter {
-
-        private final Paint indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        @Override
-        public void drawIndicator(
-                final ColorPickerView colorPickerView,
-                final Canvas canvas,
-                final PointF point,
-                final int color,
-                final boolean isChanging
-        ) {
-
-            indicatorPaint.setColor(color);
-            indicatorPaint.setStrokeWidth(2);
-            canvas.drawLine(
-                    point.x - colorPickerView.getPalettePadding(),
-                    point.y,
-                    point.x + colorPickerView.getPalettePadding(),
-                    point.y,
-                    indicatorPaint);
-            canvas.drawLine(
-                    point.x,
-                    point.y - colorPickerView.getPalettePadding(),
-                    point.x,
-                    point.y + colorPickerView.getPalettePadding(),
-                    indicatorPaint);
-        }
     }
 
     @Override
