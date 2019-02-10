@@ -57,6 +57,15 @@ public class ColorPickerView extends View implements ColorObservable {
     private int paletteCenterX;
     private int paletteCenterY;
 
+    private final BrightnessProvider defaultBrightnessProvider = new BrightnessProvider() {
+        @Override
+        public float getBrightness() {
+            return 1.0f;
+        }
+    };
+
+    private BrightnessProvider brightnessProvider;
+
     private final IndicatorPainter defaultIndicatorPainter = new DefaultIndicatorPainter();
 
     private IndicatorPainter indicatorPainter = null;
@@ -166,7 +175,7 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     /**
-     * set current pickeed color
+     * set current picked color
      * 设置选中颜色值
      *
      * @param color 颜色值
@@ -182,13 +191,13 @@ public class ColorPickerView extends View implements ColorObservable {
      * it's {@link ViewParent#getParent() parent}'s
      * {@link ViewParent#requestDisallowInterceptTouchEvent(boolean)}
      * when received {@link MotionEvent#ACTION_DOWN} event in
-     * {@link ColorPickerView#onTouchEvent(MotionEvent)}
+     * {@link #onTouchEvent(MotionEvent)}
      * to disallow it's parent and ancestors to intercept touch event,
      * and restore when received {@link MotionEvent#ACTION_UP} event
      * <br/><br/>
      * 解决{@link ColorPickerView}与其父View或祖先View的触摸事件冲突<br/><br/>
      * <p>
-     * disallow设置为true时，在{@link ColorPickerView#onTouchEvent(MotionEvent)}
+     * disallow设置为true时，在{@link #onTouchEvent(MotionEvent)}
      * 方法中接收到{@link MotionEvent#ACTION_DOWN} 触摸事件时会调用
      * {@link ViewParent#getParent() 父View}的
      * {@link ViewParent#requestDisallowInterceptTouchEvent(boolean)}方法来紧张父View
@@ -335,15 +344,27 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     /**
-     * set custom indicator painter, using {@link ColorPickerView#defaultIndicatorPainter}
+     * set custom indicator painter, using {@link #defaultIndicatorPainter}
      * if custom indicator not been set
      * <p>
-     * 设置自定义指示器绘制器，如果没有设置则使用{@link ColorPickerView#defaultIndicatorPainter 默认绘制器}
+     * 设置自定义指示器绘制器，如果没有设置则使用{@link #defaultIndicatorPainter 默认绘制器}
      *
      * @param indicatorPainter custom indicator painter
      */
     public void setIndicatorPainter(final IndicatorPainter indicatorPainter) {
         this.indicatorPainter = indicatorPainter;
+    }
+
+    /**
+     * set custom brightness provider, {@link #defaultBrightnessProvider} is
+     * used if custom brightness provider is not been set
+     * <p>
+     * 设置自定义透明度提供器，为空则使用{@link #defaultBrightnessProvider 默认透明度提供器}
+     *
+     * @param brightnessProvider custom brightness provider
+     */
+    public void setBrightnessProvider(final BrightnessProvider brightnessProvider) {
+        this.brightnessProvider = brightnessProvider;
     }
 
     @Override
@@ -369,9 +390,15 @@ public class ColorPickerView extends View implements ColorObservable {
         float x = eventX - paletteCenterX;
         float y = eventY - paletteCenterY;
         double r = Math.sqrt(x * x + y * y);
-        float[] hsv = {0, 0, 1};
+        float[] hsv = {0, 0, 0};
+
+        final BrightnessProvider bp = brightnessProvider != null ?
+                brightnessProvider : defaultBrightnessProvider;
+        final float brightness = bp.getBrightness();
+
         hsv[0] = (float) (Math.atan2(y, -x) / Math.PI * 180f) + 180;
         hsv[1] = Math.max(0f, Math.min(1f, (float) (r / getRadius())));
+        hsv[2] = Math.max(0f, Math.min(1f, brightness));
         return Color.HSVToColor(hsv);
     }
 
