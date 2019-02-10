@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
 
 import me.daemon.colorpicker.ColorPickerView;
 import me.daemon.colorpicker.IndicatorPainter;
@@ -25,9 +24,9 @@ public class ShowPopIndicator implements IndicatorPainter {
 
     @Override
     public void drawIndicator(
-            @NonNull ColorPickerView colorPickerView,
-            @NonNull Canvas canvas,
-            @NonNull PointF point,
+            final ColorPickerView colorPickerView,
+            final Canvas canvas,
+            final PointF point,
             final int color,
             boolean isChanging) {
 

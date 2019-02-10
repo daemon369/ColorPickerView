@@ -20,17 +20,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * color picker view
+ * 颜色选择器View
+ *
  * @author daemon
  * @since 2019-01-27 18:04
  */
 public class ColorPickerView extends View implements ColorObservable {
 
+    /**
+     * initial color
+     * 初始颜色值
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     private int initialColor;
 
+    /**
+     * padding of palette
+     * 调色板留白
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     private int palettePadding;
 
+    /**
+     * color of painter when the ColorPickerView is disabled
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     private int disabledColor = Color.GRAY;
 
@@ -96,6 +110,12 @@ public class ColorPickerView extends View implements ColorObservable {
 
     }
 
+    /**
+     * set padding of palette
+     * 设置调色板留白
+     *
+     * @param palettePadding 调色板留白
+     */
     public void setPalettePadding(final int palettePadding) {
         if (this.palettePadding != palettePadding) {
             this.palettePadding = palettePadding;
@@ -108,6 +128,12 @@ public class ColorPickerView extends View implements ColorObservable {
         return palettePadding;
     }
 
+    /**
+     * set initial color
+     * 设置初始颜色
+     *
+     * @param initialColor 初始颜色
+     */
     public void setInitialColor(final int initialColor) {
         if (this.initialColor != initialColor) {
             this.initialColor = initialColor;
@@ -120,6 +146,12 @@ public class ColorPickerView extends View implements ColorObservable {
         return initialColor;
     }
 
+    /**
+     * set color for disabled state
+     * 设置不可用状态颜色
+     *
+     * @param color 不可用状态颜色
+     */
     public void setDisabledColor(final int color) {
         if (this.disabledColor != color) {
             this.disabledColor = color;
@@ -133,6 +165,12 @@ public class ColorPickerView extends View implements ColorObservable {
         return disabledColor;
     }
 
+    /**
+     * set current pickeed color
+     * 设置选中颜色值
+     *
+     * @param color 颜色值
+     */
     public void setColor(final int color) {
         setColorInternal(color, true);
     }
@@ -234,6 +272,7 @@ public class ColorPickerView extends View implements ColorObservable {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 if (disallowInterceptTouchEven) {
+                    // resolve touch conflicts
                     final ViewParent parent = getParent();
                     if (parent != null) {
                         parent.requestDisallowInterceptTouchEvent(true);
@@ -249,6 +288,7 @@ public class ColorPickerView extends View implements ColorObservable {
                 update(event.getX(), event.getY());
 
                 if (disallowInterceptTouchEven) {
+                    // resolve touch conflicts
                     final ViewParent parent = getParent();
                     if (parent != null) {
                         parent.requestDisallowInterceptTouchEvent(false);
