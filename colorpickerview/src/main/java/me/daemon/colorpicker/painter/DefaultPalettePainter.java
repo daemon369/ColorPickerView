@@ -18,8 +18,6 @@ public class DefaultPalettePainter implements PalettePainter {
     private final Paint huePaint;
     private final Paint saturationPaint;
 
-    private final Paint disabledPaint;
-
     public DefaultPalettePainter() {
         this(Color.GRAY);
     }
@@ -27,9 +25,6 @@ public class DefaultPalettePainter implements PalettePainter {
     public DefaultPalettePainter(final int disabledColor) {
         huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        disabledPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        disabledPaint.setColor(disabledColor);
     }
 
     @Override
@@ -47,12 +42,7 @@ public class DefaultPalettePainter implements PalettePainter {
 
     @Override
     public void drawPalette(ColorPickerView colorPickerView, Canvas canvas, int radius, int centerX, int centerY) {
-        if (colorPickerView.isEnabled()) {
-            canvas.drawCircle(centerX, centerY, radius, huePaint);
-            canvas.drawCircle(centerX, centerY, radius, saturationPaint);
-        } else {
-            canvas.drawCircle(centerX, centerY, radius, disabledPaint);
-        }
-
+        canvas.drawCircle(centerX, centerY, radius, huePaint);
+        canvas.drawCircle(centerX, centerY, radius, saturationPaint);
     }
 }
