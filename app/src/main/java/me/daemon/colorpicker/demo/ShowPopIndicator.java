@@ -48,7 +48,7 @@ public class ShowPopIndicator implements IndicatorPainter {
             }
         } else {
 
-            paint.setColor(colorPickerView.getDisabledColor());
+            paint.setColor(Color.GRAY);
 
             canvas.drawCircle(point.x, point.y, innerSize1, paint);
         }

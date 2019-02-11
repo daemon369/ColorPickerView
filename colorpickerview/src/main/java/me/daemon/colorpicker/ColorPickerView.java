@@ -5,11 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.RadialGradient;
-import android.graphics.Shader;
-import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +14,9 @@ import android.view.ViewParent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.daemon.colorpicker.painter.DefaultPalettePainter;
+import me.daemon.colorpicker.painter.PalettePainter;
 
 /**
  * color picker view
@@ -42,16 +41,6 @@ public class ColorPickerView extends View implements ColorObservable {
     @ViewDebug.ExportedProperty(category = "daemon")
     private int palettePadding;
 
-    /**
-     * color of painter when the ColorPickerView is disabled
-     */
-    @ViewDebug.ExportedProperty(category = "daemon")
-    private int disabledColor = Color.GRAY;
-
-    private final Paint huePaint;
-    private final Paint saturationPaint;
-    private final Paint disabledPaint;
-
     private final PointF currentPoint;
 
     private int paletteCenterX;
@@ -65,6 +54,10 @@ public class ColorPickerView extends View implements ColorObservable {
     };
 
     private BrightnessProvider brightnessProvider;
+
+    private final PalettePainter defaultPalettePainter = new DefaultPalettePainter();
+
+    private PalettePainter palettePainter = null;
 
     private final IndicatorPainter defaultIndicatorPainter = new DefaultIndicatorPainter();
 
@@ -89,11 +82,6 @@ public class ColorPickerView extends View implements ColorObservable {
     public ColorPickerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        disabledPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        disabledPaint.setColor(disabledColor);
-
         currentPoint = new PointF();
 
         final TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
@@ -105,9 +93,6 @@ public class ColorPickerView extends View implements ColorObservable {
             final int initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK);
             setInitialColor(initialColor);
             setColorInternal(initialColor, false);
-
-            final int disabledColor = t.getColor(R.styleable.ColorPickerView_disabledColor, Color.GRAY);
-            setDisabledColor(disabledColor);
 
             final boolean disallowInterceptTouchEven = t.getBoolean(
                     R.styleable.ColorPickerView_disallowInterceptTouchEvent,
@@ -153,25 +138,6 @@ public class ColorPickerView extends View implements ColorObservable {
 
     public int getInitialColor() {
         return initialColor;
-    }
-
-    /**
-     * set color for disabled state
-     * 设置不可用状态颜色
-     *
-     * @param color 不可用状态颜色
-     */
-    public void setDisabledColor(final int color) {
-        if (this.disabledColor != color) {
-            this.disabledColor = color;
-            this.disabledPaint.setColor(color);
-
-            invalidate();
-        }
-    }
-
-    public int getDisabledColor() {
-        return disabledColor;
     }
 
     /**
@@ -244,16 +210,7 @@ public class ColorPickerView extends View implements ColorObservable {
         paletteCenterX = w / 2;
         paletteCenterY = h / 2;
 
-        final int radius = getRadius();
-
-        final Shader hueShader = new SweepGradient(paletteCenterX, paletteCenterY,
-                new int[]{Color.RED, Color.MAGENTA, Color.BLUE, Color.CYAN, Color.GREEN, Color.YELLOW, Color.RED},
-                null);
-        huePaint.setShader(hueShader);
-
-        final Shader saturationShader = new RadialGradient(paletteCenterX, paletteCenterY, radius,
-                Color.WHITE, 0x00FFFFFF, Shader.TileMode.CLAMP);
-        saturationPaint.setShader(saturationShader);
+        getPalettePainter().onSizeChanged(w, h, getRadius(), paletteCenterX, paletteCenterY);
 
         setColorInternal(color, false);
     }
@@ -262,12 +219,12 @@ public class ColorPickerView extends View implements ColorObservable {
     protected void onDraw(Canvas canvas) {
         final int radius = getRadius();
 
-        if (isEnabled()) {
-            canvas.drawCircle(paletteCenterX, paletteCenterY, radius, huePaint);
-            canvas.drawCircle(paletteCenterX, paletteCenterY, radius, saturationPaint);
-        } else {
-            canvas.drawCircle(paletteCenterX, paletteCenterY, radius, disabledPaint);
-        }
+        getPalettePainter().drawPalette(
+                this,
+                canvas,
+                radius, paletteCenterX,
+                paletteCenterY
+        );
 
         drawIndicator(canvas);
     }
@@ -406,5 +363,10 @@ public class ColorPickerView extends View implements ColorObservable {
         for (ColorObserver observer : observers) {
             observer.onColor(color);
         }
+    }
+
+    private PalettePainter getPalettePainter() {
+        return palettePainter != null ?
+                palettePainter : defaultPalettePainter;
     }
 }

@@ -4,7 +4,6 @@
     <declare-styleable name="ColorPickerView">
         <attr name="palettePadding" format="dimension" />
         <attr name="initialColor" format="color" />
-        <attr name="disabledColor" format="color" />
         <attr name="disallowInterceptTouchEvent" format="boolean" />
     </declare-styleable>
 
