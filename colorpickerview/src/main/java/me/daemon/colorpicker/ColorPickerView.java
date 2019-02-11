@@ -301,6 +301,18 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     /**
+     * set custom palette painter, using {@link #defaultPalettePainter} as default
+     * palette painter
+     * <p>
+     * 设置自定义调色板绘制器，默认使用{@link #defaultPalettePainter}
+     *
+     * @param palettePainter
+     */
+    public void setPalettePainter(final PalettePainter palettePainter) {
+        this.palettePainter = palettePainter;
+    }
+
+    /**
      * set custom indicator painter, using {@link #defaultIndicatorPainter}
      * if custom indicator not been set
      * <p>
