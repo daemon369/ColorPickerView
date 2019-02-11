@@ -41,6 +41,14 @@ public class ColorPickerView extends View implements ColorObservable {
     @ViewDebug.ExportedProperty(category = "daemon")
     private int palettePadding;
 
+    /**
+     * whether automatic measure this ColorPickerView as square,
+     * if true then minimum size of width and height will used as
+     * measured width and height
+     */
+    @ViewDebug.ExportedProperty(category = "daemon")
+    private boolean square = false;
+
     private final PointF currentPoint;
 
     private int paletteCenterX;
@@ -141,6 +149,25 @@ public class ColorPickerView extends View implements ColorObservable {
     }
 
     /**
+     * set square mode
+     * <p>
+     * 设置正方形模式
+     *
+     * @param square whether use square mode
+     */
+    public void setSquare(final boolean square) {
+        if (this.square != square) {
+            this.square = square;
+
+            invalidate();
+        }
+    }
+
+    public boolean getSquare() {
+        return square;
+    }
+
+    /**
      * set current picked color
      * 设置选中颜色值
      *
@@ -194,6 +221,11 @@ public class ColorPickerView extends View implements ColorObservable {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (!square) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
+
         final int width = MeasureSpec.getSize(widthMeasureSpec);
         final int height = MeasureSpec.getSize(heightMeasureSpec);
 
