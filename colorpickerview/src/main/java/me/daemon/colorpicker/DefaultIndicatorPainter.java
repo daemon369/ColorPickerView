@@ -8,7 +8,7 @@ import android.graphics.PointF;
  * @author daemon
  * @since 2019-02-09 22:29
  */
-public final class DefaultIndicatorPainter implements IndicatorPainter {
+public class DefaultIndicatorPainter implements IndicatorPainter {
 
     private final Paint indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
