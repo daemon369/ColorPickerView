@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 
 import me.daemon.colorpicker.ColorPickerView;
-import me.daemon.colorpicker.IndicatorPainter;
+import me.daemon.colorpicker.painter.IndicatorPainter;
 
 /**
  * @author daemon

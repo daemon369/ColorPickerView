@@ -1,7 +1,9 @@
-package me.daemon.colorpicker;
+package me.daemon.colorpicker.painter;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
+
+import me.daemon.colorpicker.ColorPickerView;
 
 /**
  * indicator painter, draw color picker indicator

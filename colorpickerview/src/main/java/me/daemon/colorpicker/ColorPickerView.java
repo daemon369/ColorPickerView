@@ -15,7 +15,9 @@ import android.view.ViewParent;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.daemon.colorpicker.painter.DefaultIndicatorPainter;
 import me.daemon.colorpicker.painter.DefaultPalettePainter;
+import me.daemon.colorpicker.painter.IndicatorPainter;
 import me.daemon.colorpicker.painter.PalettePainter;
 
 /**
