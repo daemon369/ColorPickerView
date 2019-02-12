@@ -30,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
                 colorPickerView.setEnabled(!colorPickerView.isEnabled());
             }
         });
+
+        colorPickerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("MainActivity", "onClick: " + colorPickerView.getColor());
+            }
+        });
     }
 
     @Override

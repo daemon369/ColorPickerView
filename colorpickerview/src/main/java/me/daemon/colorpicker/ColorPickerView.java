@@ -1,11 +1,11 @@
 package me.daemon.colorpicker;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -263,14 +263,20 @@ public class ColorPickerView extends View implements ColorObservable {
         drawIndicator(canvas);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled()) return super.onTouchEvent(event);
 
+        final boolean clickable = isClickable()
+                || isLongClickable()
+                || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isContextClickable();
+        if (!clickable) return super.onTouchEvent(event);
+
+        final float x = event.getX();
+        final float y = event.getY();
+
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
                 if (disallowInterceptTouchEven) {
                     // resolve touch conflicts
                     final ViewParent parent = getParent();
@@ -280,12 +286,18 @@ public class ColorPickerView extends View implements ColorObservable {
                 }
 
                 isChanging = true;
-                update(event.getX(), event.getY());
+                update(x, y);
                 return true;
+
+            case MotionEvent.ACTION_MOVE:
+                update(x, y);
+                break;
 
             case MotionEvent.ACTION_UP:
                 isChanging = false;
-                update(event.getX(), event.getY());
+                update(x, y);
+
+                performClick();
 
                 if (disallowInterceptTouchEven) {
                     // resolve touch conflicts
@@ -294,9 +306,14 @@ public class ColorPickerView extends View implements ColorObservable {
                         parent.requestDisallowInterceptTouchEvent(false);
                     }
                 }
-                return true;
+                break;
         }
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 
     protected void drawIndicator(final Canvas canvas) {
@@ -340,7 +357,8 @@ public class ColorPickerView extends View implements ColorObservable {
      * <p>
      * 设置自定义调色板绘制器，默认使用{@link #defaultPalettePainter}
      *
-     * @param palettePainter
+     * @param palettePainter custom palette painter
+     *                       调色板绘制器
      */
     public void setPalettePainter(final PalettePainter palettePainter) {
         this.palettePainter = palettePainter;
