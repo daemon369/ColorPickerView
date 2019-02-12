@@ -1,11 +1,14 @@
 package me.daemon.colorpicker;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -314,6 +317,72 @@ public class ColorPickerView extends View implements ColorObservable {
     @Override
     public boolean performClick() {
         return super.performClick();
+    }
+
+    private static class SavedState extends View.BaseSavedState {
+
+        private int color;
+
+        public SavedState(Parcel source) {
+            super(source);
+            color = source.readInt();
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        public SavedState(Parcel source, ClassLoader loader) {
+            super(source, loader);
+        }
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(color);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.ClassLoaderCreator<SavedState>() {
+
+            @Override
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
+            }
+
+            @Override
+            public SavedState createFromParcel(Parcel source, ClassLoader loader) {
+                return new SavedState(source, loader);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final SavedState savedState = new SavedState(super.onSaveInstanceState());
+
+        savedState.color = color;
+
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof SavedState) {
+            final SavedState savedState = (SavedState) state;
+            super.onRestoreInstanceState(savedState.getSuperState());
+
+            setColor(savedState.color);
+
+        } else {
+            super.onRestoreInstanceState(state);
+        }
     }
 
     protected void drawIndicator(final Canvas canvas) {
