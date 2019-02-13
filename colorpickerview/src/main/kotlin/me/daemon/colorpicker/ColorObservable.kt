@@ -6,10 +6,10 @@ package me.daemon.colorpicker
  */
 interface ColorObservable {
 
-    val color: Int
-
     fun subscribe(observer: ColorObserver)
 
     fun unsubscribe(observer: ColorObserver)
+
+    fun getColor(): Int
 
 }
