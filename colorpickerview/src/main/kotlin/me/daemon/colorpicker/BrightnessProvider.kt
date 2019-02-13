@@ -1,10 +1,10 @@
-package me.daemon.colorpicker;
+package me.daemon.colorpicker
 
 /**
  * @author daemon
  * @since 2019-02-10 15:32
  */
-public interface BrightnessProvider {
+interface BrightnessProvider {
 
     /**
      * get brightness
@@ -12,6 +12,6 @@ public interface BrightnessProvider {
      *
      * @return brightness, limited to 0.0f~1.0f
      */
-    float getBrightness();
+    val brightness: Float
 
 }
