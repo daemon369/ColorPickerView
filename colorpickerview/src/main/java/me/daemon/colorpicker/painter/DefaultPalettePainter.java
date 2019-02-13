@@ -19,10 +19,6 @@ public class DefaultPalettePainter implements PalettePainter {
     private final Paint saturationPaint;
 
     public DefaultPalettePainter() {
-        this(Color.GRAY);
-    }
-
-    public DefaultPalettePainter(final int disabledColor) {
         huePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         saturationPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
