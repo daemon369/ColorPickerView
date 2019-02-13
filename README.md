@@ -22,7 +22,7 @@ allprojects {
 添加依赖：
 ```
 dependencies {
-    implementation 'com.github.daemon369:ColorPickerView:v0.1.2'
+    implementation 'com.github.daemon369:ColorPickerView:0.1.3'
 }
 ```
 

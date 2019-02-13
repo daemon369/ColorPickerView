@@ -55,7 +55,7 @@ ext {
     siteUrl = 'https://github.com/daemon369/ColorPickerView'
     gitUrl = 'https://github.com/daemon369/ColorPickerView.git'
 
-    libraryVersion = 'v0.1.1'
+    libraryVersion = library_version
 
     developerId = 'daemon369'
     developerName = 'daemon369'
