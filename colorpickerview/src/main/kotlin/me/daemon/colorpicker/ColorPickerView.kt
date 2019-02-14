@@ -363,10 +363,9 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     /**
-     * set custom brightness provider, [ColorPickerView.defaultBrightnessProvider] is
-     * used if custom brightness provider is not been set
+     * set custom brightness provider
      *
-     * 设置自定义透明度提供器，为空则使用[默认透明度提供器][ColorPickerView.defaultBrightnessProvider]
+     * 设置自定义透明度提供器
      *
      * @param brightnessProvider custom brightness provider
      */
