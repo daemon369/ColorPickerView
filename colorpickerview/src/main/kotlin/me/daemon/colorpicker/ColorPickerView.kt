@@ -28,12 +28,14 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     /**
      * initial color
+     *
      * 初始颜色值
      */
     @ViewDebug.ExportedProperty(category = "daemon")
     var initialColor: Int = 0
         /**
          * set initial color
+         *
          * 设置初始颜色
          *
          * @param initialColor 初始颜色
@@ -48,12 +50,14 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     /**
      * padding of palette
+     *
      * 调色板留白
      */
     @ViewDebug.ExportedProperty(category = "daemon")
     var palettePadding: Int = 0
         /**
          * set padding of palette
+         *
          * 设置调色板留白
          *
          * @param palettePadding 调色板留白
@@ -75,6 +79,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     var square = false
         /**
          * set square mode
+         *
          * 设置正方形模式
          *
          * @param square whether use square mode
@@ -146,6 +151,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     /**
      * set current picked color
+     *
      * 设置选中颜色值
      *
      * @param color 颜色值
@@ -157,26 +163,24 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     /**
      * resolve touch conflict with it's parent and ancestors<br></br><br></br>
      *
-     *
      * if disallow is set to be true, [ColorPickerView]  will call
      * it's [parent][ViewParent.getParent]'s
      * [ViewParent.requestDisallowInterceptTouchEvent]
      * when received [MotionEvent.ACTION_DOWN] event in
-     * [.onTouchEvent]
+     * [ColorPickerView.onTouchEvent]
      * to disallow it's parent and ancestors to intercept touch event,
      * and restore when received [MotionEvent.ACTION_UP] event
      * <br></br><br></br>
      * 解决[ColorPickerView]与其父View或祖先View的触摸事件冲突<br></br><br></br>
      *
-     *
-     * disallow设置为true时，在[.onTouchEvent]
+     * disallow设置为true时，在[ColorPickerView.onTouchEvent]
      * 方法中接收到[MotionEvent.ACTION_DOWN] 触摸事件时会调用
      * [父View][ViewParent.getParent]的
      * [ViewParent.requestDisallowInterceptTouchEvent]方法来紧张父View
      * 及祖先View拦截触摸事件，并在收到[MotionEvent.ACTION_UP]触摸事件时恢复
      *
-     * @param disallow whether to disallow it's parent and ancestors to intercept touch event<br></br>
-     * 是否禁止父View或祖先View拦截触摸事件冲突
+     * @param disallow whether to disallow it's parent and ancestors to intercept touch event
+     *                 是否禁止父View或祖先View拦截触摸事件冲突
      */
     fun setDisallowInterceptTouchEven(disallow: Boolean) {
         this.disallowInterceptTouchEven = disallow
@@ -334,25 +338,23 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     /**
-     * set custom palette painter, using [.defaultPalettePainter] as default
+     * set custom palette painter, using [DefaultPalettePainter] as default
      * palette painter
      *
-     *
-     * 设置自定义调色板绘制器，默认使用[.defaultPalettePainter]
+     * 设置自定义调色板绘制器，默认使用[DefaultPalettePainter]
      *
      * @param palettePainter custom palette painter
-     * 调色板绘制器
+     *                       调色板绘制器
      */
     fun setPalettePainter(palettePainter: PalettePainter) {
         this.palettePainter = palettePainter
     }
 
     /**
-     * set custom indicator painter, using [.defaultIndicatorPainter]
+     * set custom indicator painter, using [DefaultIndicatorPainter]
      * if custom indicator not been set
      *
-     *
-     * 设置自定义指示器绘制器，如果没有设置则使用[默认绘制器][.defaultIndicatorPainter]
+     * 设置自定义指示器绘制器，如果没有设置则使用[默认绘制器][DefaultIndicatorPainter]
      *
      * @param indicatorPainter custom indicator painter
      */
@@ -361,11 +363,10 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     /**
-     * set custom brightness provider, [.defaultBrightnessProvider] is
+     * set custom brightness provider, [ColorPickerView.defaultBrightnessProvider] is
      * used if custom brightness provider is not been set
      *
-     *
-     * 设置自定义透明度提供器，为空则使用[默认透明度提供器][.defaultBrightnessProvider]
+     * 设置自定义透明度提供器，为空则使用[默认透明度提供器][ColorPickerView.defaultBrightnessProvider]
      *
      * @param brightnessProvider custom brightness provider
      */
