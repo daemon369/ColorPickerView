@@ -133,6 +133,10 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
 artifacts {
 //    archives javadocJar
     archives sourcesJar
