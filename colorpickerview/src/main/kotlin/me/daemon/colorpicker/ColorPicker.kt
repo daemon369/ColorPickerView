@@ -10,20 +10,21 @@ internal class ColorPicker(val colorPickerView: ColorPickerView) {
 
     private var color = colorPickerView.initialColor
 
-    private var hue: Float = 0f
-    private var saturation: Float = 0f
-    private var brightness: Float = 0f
     private var alpha: Float = 0f
 
+    /**
+     * hsv[0]: hue
+     *
+     * hsv[1]: saturation
+     *
+     * hsv[2]: brightness
+     */
     private val hsv = FloatArray(3)
 
     private val transaction = Transaction(this)
 
     init {
         Color.colorToHSV(color, hsv)
-        hue = hsv[0]
-        saturation = hsv[1]
-        brightness = hsv[2]
         alpha = Color.alpha(color) / 255f
     }
 
@@ -34,16 +35,12 @@ internal class ColorPicker(val colorPickerView: ColorPickerView) {
     private fun compose(transaction: Transaction, propagate: Boolean) {
         for (op in transaction.ops) {
             when (op.command) {
-                Factor.HUE -> this.hue = Math.max(0f, Math.min(1f, op.value))
-                Factor.SATURATION -> this.saturation = Math.max(0f, Math.min(1f, op.value))
-                Factor.BRIGHTNESS -> this.brightness = Math.max(0f, Math.min(1f, op.value))
+                Factor.HUE -> this.hsv[0] = Math.max(0f, Math.min(1f, op.value))
+                Factor.SATURATION -> this.hsv[1] = Math.max(0f, Math.min(1f, op.value))
+                Factor.BRIGHTNESS -> this.hsv[2] = Math.max(0f, Math.min(1f, op.value))
                 Factor.ALPHA -> this.alpha = Math.max(0f, Math.min(1f, op.value))
             }
         }
-
-        hsv[0] = hue
-        hsv[1] = saturation
-        hsv[2] = brightness
 
         val alphaInt: Int = (alpha * 255).toInt()
 
