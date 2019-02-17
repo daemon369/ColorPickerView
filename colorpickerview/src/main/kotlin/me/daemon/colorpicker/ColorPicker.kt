@@ -6,7 +6,7 @@ import android.graphics.Color
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
+internal class ColorPicker : ColorObservable {
 
     private var alpha: Float = 0f
 
@@ -17,6 +17,9 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
      */
     private val hsv = FloatArray(3)
 
+    /**
+     * Start a series of edit operations on the color
+     */
     private val transaction = Transaction(this)
 
     private val observers = ArrayList<ColorObserver>()
