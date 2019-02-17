@@ -59,6 +59,8 @@ ext {
     bintrayRepo = 'maven'
     bintrayName = 'colorpickerview'
 
+    bintrayOverride = false
+
     publishedGroupId = 'me.daemon'
     libraryName = 'ColorPickerView'
     artifact = 'colorpickerview'
@@ -77,10 +79,6 @@ ext {
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
-}
-
-tasks.withType(Javadoc).all {
-    enabled = false
 }
 
 apply from: 'https://gist.githubusercontent.com/daemon369/39f43c9406312f3b565b9f8a42923b10/raw/270740f76f058f0846ac618062244ae0a866e89a/upload.gradle'
