@@ -30,7 +30,7 @@ android {
 
     dokka {
         moduleName = "colorpickerview"
-        outputFormat = 'html'
+        outputFormat = 'javadoc'
         outputDirectory = "$buildDir/javadoc"
 
 
@@ -81,4 +81,8 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'https://gist.githubusercontent.com/daemon369/39f43c9406312f3b565b9f8a42923b10/raw/270740f76f058f0846ac618062244ae0a866e89a/upload.gradle'
+apply from: 'https://gist.githubusercontent.com/daemon369/39f43c9406312f3b565b9f8a42923b10/raw/5d4e8f6c030a5b53f3cd7017e1c2b07882b0b72e/upload.gradle'
+
+bintray {
+    override = bintrayOverride
+}
