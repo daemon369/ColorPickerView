@@ -17,6 +17,8 @@ internal class ColorPicker(val colorPickerView: ColorPickerView) {
 
     private val hsv = FloatArray(3)
 
+    private val transaction = Transaction(this)
+
     init {
         Color.colorToHSV(color, hsv)
         hue = hsv[0]
@@ -26,10 +28,10 @@ internal class ColorPicker(val colorPickerView: ColorPickerView) {
     }
 
     fun beginTransaction(): Transaction {
-        return Transaction(this)
+        return transaction.begin()
     }
 
-    fun compose(transaction: Transaction, propagate: Boolean) {
+    private fun compose(transaction: Transaction, propagate: Boolean) {
         for (op in transaction.ops) {
             when (op.command) {
                 Factor.HUE -> this.hue = Math.max(0f, Math.min(1f, op.value))
@@ -55,34 +57,59 @@ internal class ColorPicker(val colorPickerView: ColorPickerView) {
         ALPHA
     }
 
-    class Op(val command: Factor, val value: Float)
+    class Op(val command: Factor) {
 
-    class Transaction(val colorPicker: ColorPicker) {
+        var value: Float = 0f
+
+        fun value(value: Float): Op {
+            this.value = value
+            return this
+        }
+    }
+
+    internal class Transaction(private val colorPicker: ColorPicker) {
 
         val ops = ArrayList<Op>()
 
+        private val hueOp = Op(Factor.HUE)
+        private val saturationOp = Op(Factor.SATURATION)
+        private val brightnessOp = Op(Factor.BRIGHTNESS)
+        private val alphaOp = Op(Factor.ALPHA)
+
+        var committing = false
+
+        fun begin(): Transaction {
+            if (committing) {
+                throw IllegalStateException("last transaction not been committed")
+            }
+            committing = true
+            ops.clear()
+            return this
+        }
+
         fun hue(hue: Float): Transaction {
-            ops.add(Op(Factor.HUE, hue))
+            ops.add(hueOp.value(hue))
             return this
         }
 
         fun saturation(saturation: Float): Transaction {
-            ops.add(Op(Factor.SATURATION, saturation))
+            ops.add(saturationOp.value(saturation))
             return this
         }
 
         fun brightness(brightness: Float): Transaction {
-            ops.add(Op(Factor.BRIGHTNESS, brightness))
+            ops.add(brightnessOp.value(brightness))
             return this
         }
 
         fun alpha(alpha: Float): Transaction {
-            ops.add(Op(Factor.ALPHA, alpha))
+            ops.add(alphaOp.value(alpha))
             return this
         }
 
         fun commit(propagate: Boolean) {
             colorPicker.compose(this, propagate)
+            committing = false
         }
     }
 
