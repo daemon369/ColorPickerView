@@ -15,7 +15,6 @@ import me.daemon.colorpicker.painter.DefaultIndicatorPainter
 import me.daemon.colorpicker.painter.DefaultPalettePainter
 import me.daemon.colorpicker.painter.IndicatorPainter
 import me.daemon.colorpicker.painter.PalettePainter
-import java.util.*
 
 /**
  * color picker view
@@ -97,6 +96,8 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
 
+    private val colorPicker: ColorPicker = ColorPicker(this)
+
     private val defaultBrightnessProvider = object : BrightnessProvider {
         override val brightness: Float
             get() = 1.0f
@@ -111,10 +112,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private val defaultIndicatorPainter = DefaultIndicatorPainter()
 
     private var indicatorPainter: IndicatorPainter? = null
-
-    private val observers = ArrayList<ColorObserver>()
-
-    private var color: Int = 0
 
     private var isChanging = false
 
@@ -187,7 +184,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun setColorInternal(color: Int, notify: Boolean) {
-        this.color = color
 
         val hsv = FloatArray(3)
         Color.colorToHSV(color, hsv)
@@ -195,9 +191,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         val radian = (hsv[0] / 180f * Math.PI).toFloat()
         updateIndicator((r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat(), (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat())
 
-        if (notify) {
-            notifyObservers(color)
-        }
+        colorPicker.setColor(color, notify)
 
         invalidate()
     }
@@ -227,7 +221,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         palettePainter.onSizeChanged(w, h, radius, paletteCenterX, paletteCenterY)
 
-        setColorInternal(color, false)
+        setColorInternal(colorPicker.getColor(), false)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -294,7 +288,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     override fun onSaveInstanceState(): Parcelable? {
         val savedState = SavedState(super.onSaveInstanceState())
 
-        savedState.color = color
+        savedState.color = colorPicker.getColor()
 
         return savedState
     }
@@ -312,7 +306,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private fun drawIndicator(canvas: Canvas) {
         val provider = indicatorPainter ?: defaultIndicatorPainter
-        provider.drawIndicator(this, canvas, currentPoint, color, isChanging)
+        provider.drawIndicator(this, canvas, currentPoint, colorPicker.getColor(), isChanging)
     }
 
     private fun update(eventX: Float, eventY: Float) {
@@ -374,15 +368,15 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     override fun subscribe(observer: ColorObserver) {
-        observers.add(observer)
+        colorPicker.subscribe(observer)
     }
 
     override fun unsubscribe(observer: ColorObserver) {
-        observers.remove(observer)
+        colorPicker.unsubscribe(observer)
     }
 
     override fun getColor(): Int {
-        return color
+        return colorPicker.getColor()
     }
 
     private fun getColorAtPoint(eventX: Float, eventY: Float): Int {
@@ -400,9 +394,4 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         return Color.HSVToColor(hsv)
     }
 
-    private fun notifyObservers(color: Int) {
-        for (observer in observers) {
-            observer.onColor(color)
-        }
-    }
 }
