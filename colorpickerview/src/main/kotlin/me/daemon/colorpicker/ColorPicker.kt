@@ -21,10 +21,6 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
 
     private val observers = ArrayList<ColorObserver>()
 
-    init {
-        setColor(colorPickerView.initialColor)
-    }
-
     fun beginTransaction(): Transaction {
         return transaction.begin()
     }
@@ -55,7 +51,7 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
         observers.remove(observer)
     }
 
-    private fun compose(transaction: Transaction, propagate: Boolean) {
+    private fun compose(propagate: Boolean) {
         for (factor in transaction.factors) {
             when (factor) {
                 Factor.HUE -> this.hsv[0] = Math.max(0f, Math.min(1f, factor.value))
@@ -126,7 +122,7 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
         }
 
         fun commit(propagate: Boolean) {
-            colorPicker.compose(this, propagate)
+            colorPicker.compose(propagate)
             committing = false
         }
     }

@@ -26,28 +26,6 @@ import me.daemon.colorpicker.painter.PalettePainter
 class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr), ColorObservable {
 
     /**
-     * initial color
-     *
-     * 初始颜色值
-     */
-    @ViewDebug.ExportedProperty(category = "daemon")
-    var initialColor: Int = 0
-        /**
-         * set initial color
-         *
-         * 设置初始颜色
-         *
-         * @param initialColor 初始颜色
-         */
-        set(initialColor) {
-            if (this.initialColor != initialColor) {
-                field = initialColor
-
-                invalidate()
-            }
-        }
-
-    /**
      * padding of palette
      *
      * 调色板留白
@@ -133,8 +111,8 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         try {
             palettePadding = t.getDimension(R.styleable.ColorPickerView_palettePadding, 0f).toInt()
 
-            initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
-            setColorInternal(initialColor, false)
+            val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
+            setColorInternal(initialColor, true)
 
             val disallowInterceptTouchEven = t.getBoolean(
                     R.styleable.ColorPickerView_disallowInterceptTouchEvent,
