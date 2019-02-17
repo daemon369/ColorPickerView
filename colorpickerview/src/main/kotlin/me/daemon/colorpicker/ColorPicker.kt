@@ -6,30 +6,32 @@ import android.graphics.Color
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorPicker(val colorPickerView: ColorPickerView) {
-
-    private var color = colorPickerView.initialColor
+internal class ColorPicker(colorPickerView: ColorPickerView) {
 
     private var alpha: Float = 0f
 
     /**
-     * hsv[0]: hue
-     *
-     * hsv[1]: saturation
-     *
-     * hsv[2]: brightness
+     * * hsv[0]: hue
+     * * hsv[1]: saturation
+     * * hsv[2]: brightness
      */
     private val hsv = FloatArray(3)
 
     private val transaction = Transaction(this)
 
     init {
+        val color = colorPickerView.initialColor
         Color.colorToHSV(color, hsv)
         alpha = Color.alpha(color) / 255f
     }
 
     fun beginTransaction(): Transaction {
         return transaction.begin()
+    }
+
+    fun getColor(): Int {
+        val alphaInt: Int = (alpha * 255).toInt()
+        return Color.HSVToColor(alphaInt, hsv)
     }
 
     private fun compose(transaction: Transaction, propagate: Boolean) {
@@ -42,9 +44,12 @@ internal class ColorPicker(val colorPickerView: ColorPickerView) {
             }
         }
 
-        val alphaInt: Int = (alpha * 255).toInt()
+        if (propagate) {
+            propagate(getColor())
+        }
+    }
 
-        color = Color.HSVToColor(alphaInt, hsv)
+    private fun propagate(color: Int) {
     }
 
     enum class Factor {
