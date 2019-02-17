@@ -56,12 +56,12 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
     }
 
     private fun compose(transaction: Transaction, propagate: Boolean) {
-        for (op in transaction.ops) {
-            when (op.command) {
-                Factor.HUE -> this.hsv[0] = Math.max(0f, Math.min(1f, op.value))
-                Factor.SATURATION -> this.hsv[1] = Math.max(0f, Math.min(1f, op.value))
-                Factor.BRIGHTNESS -> this.hsv[2] = Math.max(0f, Math.min(1f, op.value))
-                Factor.ALPHA -> this.alpha = Math.max(0f, Math.min(1f, op.value))
+        for (factor in transaction.factors) {
+            when (factor) {
+                Factor.HUE -> this.hsv[0] = Math.max(0f, Math.min(1f, factor.value))
+                Factor.SATURATION -> this.hsv[1] = Math.max(0f, Math.min(1f, factor.value))
+                Factor.BRIGHTNESS -> this.hsv[2] = Math.max(0f, Math.min(1f, factor.value))
+                Factor.ALPHA -> this.alpha = Math.max(0f, Math.min(1f, factor.value))
             }
         }
 
@@ -80,14 +80,11 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
         HUE,
         SATURATION,
         BRIGHTNESS,
-        ALPHA
-    }
+        ALPHA;
 
-    class Op(val command: Factor) {
+        var value = 0f
 
-        var value: Float = 0f
-
-        fun value(value: Float): Op {
+        fun value(value: Float): Factor {
             this.value = value
             return this
         }
@@ -95,12 +92,7 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
 
     internal class Transaction(private val colorPicker: ColorPicker) {
 
-        val ops = ArrayList<Op>()
-
-        private val hueOp = Op(Factor.HUE)
-        private val saturationOp = Op(Factor.SATURATION)
-        private val brightnessOp = Op(Factor.BRIGHTNESS)
-        private val alphaOp = Op(Factor.ALPHA)
+        val factors = ArrayList<Factor>()
 
         var committing = false
 
@@ -109,27 +101,27 @@ internal class ColorPicker(colorPickerView: ColorPickerView) : ColorObservable {
                 throw IllegalStateException("last transaction not been committed")
             }
             committing = true
-            ops.clear()
+            factors.clear()
             return this
         }
 
         fun hue(hue: Float): Transaction {
-            ops.add(hueOp.value(hue))
+            factors.add(Factor.HUE.value(hue))
             return this
         }
 
         fun saturation(saturation: Float): Transaction {
-            ops.add(saturationOp.value(saturation))
+            factors.add(Factor.SATURATION.value(saturation))
             return this
         }
 
         fun brightness(brightness: Float): Transaction {
-            ops.add(brightnessOp.value(brightness))
+            factors.add(Factor.BRIGHTNESS.value(brightness))
             return this
         }
 
         fun alpha(alpha: Float): Transaction {
-            ops.add(alphaOp.value(alpha))
+            factors.add(Factor.ALPHA.value(alpha))
             return this
         }
 
