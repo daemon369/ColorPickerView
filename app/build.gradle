@@ -30,4 +30,6 @@ dependencies {
     implementation project(":colorpickerview")
     // jitpack
 //    implementation "com.github.daemon369:ColorPickerView:$library_version"
+    // jcenter
+//    implementation "me.daemon:colorpickerview:$library_version"
 }
