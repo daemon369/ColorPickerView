@@ -49,8 +49,8 @@ internal class Transaction(private val colorPicker: ColorPicker) {
         return this
     }
 
-    fun commit(propagate: Boolean) {
-        if (factors.size > 0) {
+    fun commit(propagate: Boolean, force: Boolean) {
+        if (force || factors.size > 0) {
             colorPicker.commit(propagate)
         }
         committing = false

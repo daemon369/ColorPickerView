@@ -189,15 +189,15 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
 
                 isChanging = true
-                update(x, y)
+                update(x, y, true)
                 return true
             }
 
-            MotionEvent.ACTION_MOVE -> update(x, y)
+            MotionEvent.ACTION_MOVE -> update(x, y, false)
 
             MotionEvent.ACTION_UP -> {
                 isChanging = false
-                update(x, y)
+                update(x, y, true)
 
                 performClick()
 
@@ -233,7 +233,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
-    private fun update(eventX: Float, eventY: Float) {
+    private fun update(eventX: Float, eventY: Float, forceCommit: Boolean) {
         val x = eventX - paletteCenterX
         val y = eventY - paletteCenterY
         val r = Math.sqrt((x * x + y * y).toDouble())
@@ -251,7 +251,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 .saturation(saturation)
                 .brightness(brightness)
                 .alpha(alpha)
-                .commit(true)
+                .commit(true, forceCommit)
     }
 
     private fun updateIndicator(eventX: Float, eventY: Float) {
