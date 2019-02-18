@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         colorPickerView = findViewById(R.id.color_picker);
         colorPickerView.subscribe(colorObserver);
         colorPickerView.setIndicatorPainter(new ShowPopIndicator());
-        colorPickerView.setSquare(true);
         colorPickerView.setPalettePainter(new DisabledStatePalettePainter(Color.LTGRAY));
 
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
