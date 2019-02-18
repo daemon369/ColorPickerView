@@ -204,7 +204,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         palettePainter.onSizeChanged(w, h, radius, paletteCenterX, paletteCenterY)
 
-        setColorInternal(colorPicker.getColor(), false)
+        setColorInternal(colorPicker.getHue(), colorPicker.getSaturation(), colorPicker.getBrightness(), colorPicker.getAlpha(), false)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -237,7 +237,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             MotionEvent.ACTION_DOWN -> {
                 if (disallowInterceptTouchEven) {
                     // resolve touch conflicts
-                    val parent = parent
                     parent?.requestDisallowInterceptTouchEvent(true)
                 }
 
@@ -256,7 +255,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
                 if (disallowInterceptTouchEven) {
                     // resolve touch conflicts
-                    val parent = parent
                     parent?.requestDisallowInterceptTouchEvent(false)
                 }
             }

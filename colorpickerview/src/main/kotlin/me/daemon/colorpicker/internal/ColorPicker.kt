@@ -48,6 +48,22 @@ internal class ColorPicker : ColorObservable {
         }
     }
 
+    fun getHue(): Float {
+        return hsv[0]
+    }
+
+    fun getSaturation(): Float {
+        return hsv[1]
+    }
+
+    fun getBrightness(): Float {
+        return hsv[2]
+    }
+
+    fun getAlpha(): Float {
+        return alpha
+    }
+
     override fun subscribe(observer: ColorObserver) {
         observers.add(observer)
     }
@@ -56,7 +72,7 @@ internal class ColorPicker : ColorObservable {
         observers.remove(observer)
     }
 
-    fun compose(propagate: Boolean) {
+    fun commit(propagate: Boolean) {
         for (factor in transaction.factors) {
             when (factor) {
                 Factor.HUE -> this.hsv[0] = factor.value

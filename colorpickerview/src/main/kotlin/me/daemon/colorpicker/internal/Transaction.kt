@@ -10,9 +10,9 @@ internal class Transaction(private val colorPicker: ColorPicker) {
 
     val factors = ArrayList<Factor>()
 
-    var committing = false
+    private var committing = false
 
-    fun begin(): Transaction {
+    internal fun begin(): Transaction {
         if (committing) {
             throw IllegalStateException("last transaction not been committed")
         }
@@ -22,27 +22,37 @@ internal class Transaction(private val colorPicker: ColorPicker) {
     }
 
     fun hue(hue: Float): Transaction {
-        factors.add(Factor.HUE.value(hue))
+        if (hue != colorPicker.getHue()) {
+            factors.add(Factor.HUE.value(hue))
+        }
         return this
     }
 
     fun saturation(saturation: Float): Transaction {
-        factors.add(Factor.SATURATION.value(saturation))
+        if (saturation != colorPicker.getSaturation()) {
+            factors.add(Factor.SATURATION.value(saturation))
+        }
         return this
     }
 
     fun brightness(brightness: Float): Transaction {
-        factors.add(Factor.BRIGHTNESS.value(brightness))
+        if (brightness != colorPicker.getBrightness()) {
+            factors.add(Factor.BRIGHTNESS.value(brightness))
+        }
         return this
     }
 
     fun alpha(alpha: Float): Transaction {
-        factors.add(Factor.ALPHA.value(alpha))
+        if (alpha != colorPicker.getAlpha()) {
+            factors.add(Factor.ALPHA.value(alpha))
+        }
         return this
     }
 
     fun commit(propagate: Boolean) {
-        colorPicker.compose(propagate)
+        if (factors.size > 0) {
+            colorPicker.commit(propagate)
+        }
         committing = false
     }
 }
