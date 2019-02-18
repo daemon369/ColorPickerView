@@ -1,6 +1,8 @@
-package me.daemon.colorpicker
+package me.daemon.colorpicker.internal
 
 import android.graphics.Color
+import me.daemon.colorpicker.ColorObservable
+import me.daemon.colorpicker.ColorObserver
 
 /**
  * @author daemon
@@ -54,7 +56,7 @@ internal class ColorPicker : ColorObservable {
         observers.remove(observer)
     }
 
-    private fun compose(propagate: Boolean) {
+    fun compose(propagate: Boolean) {
         for (factor in transaction.factors) {
             when (factor) {
                 Factor.HUE -> this.hsv[0] = Math.max(0f, Math.min(1f, factor.value))
@@ -72,61 +74,6 @@ internal class ColorPicker : ColorObservable {
     private fun propagate(color: Int) {
         for (observer in observers) {
             observer.onColor(color)
-        }
-    }
-
-    enum class Factor {
-        HUE,
-        SATURATION,
-        BRIGHTNESS,
-        ALPHA;
-
-        var value = 0f
-
-        fun value(value: Float): Factor {
-            this.value = value
-            return this
-        }
-    }
-
-    internal class Transaction(private val colorPicker: ColorPicker) {
-
-        val factors = ArrayList<Factor>()
-
-        var committing = false
-
-        fun begin(): Transaction {
-            if (committing) {
-                throw IllegalStateException("last transaction not been committed")
-            }
-            committing = true
-            factors.clear()
-            return this
-        }
-
-        fun hue(hue: Float): Transaction {
-            factors.add(Factor.HUE.value(hue))
-            return this
-        }
-
-        fun saturation(saturation: Float): Transaction {
-            factors.add(Factor.SATURATION.value(saturation))
-            return this
-        }
-
-        fun brightness(brightness: Float): Transaction {
-            factors.add(Factor.BRIGHTNESS.value(brightness))
-            return this
-        }
-
-        fun alpha(alpha: Float): Transaction {
-            factors.add(Factor.ALPHA.value(alpha))
-            return this
-        }
-
-        fun commit(propagate: Boolean) {
-            colorPicker.compose(propagate)
-            committing = false
         }
     }
 

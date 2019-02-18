@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewDebug
 import android.view.ViewParent
+import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.DefaultIndicatorPainter
 import me.daemon.colorpicker.painter.DefaultPalettePainter
 import me.daemon.colorpicker.painter.IndicatorPainter
