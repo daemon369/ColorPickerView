@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.e("MainActivity", "onClick: " + colorPickerView.getColor());
+                findViewById(R.id.container).setBackgroundColor(colorPickerView.getColor());
             }
         });
     }

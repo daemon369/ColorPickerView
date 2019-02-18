@@ -163,14 +163,18 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun setColorInternal(color: Int, notify: Boolean) {
-
         val hsv = FloatArray(3)
         Color.colorToHSV(color, hsv)
-        val r = hsv[1] * radius
-        val radian = (hsv[0] / 180f * Math.PI).toFloat()
+
+        setColorInternal(hsv[0], hsv[1], hsv[2], Color.alpha(color) / 255f, notify)
+    }
+
+    private fun setColorInternal(hue: Float, saturation: Float, brightness: Float, alpha: Float, notify: Boolean) {
+        val r = saturation * radius
+        val radian = (hue / 180f * Math.PI).toFloat()
         updateIndicator((r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat(), (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat())
 
-        colorPicker.setColor(color, notify)
+        colorPicker.beginTransaction().hue(hue).saturation(saturation).brightness(brightness).alpha(alpha).commit(notify)
 
         invalidate()
     }
@@ -289,8 +293,19 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     private fun update(eventX: Float, eventY: Float) {
-        val color = getColorAtPoint(eventX, eventY)
-        setColorInternal(color, true)
+        val x = eventX - paletteCenterX
+        val y = eventY - paletteCenterY
+        val r = Math.sqrt((x * x + y * y).toDouble())
+
+        val bp = brightnessProvider ?: defaultBrightnessProvider
+        val b = bp.brightness
+
+        val hue = (Math.atan2(y.toDouble(), (-x).toDouble()) / Math.PI * 180f).toFloat() + 180
+        val saturation = Math.max(0f, Math.min(1f, (r / radius).toFloat()))
+        val brightness = Math.max(0f, Math.min(1f, b))
+        val alpha = 1f
+
+        setColorInternal(hue, saturation, brightness, alpha, true)
     }
 
     private fun updateIndicator(eventX: Float, eventY: Float) {
@@ -356,21 +371,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun getColor(): Int {
         return colorPicker.getColor()
-    }
-
-    private fun getColorAtPoint(eventX: Float, eventY: Float): Int {
-        val x = eventX - paletteCenterX
-        val y = eventY - paletteCenterY
-        val r = Math.sqrt((x * x + y * y).toDouble())
-        val hsv = floatArrayOf(0f, 0f, 0f)
-
-        val bp = brightnessProvider ?: defaultBrightnessProvider
-        val brightness = bp.brightness
-
-        hsv[0] = (Math.atan2(y.toDouble(), (-x).toDouble()) / Math.PI * 180f).toFloat() + 180
-        hsv[1] = Math.max(0f, Math.min(1f, (r / radius).toFloat()))
-        hsv[2] = Math.max(0f, Math.min(1f, brightness))
-        return Color.HSVToColor(hsv)
     }
 
 }

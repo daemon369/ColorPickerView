@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="#ff00aa00"
     android:clipChildren="false"
+    android:id="@+id/container"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
