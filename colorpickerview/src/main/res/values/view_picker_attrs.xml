@@ -5,7 +5,6 @@
         <attr name="palettePadding" format="dimension" />
         <attr name="initialColor" format="color" />
         <attr name="disallowInterceptTouchEvent" format="boolean" />
-        <attr name="square" format="boolean" />
     </declare-styleable>
 
 </resources>

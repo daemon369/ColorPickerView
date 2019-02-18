@@ -48,28 +48,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
-    /**
-     * whether automatic measure this ColorPickerView as square,
-     * if true then minimum size of width and height will used as
-     * measured width and height
-     */
-    @ViewDebug.ExportedProperty(category = "daemon")
-    var square = false
-        /**
-         * set square mode
-         *
-         * 设置正方形模式
-         *
-         * @param square whether use square mode
-         */
-        set(square) {
-            if (this.square != square) {
-                field = square
-
-                invalidate()
-            }
-        }
-
     private val currentPoint: PointF = PointF()
 
     private var paletteCenterX: Int = 0
@@ -177,23 +155,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         colorPicker.beginTransaction().hue(hue).saturation(saturation).brightness(brightness).alpha(alpha).commit(notify)
 
         invalidate()
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        if (!this.square) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-            return
-        }
-
-        val width = View.MeasureSpec.getSize(widthMeasureSpec)
-        val height = View.MeasureSpec.getSize(heightMeasureSpec)
-
-        val size = Math.min(width, height)
-
-        super.onMeasure(
-                View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(size, View.MeasureSpec.EXACTLY)
-        )
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldW: Int, oldH: Int) {
