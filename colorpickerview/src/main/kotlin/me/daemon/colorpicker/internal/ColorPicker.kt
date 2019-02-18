@@ -59,7 +59,7 @@ internal class ColorPicker : ColorObservable {
     fun compose(propagate: Boolean) {
         for (factor in transaction.factors) {
             when (factor) {
-                Factor.HUE -> this.hsv[0] = Math.max(0f, Math.min(1f, factor.value))
+                Factor.HUE -> this.hsv[0] = factor.value
                 Factor.SATURATION -> this.hsv[1] = Math.max(0f, Math.min(1f, factor.value))
                 Factor.BRIGHTNESS -> this.hsv[2] = Math.max(0f, Math.min(1f, factor.value))
                 Factor.ALPHA -> this.alpha = Math.max(0f, Math.min(1f, factor.value))
