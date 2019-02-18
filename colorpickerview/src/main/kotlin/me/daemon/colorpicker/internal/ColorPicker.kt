@@ -8,7 +8,7 @@ import me.daemon.colorpicker.ColorObserver
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorPicker : ColorObservable {
+internal class ColorPicker(val callback: Callback) : ColorObservable {
 
     private var alpha: Float = 0f
 
@@ -43,9 +43,7 @@ internal class ColorPicker : ColorObservable {
     fun setColor(color: Int, propagate: Boolean) {
         setColor(color)
 
-        if (propagate) {
-            propagate(color)
-        }
+        onColorChange(color, propagate)
     }
 
     fun getHue(): Float {
@@ -82,9 +80,7 @@ internal class ColorPicker : ColorObservable {
             }
         }
 
-        if (propagate) {
-            propagate(getColor())
-        }
+        onColorChange(propagate)
     }
 
     private fun propagate(color: Int) {
@@ -93,4 +89,30 @@ internal class ColorPicker : ColorObservable {
         }
     }
 
+    private fun onColorChange(
+            propagate: Boolean
+    ) {
+        onColorChange(
+                getColor(),
+                propagate
+        )
+    }
+
+    private fun onColorChange(
+            color: Int,
+            propagate: Boolean
+    ) {
+        callback.callback(
+                color,
+                getHue(),
+                getSaturation(),
+                getBrightness(),
+                getAlpha()
+        )
+
+        if (propagate) {
+            propagate(color)
+        }
+
+    }
 }

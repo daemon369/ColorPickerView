@@ -11,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewDebug
 import android.view.ViewParent
+import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.DefaultIndicatorPainter
 import me.daemon.colorpicker.painter.DefaultPalettePainter
@@ -24,7 +25,7 @@ import me.daemon.colorpicker.painter.PalettePainter
  * @author daemon
  * @since 2019-01-27 18:04
  */
-class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr), ColorObservable {
+class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr), ColorObservable, Callback {
 
     /**
      * padding of palette
@@ -53,7 +54,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
 
-    private val colorPicker: ColorPicker = ColorPicker()
+    private val colorPicker: ColorPicker = ColorPicker(this)
 
     private val defaultBrightnessProvider = object : BrightnessProvider {
         override val brightness: Float
@@ -91,7 +92,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             palettePadding = t.getDimension(R.styleable.ColorPickerView_palettePadding, 0f).toInt()
 
             val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
-            setColorInternal(initialColor, true)
+            setColor(initialColor)
 
             val disallowInterceptTouchEven = t.getBoolean(
                     R.styleable.ColorPickerView_disallowInterceptTouchEvent,
@@ -111,7 +112,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
      * @param color 颜色值
      */
     fun setColor(color: Int) {
-        setColorInternal(color, true)
+        colorPicker.setColor(color, true)
     }
 
     /**
@@ -140,23 +141,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         this.disallowInterceptTouchEven = disallow
     }
 
-    private fun setColorInternal(color: Int, notify: Boolean) {
-        val hsv = FloatArray(3)
-        Color.colorToHSV(color, hsv)
-
-        setColorInternal(hsv[0], hsv[1], hsv[2], Color.alpha(color) / 255f, notify)
-    }
-
-    private fun setColorInternal(hue: Float, saturation: Float, brightness: Float, alpha: Float, notify: Boolean) {
-        val r = saturation * radius
-        val radian = (hue / 180f * Math.PI).toFloat()
-        updateIndicator((r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat(), (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat())
-
-        colorPicker.beginTransaction().hue(hue).saturation(saturation).brightness(brightness).alpha(alpha).commit(notify)
-
-        invalidate()
-    }
-
     override fun onSizeChanged(w: Int, h: Int, oldW: Int, oldH: Int) {
         paletteCenterX = w / 2
         paletteCenterY = h / 2
@@ -165,7 +149,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         palettePainter.onSizeChanged(w, h, radius, paletteCenterX, paletteCenterY)
 
-        setColorInternal(colorPicker.getHue(), colorPicker.getSaturation(), colorPicker.getBrightness(), colorPicker.getAlpha(), false)
+        colorPicker.setColor(colorPicker.getColor(), false)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -264,7 +248,13 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         val brightness = Math.max(0f, Math.min(1f, b))
         val alpha = 1f
 
-        setColorInternal(hue, saturation, brightness, alpha, true)
+        colorPicker
+                .beginTransaction()
+                .hue(hue)
+                .saturation(saturation)
+                .brightness(brightness)
+                .alpha(alpha)
+                .commit(true)
     }
 
     private fun updateIndicator(eventX: Float, eventY: Float) {
@@ -279,8 +269,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
         currentPoint.x = x + paletteCenterX
         currentPoint.y = y + paletteCenterY
-
-        invalidate()
 
     }
 
@@ -330,6 +318,19 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun getColor(): Int {
         return colorPicker.getColor()
+    }
+
+    override fun callback(
+            color: Int,
+            hue: Float,
+            saturation: Float,
+            brightness: Float,
+            alpha: Float
+    ) {
+        val r = saturation * radius
+        val radian = (hue / 180f * Math.PI).toFloat()
+        updateIndicator((r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat(), (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat())
+        invalidate()
     }
 
 }
