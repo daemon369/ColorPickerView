@@ -153,18 +153,21 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     override fun onDraw(canvas: Canvas) {
-        val radius = radius
-
-        val palettePainter = this.palettePainter ?: defaultPalettePainter
-
-        palettePainter.drawPalette(
+        (palettePainter ?: defaultPalettePainter).drawPalette(
                 this,
                 canvas,
-                radius, paletteCenterX,
+                radius,
+                paletteCenterX,
                 paletteCenterY
         )
 
-        drawIndicator(canvas)
+        (indicatorPainter ?: defaultIndicatorPainter).drawIndicator(
+                this,
+                canvas,
+                currentPoint,
+                colorPicker.getColor(),
+                isChanging
+        )
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -230,18 +233,12 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
-    private fun drawIndicator(canvas: Canvas) {
-        val provider = indicatorPainter ?: defaultIndicatorPainter
-        provider.drawIndicator(this, canvas, currentPoint, colorPicker.getColor(), isChanging)
-    }
-
     private fun update(eventX: Float, eventY: Float) {
         val x = eventX - paletteCenterX
         val y = eventY - paletteCenterY
         val r = Math.sqrt((x * x + y * y).toDouble())
 
-        val bp = brightnessProvider ?: defaultBrightnessProvider
-        val b = bp.brightness
+        val b = (brightnessProvider ?: defaultBrightnessProvider).brightness
 
         val hue = (Math.atan2(y.toDouble(), (-x).toDouble()) / Math.PI * 180f).toFloat() + 180
         val saturation = Math.max(0f, Math.min(1f, (r / radius).toFloat()))
