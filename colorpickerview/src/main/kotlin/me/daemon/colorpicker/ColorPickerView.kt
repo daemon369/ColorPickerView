@@ -20,6 +20,7 @@ import me.daemon.colorpicker.painter.PalettePainter
 
 /**
  * color picker view
+ *
  * 颜色选择器View
  *
  * @author daemon
@@ -155,6 +156,10 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         try {
             palettePadding = t.getDimension(R.styleable.ColorPickerView_palettePadding, 0f).toInt()
+            paletteRadius = t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0f).toInt()
+            paletteGravity = Gravity.from(t.getInt(R.styleable.ColorPickerView_paletteGravity, Gravity.CENTER.ordinal))
+            paletteOffsetX = t.getDimension(R.styleable.ColorPickerView_paletteOffsetX, 0f).toInt()
+            paletteOffsetY = t.getDimension(R.styleable.ColorPickerView_paletteOffsetY, 0f).toInt()
 
             val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
             setColor(initialColor)
