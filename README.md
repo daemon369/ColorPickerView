@@ -2,7 +2,7 @@
 A color picker view for Android
 Android颜色选择器
 
-[![Release](https://jitpack.io/v/daemon369/ColorPickerView.svg)](https://jitpack.io/#daemon369/ColorPickerView)
+ [ ![Download](https://api.bintray.com/packages/daemon336699/maven/colorpickerview/images/download.svg) ](https://bintray.com/daemon336699/maven/colorpickerview/_latestVersion)
 
 ----
 
@@ -15,14 +15,14 @@ Android颜色选择器
 allprojects {
     repositories {
         ...
-        maven { url "https://jitpack.io" }
+        jcenter()
     }
 }
 ```
 添加依赖：
 ```
 dependencies {
-    implementation 'com.github.daemon369:ColorPickerView:0.1.3'
+    implementation 'me.daemon:colorpickerview:0.1.5'
 }
 ```
 
@@ -45,7 +45,6 @@ dependencies {
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@android:color/white"
-        app:disabledColor="@android:color/darker_gray"
         app:disallowInterceptTouchEvent="true"
         app:initialColor="@android:color/white"
         app:palettePadding="10dp" />
