@@ -85,10 +85,10 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     @ViewDebug.ExportedProperty(category = "daemon")
-    var gravity: Gravity = Gravity.CENTER
-        set(gravity) {
-            if (field != gravity) {
-                field = gravity
+    var paletteGravity: Gravity = Gravity.CENTER
+        set(paletteGravity) {
+            if (field != paletteGravity) {
+                field = paletteGravity
 
                 invalidate()
             }
