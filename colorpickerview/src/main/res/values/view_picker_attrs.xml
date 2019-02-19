@@ -4,7 +4,6 @@
     <declare-styleable name="ColorPickerView">
 
         <!-- palette -->
-        <attr name="palettePadding" format="dimension" />
         <attr name="paletteRadius" format="dimension" />
         <attr name="paletteGravity">
             <enum name="left" value="0" />

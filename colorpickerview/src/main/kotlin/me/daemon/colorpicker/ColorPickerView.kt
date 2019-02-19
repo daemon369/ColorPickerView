@@ -29,29 +29,17 @@ import me.daemon.colorpicker.painter.PalettePainter
 class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr), ColorObservable, Callback {
 
     /**
-     * padding of palette
+     * radius of palette
      *
-     * 调色板留白
+     * 调色板半径
      */
     @ViewDebug.ExportedProperty(category = "daemon")
-    var palettePadding: Int = 0
-        /**
-         * set padding of palette
-         *
-         * 设置调色板留白
-         *
-         * @param palettePadding 调色板留白
-         */
-        set(palettePadding) {
-            if (this.palettePadding != palettePadding) {
-                field = palettePadding
-
-                invalidate()
-            }
-        }
-
-    @ViewDebug.ExportedProperty(category = "daemon")
     var paletteRadius: Int = 0
+        /**
+         * set radius of palette
+         *
+         * 设置调色板半径
+         */
         set(paletteRadius) {
             if (field != paletteRadius) {
                 field = paletteRadius
@@ -70,7 +58,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         CENTER;
 
         companion object {
-            val map = HashMap<Int, Gravity>()
+            private val map = HashMap<Int, Gravity>()
 
             init {
                 for (gravity in values()) {
@@ -141,21 +129,11 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private var disallowInterceptTouchEven = false
 
-    private val radius: Int
-        get() {
-            val width = measuredWidth - paddingLeft - paddingRight - this.palettePadding * 2
-            val height = measuredHeight - paddingTop - paddingBottom - this.palettePadding * 2
-            val limit = Math.max(Math.min(width, height), 0)
-
-            return limit / 2
-        }
-
     init {
 
         val t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView)
 
         try {
-            palettePadding = t.getDimension(R.styleable.ColorPickerView_palettePadding, 0f).toInt()
             paletteRadius = t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0f).toInt()
             paletteGravity = Gravity.from(t.getInt(R.styleable.ColorPickerView_paletteGravity, Gravity.CENTER.ordinal))
             paletteOffsetX = t.getDimension(R.styleable.ColorPickerView_paletteOffsetX, 0f).toInt()
@@ -218,7 +196,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         (palettePainter ?: defaultPalettePainter).onSizeChanged(
                 w,
                 h,
-                radius,
+                paletteRadius,
                 paletteCenterX,
                 paletteCenterY
         )
@@ -230,7 +208,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         (palettePainter ?: defaultPalettePainter).drawPalette(
                 this,
                 canvas,
-                radius,
+                paletteRadius,
                 paletteCenterX,
                 paletteCenterY
         )
@@ -315,7 +293,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         val b = (brightnessProvider ?: defaultBrightnessProvider).brightness
 
         val hue = (Math.atan2(y.toDouble(), (-x).toDouble()) / Math.PI * 180f).toFloat() + 180
-        val saturation = Math.max(0f, Math.min(1f, (r / radius).toFloat()))
+        val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
         val brightness = Math.max(0f, Math.min(1f, b))
         val alpha = 1f
 
@@ -333,7 +311,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         var y = eventY - paletteCenterY
         val r = Math.sqrt((x * x + y * y).toDouble())
 
-        val radius = radius
+        val radius = paletteRadius
         if (r > radius) {
             x *= (radius / r).toFloat()
             y *= (radius / r).toFloat()
@@ -398,7 +376,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             brightness: Float,
             alpha: Float
     ) {
-        val r = saturation * radius
+        val r = saturation * paletteRadius
         val radian = (hue / 180f * Math.PI).toFloat()
         updateIndicator((r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat(), (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat())
         invalidate()

@@ -24,17 +24,20 @@ class DefaultIndicatorPainter : IndicatorPainter {
 
         indicatorPaint.color = color
         indicatorPaint.strokeWidth = 2f
+
+        val radius = 20
+
         canvas.drawLine(
-                point.x - colorPickerView.palettePadding,
+                point.x - radius,
                 point.y,
-                point.x + colorPickerView.palettePadding,
+                point.x + radius,
                 point.y,
                 indicatorPaint)
         canvas.drawLine(
                 point.x,
-                point.y - colorPickerView.palettePadding,
+                point.y - radius,
                 point.x,
-                point.y + colorPickerView.palettePadding,
+                point.y + radius,
                 indicatorPaint)
     }
 }
