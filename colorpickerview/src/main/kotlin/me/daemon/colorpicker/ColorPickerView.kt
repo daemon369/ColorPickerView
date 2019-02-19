@@ -145,9 +145,13 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         paletteCenterX = w / 2
         paletteCenterY = h / 2
 
-        val palettePainter = this.palettePainter ?: defaultPalettePainter
-
-        palettePainter.onSizeChanged(w, h, radius, paletteCenterX, paletteCenterY)
+        (palettePainter ?: defaultPalettePainter).onSizeChanged(
+                w,
+                h,
+                radius,
+                paletteCenterX,
+                paletteCenterY
+        )
 
         colorPicker.setColor(colorPicker.getColor(), false)
     }
