@@ -49,6 +49,71 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var paletteRadius: Int = 0
+        set(paletteRadius) {
+            if (field != paletteRadius) {
+                field = paletteRadius
+
+                invalidate()
+            }
+        }
+
+    enum class Gravity {
+        LEFT,
+        TOP,
+        RIGHT,
+        BOTTOM,
+        CENTER_HORIZONTAL,
+        CENTER_VERTICAL,
+        CENTER;
+
+        companion object {
+            val map = HashMap<Int, Gravity>()
+
+            init {
+                for (gravity in values()) {
+                    map[gravity.ordinal] = gravity
+                }
+            }
+
+            fun from(gravity: Int): Gravity {
+                return map[gravity] ?: CENTER
+            }
+        }
+
+    }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var gravity: Gravity = Gravity.CENTER
+        set(gravity) {
+            if (field != gravity) {
+                field = gravity
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var paletteOffsetX: Int = 0
+        set(paletteOffsetX) {
+            if (field != paletteOffsetX) {
+                field = paletteOffsetX
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var paletteOffsetY: Int = 0
+        set(paletteOffsetY) {
+            if (field != paletteOffsetY) {
+                field = paletteOffsetY
+
+                invalidate()
+            }
+        }
+
     private val currentPoint: PointF = PointF()
 
     private var paletteCenterX: Int = 0

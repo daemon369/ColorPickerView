@@ -2,9 +2,25 @@
 <resources>
 
     <declare-styleable name="ColorPickerView">
+
+        <!-- palette -->
         <attr name="palettePadding" format="dimension" />
+        <attr name="paletteRadius" format="dimension" />
+        <attr name="paletteGravity">
+            <enum name="left" value="0" />
+            <enum name="top" value="1" />
+            <enum name="right" value="2" />
+            <enum name="bottom" value="3" />
+            <enum name="center_horizontal" value="4" />
+            <enum name="center_vertical" value="5" />
+            <enum name="center" value="6" />
+        </attr>
+        <attr name="paletteOffsetX" format="dimension" />
+        <attr name="paletteOffsetY" format="dimension" />
+
         <attr name="initialColor" format="color" />
         <attr name="disallowInterceptTouchEvent" format="boolean" />
+
     </declare-styleable>
 
 </resources>
