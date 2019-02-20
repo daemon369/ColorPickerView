@@ -23,6 +23,10 @@ import me.daemon.colorpicker.painter.PalettePainter
  *
  * 颜色选择器View
  *
+ * [GitHub](https://github.com/daemon369/ColorPickerView)
+ *
+ * [jcenter](https://bintray.com/beta/#/daemon336699/maven/colorpickerview?tab=overview)
+ *
  * @author daemon
  * @since 2019-01-27 18:04
  */
