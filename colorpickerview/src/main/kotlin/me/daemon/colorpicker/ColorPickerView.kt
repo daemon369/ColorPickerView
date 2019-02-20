@@ -363,7 +363,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
      * @param palettePainter custom palette painter
      *                       调色板绘制器
      */
-    fun setPalettePainter(palettePainter: PalettePainter) {
+    fun setPalettePainter(palettePainter: PalettePainter?) {
         this.palettePainter = palettePainter
     }
 
@@ -375,7 +375,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
      *
      * @param indicatorPainter custom indicator painter
      */
-    fun setIndicatorPainter(indicatorPainter: IndicatorPainter) {
+    fun setIndicatorPainter(indicatorPainter: IndicatorPainter?) {
         this.indicatorPainter = indicatorPainter
     }
 
@@ -386,7 +386,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
      *
      * @param brightnessProvider custom brightness provider
      */
-    fun setBrightnessProvider(brightnessProvider: BrightnessProvider) {
+    fun setBrightnessProvider(brightnessProvider: BrightnessProvider?) {
         this.brightnessProvider = brightnessProvider
     }
 
