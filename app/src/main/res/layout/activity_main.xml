@@ -25,7 +25,7 @@
         android:background="@android:color/white"
         app:disallowInterceptTouchEvent="true"
         app:initialColor="@android:color/white"
-        app:paletteGravity="center"
+        app:paletteGravity="right|bottom"
         app:paletteRadius="140dp" />
 
 </LinearLayout>
