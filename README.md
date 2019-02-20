@@ -22,7 +22,7 @@ allprojects {
 添加依赖：
 ```
 dependencies {
-    implementation 'me.daemon:colorpickerview:0.1.5'
+    implementation 'me.daemon:colorpickerview:0.1.6'
 }
 ```
 
@@ -47,7 +47,10 @@ dependencies {
         android:background="@android:color/white"
         app:disallowInterceptTouchEvent="true"
         app:initialColor="@android:color/white"
-        app:palettePadding="10dp" />
+        app:paletteGravity="right|top"
+        app:paletteOffsetX="-5dp"
+        app:paletteOffsetY="5dp"
+        app:paletteRadius="140dp" />
 
 </LinearLayout>
 ```
