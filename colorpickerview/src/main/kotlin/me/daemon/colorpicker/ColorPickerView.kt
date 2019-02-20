@@ -418,6 +418,9 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             return
         }
 
+        this.paletteCenterX = paletteCenterX
+        this.paletteCenterY = paletteCenterY
+
         (palettePainter ?: defaultPalettePainter).onSizeChanged(
                 w,
                 h,
