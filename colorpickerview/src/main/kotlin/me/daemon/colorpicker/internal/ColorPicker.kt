@@ -8,7 +8,7 @@ import me.daemon.colorpicker.ColorObserver
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorPicker(val callback: Callback) : ColorObservable {
+internal class ColorPicker(private val callback: Callback) : ColorObservable {
 
     private var alpha: Float = 0f
 

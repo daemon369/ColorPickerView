@@ -49,6 +49,8 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
     enum class Gravity(val value: Int) {
+        UNKNOWN(0),
+
         // basic
         LEFT(1),
         TOP(LEFT.value shl 1),
@@ -78,7 +80,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
 
             fun from(gravity: Int): Gravity {
-                return map[gravity] ?: CENTER
+                return map[gravity] ?: UNKNOWN
             }
         }
 
@@ -161,7 +163,17 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         try {
             paletteRadius = t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0f).toInt()
-            paletteGravity = Gravity.from(t.getInt(R.styleable.ColorPickerView_paletteGravity, Gravity.CENTER.value))
+            val paletteGravityInt = t.getInt(R.styleable.ColorPickerView_paletteGravity, 0)
+            if (paletteGravityInt == 0) {
+                // using Gravity.CENTER if paletteRadius attribute not been set
+                paletteGravity = Gravity.CENTER
+            } else {
+                paletteGravity = Gravity.from(paletteGravityInt)
+                if (paletteGravity == Gravity.UNKNOWN) {
+                    throw IllegalArgumentException("Illegal paletteGravity: $paletteGravityInt")
+                }
+            }
+
             paletteOffsetX = t.getDimension(R.styleable.ColorPickerView_paletteOffsetX, 0f).toInt()
             paletteOffsetY = t.getDimension(R.styleable.ColorPickerView_paletteOffsetY, 0f).toInt()
 
