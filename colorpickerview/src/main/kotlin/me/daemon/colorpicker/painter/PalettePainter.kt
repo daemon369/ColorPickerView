@@ -39,9 +39,9 @@ interface PalettePainter {
     fun drawPalette(
             colorPickerView: ColorPickerView,
             canvas: Canvas,
-            radius: Int, centerX: Int,
+            radius: Int,
+            centerX: Int,
             centerY: Int
-
     )
 
 }

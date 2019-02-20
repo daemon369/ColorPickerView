@@ -48,21 +48,32 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
-    enum class Gravity {
-        LEFT,
-        TOP,
-        RIGHT,
-        BOTTOM,
-        CENTER_HORIZONTAL,
-        CENTER_VERTICAL,
-        CENTER;
+    enum class Gravity(val value: Int) {
+        // basic
+        LEFT(1),
+        TOP(LEFT.value shl 1),
+        RIGHT(TOP.value shl 1),
+        BOTTOM(RIGHT.value shl 1),
+        CENTER_HORIZONTAL(BOTTOM.value shl 1),
+        CENTER_VERTICAL(CENTER_HORIZONTAL.value shl 1),
+
+        // combination
+        LEFT_TOP(LEFT.value or TOP.value),
+        LEFT_CENTER(LEFT.value or CENTER_VERTICAL.value),
+        LEFT_BOTTOM(LEFT.value or BOTTOM.value),
+        CENTER_TOP(CENTER_HORIZONTAL.value or TOP.value),
+        CENTER(CENTER_HORIZONTAL.value or CENTER_VERTICAL.value),
+        CENTER_BOTTOM(CENTER_HORIZONTAL.value or BOTTOM.value),
+        RIGHT_TOP(RIGHT.value or TOP.value),
+        RIGHT_CENTER(RIGHT.value or CENTER_VERTICAL.value),
+        RIGHT_BOTTOM(RIGHT.value or BOTTOM.value);
 
         companion object {
             private val map = HashMap<Int, Gravity>()
 
             init {
                 for (gravity in values()) {
-                    map[gravity.ordinal] = gravity
+                    map[gravity.value] = gravity
                 }
             }
 
@@ -135,7 +146,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         try {
             paletteRadius = t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0f).toInt()
-            paletteGravity = Gravity.from(t.getInt(R.styleable.ColorPickerView_paletteGravity, Gravity.CENTER.ordinal))
+            paletteGravity = Gravity.from(t.getInt(R.styleable.ColorPickerView_paletteGravity, Gravity.CENTER.value))
             paletteOffsetX = t.getDimension(R.styleable.ColorPickerView_paletteOffsetX, 0f).toInt()
             paletteOffsetY = t.getDimension(R.styleable.ColorPickerView_paletteOffsetY, 0f).toInt()
 
