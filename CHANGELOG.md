@@ -1,6 +1,38 @@
 # Changelog
 
-## [0.1.3] - 2019-02-14
+## [0.1.5] - 2019-02-19
+
+remove 'square' attribute & 'initialColor' field
+
+### Added
+
+- add [ColorPicker](https://github.com/daemon369/ColorPickerView/blob/master/colorpickerview/src/main/kotlin/me/daemon/colorpicker/internal/ColorPicker.kt) to manager color
+
+### Changed
+
+- replace `jitpack` with `jcenter`
+
+### Removed
+
+- remove `initialColor` field
+- remove `square` attribute
+
+### 添加
+
+- 添加 [ColorPicker](https://github.com/daemon369/ColorPickerView/blob/master/colorpickerview/src/main/kotlin/me/daemon/colorpicker/internal/ColorPicker.kt) 管理颜色
+
+### 变更
+
+- 使用 `jcenter` 替换 `jitpack`
+
+### 删除
+
+- 删除 `initialColor` 变量
+- 删除 `square` 属性
+
+## [0.1.4] - 2019-02-14
+
+add custom palette painter support
 
 ### Added
 
