@@ -9,6 +9,12 @@ import me.daemon.colorpicker.BrightnessView
  */
 interface BrightnessPainter {
 
+    fun onSizeChange(
+            brightnessView: BrightnessView,
+            w: Int,
+            h: Int
+    )
+
     fun update(
             brightnessView: BrightnessView,
             x: Float,
