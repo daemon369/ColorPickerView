@@ -1,5 +1,7 @@
 # ColorPickerView
+
 A color picker view for Android
+
 Android颜色选择器
 
  [ ![Download](https://api.bintray.com/packages/daemon336699/maven/colorpickerview/images/download.svg) ](https://bintray.com/daemon336699/maven/colorpickerview/_latestVersion)
@@ -11,6 +13,7 @@ Android颜色选择器
 ## 1. 项目依赖
 
 项目根目录下`build.gradle`中加入：
+
 ```
 allprojects {
     repositories {
@@ -19,7 +22,9 @@ allprojects {
     }
 }
 ```
+
 添加依赖：
+
 ```
 dependencies {
     implementation 'me.daemon:colorpickerview:0.1.6'
