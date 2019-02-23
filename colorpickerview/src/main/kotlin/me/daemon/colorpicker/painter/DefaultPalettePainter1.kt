@@ -15,8 +15,16 @@ class DefaultPalettePainter1 : PalettePainter1 {
 
     private val currentPoint: PointF = PointF()
 
-    private val huePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val saturationPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val huePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val saturationPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val indicatorPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+
+    private val indicatorRadius = 20
+
+    init {
+        indicatorPaint.strokeWidth = 2f
+    }
 
     override fun onSizeChanged(
             paletteView: PaletteView,
@@ -52,13 +60,35 @@ class DefaultPalettePainter1 : PalettePainter1 {
         )
     }
 
-    override fun onDraw(
+    override fun onDrawPalette(
             paletteView: PaletteView,
             canvas: Canvas,
             isChanging: Boolean
     ) {
         canvas.drawCircle(paletteCenterX.toFloat(), paletteCenterY.toFloat(), paletteRadius.toFloat(), huePaint)
         canvas.drawCircle(paletteCenterX.toFloat(), paletteCenterY.toFloat(), paletteRadius.toFloat(), saturationPaint)
+    }
+
+    override fun onDrawIndicator(
+            paletteView: PaletteView,
+            canvas: Canvas,
+            color: Int,
+            isChanging: Boolean
+    ) {
+        indicatorPaint.color = color
+
+        canvas.drawLine(
+                currentPoint.x - indicatorRadius,
+                currentPoint.y,
+                currentPoint.x + indicatorRadius,
+                currentPoint.y,
+                indicatorPaint)
+        canvas.drawLine(
+                currentPoint.x,
+                currentPoint.y - indicatorRadius,
+                currentPoint.x,
+                currentPoint.y + indicatorRadius,
+                indicatorPaint)
     }
 
     override fun onUpdate(

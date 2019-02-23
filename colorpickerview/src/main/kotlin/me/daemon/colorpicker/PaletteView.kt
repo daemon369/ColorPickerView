@@ -37,6 +37,7 @@ class PaletteView @JvmOverloads constructor(
         palettePainter?.onDraw(
                 this,
                 canvas,
+                colorPicker?.getColor() ?: 0,
                 isChanging
         ) ?: super.onDraw(canvas)
     }
