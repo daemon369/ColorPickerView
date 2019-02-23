@@ -1,33 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ff00aa00"
-    android:clipChildren="false"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="切换" />
+        android:background="#ff00aa00"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
-    <me.daemon.colorpicker.ColorPickerView
-        android:id="@+id/color_picker"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@android:color/white"
-        app:disallowInterceptTouchEvent="true"
-        app:initialColor="@android:color/white"
-        app:paletteGravity="right|top"
-        app:paletteOffsetX="-5dp"
-        app:paletteOffsetY="5dp"
-        app:paletteRadius="140dp" />
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换" />
 
-</LinearLayout>
+        <me.daemon.colorpicker.ColorPickerView
+            android:id="@+id/color_picker"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@android:color/white"
+            app:disallowInterceptTouchEvent="true"
+            app:initialColor="@android:color/white"
+            app:paletteGravity="right|top"
+            app:paletteOffsetX="-5dp"
+            app:paletteOffsetY="5dp"
+            app:paletteRadius="140dp" />
+
+        <me.daemon.colorpicker.PaletteView
+            android:id="@+id/palette"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/white" />
+
+    </LinearLayout>
+
+</ScrollView>

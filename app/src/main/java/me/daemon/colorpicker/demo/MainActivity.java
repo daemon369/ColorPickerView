@@ -8,10 +8,14 @@ import android.view.View;
 
 import me.daemon.colorpicker.ColorObserver;
 import me.daemon.colorpicker.ColorPickerView;
+import me.daemon.colorpicker.PaletteView;
+import me.daemon.colorpicker.painter.DefaultPalettePainter1;
 
 public class MainActivity extends AppCompatActivity {
 
     private ColorPickerView colorPickerView;
+
+    private PaletteView paletteView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.container).setBackgroundColor(colorPickerView.getColor());
             }
         });
+
+        paletteView = findViewById(R.id.palette);
+        paletteView.setPalettePainter(new DefaultPalettePainter1());
     }
 
     @Override

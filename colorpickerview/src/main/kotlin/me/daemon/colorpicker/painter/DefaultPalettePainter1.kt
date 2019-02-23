@@ -66,5 +66,17 @@ class DefaultPalettePainter1 : PalettePainter1 {
             x: Float,
             y: Float
     ) {
+        var xReal = x - paletteCenterX
+        var yReal = y - paletteCenterY
+        val r = Math.sqrt((xReal * xReal + yReal * yReal).toDouble())
+
+        if (r > paletteRadius) {
+            val ratio = (paletteRadius / r).toFloat()
+            xReal *= ratio
+            yReal *= ratio
+        }
+
+        currentPoint.x = xReal + paletteCenterX
+        currentPoint.y = yReal + paletteCenterY
     }
 }

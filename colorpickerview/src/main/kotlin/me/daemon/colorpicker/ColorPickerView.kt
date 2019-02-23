@@ -306,10 +306,10 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         var y = eventY - paletteCenterY
         val r = Math.sqrt((x * x + y * y).toDouble())
 
-        val radius = paletteRadius
-        if (r > radius) {
-            x *= (radius / r).toFloat()
-            y *= (radius / r).toFloat()
+        if (r > paletteRadius) {
+            val ratio = (paletteRadius / r).toFloat()
+            x *= ratio
+            y *= ratio
         }
         currentPoint.x = x + paletteCenterX
         currentPoint.y = y + paletteCenterY
