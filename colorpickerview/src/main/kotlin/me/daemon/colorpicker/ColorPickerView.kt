@@ -121,7 +121,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private var isChanging = false
 
-    private var disallowInterceptTouchEven = false
+    private var disallowInterceptTouchEvent = false
 
     init {
 
@@ -146,10 +146,10 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
             setColor(initialColor)
 
-            val disallowInterceptTouchEven = t.getBoolean(
+            val disallowInterceptTouchEvent = t.getBoolean(
                     R.styleable.ColorPickerView_disallowInterceptTouchEvent,
                     false)
-            setDisallowInterceptTouchEven(disallowInterceptTouchEven)
+            setDisallowInterceptTouchEvent(disallowInterceptTouchEvent)
         } finally {
             t.recycle()
         }
@@ -189,8 +189,8 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
      * @param disallow whether to disallow it's parent and ancestors to intercept touch event
      *                 是否禁止父View或祖先View拦截触摸事件冲突
      */
-    fun setDisallowInterceptTouchEven(disallow: Boolean) {
-        this.disallowInterceptTouchEven = disallow
+    fun setDisallowInterceptTouchEvent(disallow: Boolean) {
+        this.disallowInterceptTouchEvent = disallow
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldW: Int, oldH: Int) {
@@ -230,7 +230,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                if (disallowInterceptTouchEven) {
+                if (disallowInterceptTouchEvent) {
                     // resolve touch conflicts
                     parent?.requestDisallowInterceptTouchEvent(true)
                 }
@@ -248,7 +248,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
                 performClick()
 
-                if (disallowInterceptTouchEven) {
+                if (disallowInterceptTouchEvent) {
                     // resolve touch conflicts
                     parent?.requestDisallowInterceptTouchEvent(false)
                 }
