@@ -29,10 +29,12 @@ interface PalettePainter1 {
      *
      * @param paletteView PaletteView
      * @param canvas      canvas to draw
+     * @param isChanging  whether PaletteView is changing
      */
     fun drawPalette(
             paletteView: PaletteView,
-            canvas: Canvas
+            canvas: Canvas,
+            isChanging: Boolean
     )
 
     /**

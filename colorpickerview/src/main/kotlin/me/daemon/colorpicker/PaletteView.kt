@@ -20,6 +20,8 @@ class PaletteView @JvmOverloads constructor(
 
     private var palettePainter: PalettePainter1? = null
 
+    private var isChanging = false
+
     init {
     }
 
@@ -34,7 +36,8 @@ class PaletteView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         palettePainter?.drawPalette(
                 this,
-                canvas
+                canvas,
+                isChanging
         ) ?: super.onDraw(canvas)
     }
 
@@ -48,6 +51,8 @@ class PaletteView @JvmOverloads constructor(
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                isChanging = true
+
                 painter.update(this, x, y)
                 return true
             }
@@ -57,9 +62,12 @@ class PaletteView @JvmOverloads constructor(
             }
 
             MotionEvent.ACTION_UP -> {
+                isChanging = false
+
                 painter.update(this, x, y)
 
                 performClick()
+
             }
 
         }
