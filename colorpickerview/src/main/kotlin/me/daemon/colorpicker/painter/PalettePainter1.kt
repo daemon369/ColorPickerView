@@ -91,6 +91,6 @@ interface PalettePainter1 {
             paletteView: PaletteView,
             x: Float,
             y: Float
-    )
+    ): Pair<Float, Float>
 
 }

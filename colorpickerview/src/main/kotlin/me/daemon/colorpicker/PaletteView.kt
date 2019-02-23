@@ -56,18 +56,18 @@ class PaletteView @JvmOverloads constructor(
 
                 isChanging = true
 
-                painter.onUpdate(this, x, y)
+                update(painter, x, y)
                 return true
             }
 
             MotionEvent.ACTION_MOVE -> {
-                painter.onUpdate(this, x, y)
+                update(painter, x, y)
             }
 
             MotionEvent.ACTION_UP -> {
                 isChanging = false
 
-                painter.onUpdate(this, x, y)
+                update(painter, x, y)
 
                 performClick()
 
@@ -89,6 +89,20 @@ class PaletteView @JvmOverloads constructor(
      */
     fun setPalettePainter(palettePainter: PalettePainter1?) {
         this.palettePainter = palettePainter
+    }
+
+    private fun update(
+            painter: PalettePainter1,
+            x: Float,
+            y: Float
+    ) {
+        val pair = painter.onUpdate(this, x, y)
+        val colorPicker = this.colorPicker ?: return
+        colorPicker
+                .beginTransaction()
+                .hue(pair.first)
+                .saturation(pair.second)
+                .commit(true, true)
     }
 
 }

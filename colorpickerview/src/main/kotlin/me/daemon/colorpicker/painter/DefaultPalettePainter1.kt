@@ -95,7 +95,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
             paletteView: PaletteView,
             x: Float,
             y: Float
-    ) {
+    ): Pair<Float, Float> {
         var xReal = x - paletteCenterX
         var yReal = y - paletteCenterY
         val r = Math.sqrt((xReal * xReal + yReal * yReal).toDouble())
@@ -108,5 +108,10 @@ class DefaultPalettePainter1 : PalettePainter1 {
 
         currentPoint.x = xReal + paletteCenterX
         currentPoint.y = yReal + paletteCenterY
+
+        val hue = (Math.atan2(yReal.toDouble(), (-xReal).toDouble()) / Math.PI * 180f).toFloat() + 180
+        val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
+
+        return Pair(hue, saturation)
     }
 }
