@@ -44,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
         paletteView = findViewById(R.id.palette);
         paletteView.setPalettePainter(new DefaultPalettePainter1());
+        paletteView.subscribe(new ColorObserver() {
+            @Override
+            public void onColor(int color) {
+                Log.e("MainActivity", "paletteView onColor: " + color + " " + String.format("#%06X", (0xFFFFFF & color)));
+            }
+        });
     }
 
     @Override

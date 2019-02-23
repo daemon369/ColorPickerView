@@ -22,6 +22,8 @@ class PaletteView @JvmOverloads constructor(
 
     private var isChanging = false
 
+    private var updated = true
+
     init {
     }
 
@@ -96,13 +98,32 @@ class PaletteView @JvmOverloads constructor(
             x: Float,
             y: Float
     ) {
-        val pair = painter.onUpdate(this, x, y)
+        updated = false
+        painter.onUpdate(this, x, y)
+        if (!updated) {
+            throw IllegalStateException("PaletteView{$this}: $painter#onUpdate did not update hue" +
+                    " and saturation by calling PaletteView#updateHueAndSaturation(Float, Float)")
+        }
+    }
+
+    fun updateHueAndSaturation(
+            hue: Float,
+            saturation: Float
+    ) {
+        updated = true
         val colorPicker = this.colorPicker ?: return
         colorPicker
                 .beginTransaction()
-                .hue(pair.first)
-                .saturation(pair.second)
+                .hue(hue)
+                .saturation(saturation)
                 .commit(true, true)
+    }
+
+    /**
+     * TODO for develop
+     */
+    fun subscribe(observer: ColorObserver) {
+        colorPicker?.subscribe(observer)
     }
 
 }
