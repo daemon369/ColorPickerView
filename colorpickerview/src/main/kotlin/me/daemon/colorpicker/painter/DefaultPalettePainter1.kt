@@ -52,7 +52,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
         )
     }
 
-    override fun drawPalette(
+    override fun onDraw(
             paletteView: PaletteView,
             canvas: Canvas,
             isChanging: Boolean
@@ -61,7 +61,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
         canvas.drawCircle(paletteCenterX.toFloat(), paletteCenterY.toFloat(), paletteRadius.toFloat(), saturationPaint)
     }
 
-    override fun update(
+    override fun onUpdate(
             paletteView: PaletteView,
             x: Float,
             y: Float

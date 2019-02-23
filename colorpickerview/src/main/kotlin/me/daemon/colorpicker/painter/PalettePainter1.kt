@@ -31,7 +31,7 @@ interface PalettePainter1 {
      * @param canvas      canvas to draw
      * @param isChanging  whether PaletteView is changing
      */
-    fun drawPalette(
+    fun onDraw(
             paletteView: PaletteView,
             canvas: Canvas,
             isChanging: Boolean
@@ -44,7 +44,7 @@ interface PalettePainter1 {
      * @param x           touch event x
      * @param y           touch event y
      */
-    fun update(
+    fun onUpdate(
             paletteView: PaletteView,
             x: Float,
             y: Float

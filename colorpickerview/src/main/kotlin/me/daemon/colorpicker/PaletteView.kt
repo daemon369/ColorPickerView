@@ -34,7 +34,7 @@ class PaletteView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        palettePainter?.drawPalette(
+        palettePainter?.onDraw(
                 this,
                 canvas,
                 isChanging
@@ -53,18 +53,18 @@ class PaletteView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 isChanging = true
 
-                painter.update(this, x, y)
+                painter.onUpdate(this, x, y)
                 return true
             }
 
             MotionEvent.ACTION_MOVE -> {
-                painter.update(this, x, y)
+                painter.onUpdate(this, x, y)
             }
 
             MotionEvent.ACTION_UP -> {
                 isChanging = false
 
-                painter.update(this, x, y)
+                painter.onUpdate(this, x, y)
 
                 performClick()
 
