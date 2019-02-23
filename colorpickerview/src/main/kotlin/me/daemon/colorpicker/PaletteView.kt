@@ -52,6 +52,8 @@ class PaletteView @JvmOverloads constructor(
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                parent?.requestDisallowInterceptTouchEvent(true) //TODO to be removed
+
                 isChanging = true
 
                 painter.onUpdate(this, x, y)
@@ -69,6 +71,7 @@ class PaletteView @JvmOverloads constructor(
 
                 performClick()
 
+                parent?.requestDisallowInterceptTouchEvent(false) //TODO to be removed
             }
 
         }
