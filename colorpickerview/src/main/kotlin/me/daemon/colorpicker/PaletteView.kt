@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.PalettePainter1
 
@@ -14,9 +15,9 @@ import me.daemon.colorpicker.painter.PalettePainter1
  */
 class PaletteView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr), Callback {
 
-    internal var colorPicker: ColorPicker? = null
+    private var colorPicker: ColorPicker = ColorPicker(this)
 
     private var palettePainter: PalettePainter1? = null
 
@@ -39,7 +40,7 @@ class PaletteView @JvmOverloads constructor(
         palettePainter?.onDraw(
                 this,
                 canvas,
-                colorPicker?.getColor() ?: 0,
+                colorPicker.getColor(),
                 isChanging
         ) ?: super.onDraw(canvas)
     }
@@ -101,8 +102,9 @@ class PaletteView @JvmOverloads constructor(
         updated = false
         painter.onUpdate(this, x, y)
         if (!updated) {
-            throw IllegalStateException("PaletteView{$this}: $painter#onUpdate did not update hue" +
-                    " and saturation by calling PaletteView#updateHueAndSaturation(Float, Float)")
+            throw IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}#onUpdate" +
+                    " did not update hue and saturation by calling" +
+                    " PaletteView#updateHueAndSaturation(Float, Float)")
         }
     }
 
@@ -111,19 +113,30 @@ class PaletteView @JvmOverloads constructor(
             saturation: Float
     ) {
         updated = true
-        val colorPicker = this.colorPicker ?: return
+        val colorPicker = this.colorPicker
         colorPicker
                 .beginTransaction()
                 .hue(hue)
                 .saturation(saturation)
-                .commit(true, true)
+                .commit(propagate = true, force = true)
+
+        invalidate()
+    }
+
+    override fun callback(
+            color: Int,
+            hue: Float,
+            saturation: Float,
+            brightness: Float,
+            alpha: Float
+    ) {
     }
 
     /**
      * TODO for develop
      */
     fun subscribe(observer: ColorObserver) {
-        colorPicker?.subscribe(observer)
+        colorPicker.subscribe(observer)
     }
 
 }
