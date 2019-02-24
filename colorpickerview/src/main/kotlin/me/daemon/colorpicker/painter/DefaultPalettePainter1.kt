@@ -75,7 +75,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
             color: Int,
             isChanging: Boolean
     ) {
-        indicatorPaint.color = color
+        indicatorPaint.color = Color.BLACK
 
         canvas.drawLine(
                 currentPoint.x - indicatorRadius,

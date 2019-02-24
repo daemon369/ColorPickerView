@@ -1,6 +1,7 @@
 package me.daemon.colorpicker.painter
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
 
@@ -22,7 +23,7 @@ class DefaultIndicatorPainter : IndicatorPainter {
             isChanging: Boolean
     ) {
 
-        indicatorPaint.color = color
+        indicatorPaint.color = Color.BLACK
         indicatorPaint.strokeWidth = 2f
 
         val radius = 20
