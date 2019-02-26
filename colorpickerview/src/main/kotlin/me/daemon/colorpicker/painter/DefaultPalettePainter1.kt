@@ -2,6 +2,7 @@ package me.daemon.colorpicker.painter
 
 import android.graphics.*
 import me.daemon.colorpicker.PaletteView
+import me.daemon.colorpicker.PaletteView.PaletteValue
 
 /**
  * @author daemon
@@ -95,6 +96,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
             paletteView: PaletteView,
             x: Float,
             y: Float,
+            paletteValue: PaletteValue,
             propagate: Boolean
     ) {
         var xReal = x - paletteCenterX
@@ -113,13 +115,12 @@ class DefaultPalettePainter1 : PalettePainter1 {
         val hue = (Math.atan2(yReal.toDouble(), (-xReal).toDouble()) / Math.PI * 180f).toFloat() + 180
         val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
 
-        paletteView.updateHueAndSaturation(hue, saturation, propagate)
+        paletteValue.setValue(hue, saturation)
     }
 
-    override fun updateByHueAndSaturation(
+    override fun updateByValue(
             paletteView: PaletteView,
-            hue: Float,
-            saturation: Float
+            paletteValue: PaletteValue
     ) {
     }
 }

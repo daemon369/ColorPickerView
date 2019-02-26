@@ -2,6 +2,7 @@ package me.daemon.colorpicker.painter
 
 import android.graphics.Canvas
 import me.daemon.colorpicker.PaletteView
+import me.daemon.colorpicker.PaletteView.PaletteValue
 
 /**
  * @author daemon
@@ -83,21 +84,22 @@ interface PalettePainter1 {
     /**
      * update palette value based on touch event coordinate
      *
-     * @param paletteView PaletteView
-     * @param x           touch event x
-     * @param y           touch event y
-     * @param propagate   whether propagate this update
+     * @param paletteView  PaletteView
+     * @param x            touch event x
+     * @param y            touch event y
+     * @param paletteValue palette value
+     * @param propagate    whether propagate this update
      */
     fun onUpdate(
             paletteView: PaletteView,
             x: Float,
             y: Float,
+            paletteValue: PaletteValue,
             propagate: Boolean
     )
 
-    fun updateByHueAndSaturation(
+    fun updateByValue(
             paletteView: PaletteView,
-            hue: Float,
-            saturation: Float
+            paletteValue: PaletteValue
     )
 }

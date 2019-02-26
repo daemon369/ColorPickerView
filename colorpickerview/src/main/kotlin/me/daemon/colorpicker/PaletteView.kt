@@ -23,7 +23,31 @@ class PaletteView @JvmOverloads constructor(
 
     private var isChanging = false
 
-    private var updated = true
+    class PaletteValue() {
+
+        var hue: Float = 0f
+            private set
+
+        var saturation: Float = 0f
+            private set
+
+        var set = false
+            private set
+
+        fun setValue(hue: Float, saturation: Float) {
+            this.hue = hue
+            this.saturation = saturation
+            this.set = true
+        }
+
+        fun reset(): PaletteValue {
+            this.set = false
+            return this
+        }
+
+    }
+
+    private val paletteValue = PaletteValue()
 
     init {
     }
@@ -101,26 +125,19 @@ class PaletteView @JvmOverloads constructor(
     ) {
         val painter = palettePainter ?: return
 
-        updated = false
-        painter.onUpdate(this, x, y, propagate)
-        if (!updated) {
-            throw IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}#onUpdate" +
-                    " did not update hue and saturation by calling" +
-                    " PaletteView#updateHueAndSaturation(Float, Float, Boolean)")
-        }
-    }
+        painter.onUpdate(this, x, y, paletteValue.reset(), propagate)
 
-    fun updateHueAndSaturation(
-            hue: Float,
-            saturation: Float,
-            propagate: Boolean
-    ) {
-        updated = true
+        if (!paletteValue.set) {
+            throw java.lang.IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}#onUpdate" +
+                    " did not update hue and saturation by calling" +
+                    " PaletteValue#setValue(Float, Float)")
+        }
+
         val colorPicker = this.colorPicker
         colorPicker
                 .beginTransaction()
-                .hue(hue)
-                .saturation(saturation)
+                .hue(paletteValue.hue)
+                .saturation(paletteValue.saturation)
                 .commit(propagate, force = true)
 
         invalidate()
