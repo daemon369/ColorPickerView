@@ -96,8 +96,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
             paletteView: PaletteView,
             x: Float,
             y: Float,
-            paletteValue: PaletteValue,
-            propagate: Boolean
+            paletteValue: PaletteValue
     ) {
         var xReal = x - paletteCenterX
         var yReal = y - paletteCenterY

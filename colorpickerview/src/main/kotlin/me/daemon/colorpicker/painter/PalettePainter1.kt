@@ -94,8 +94,7 @@ interface PalettePainter1 {
             paletteView: PaletteView,
             x: Float,
             y: Float,
-            paletteValue: PaletteValue,
-            propagate: Boolean
+            paletteValue: PaletteValue
     )
 
     fun updateByValue(

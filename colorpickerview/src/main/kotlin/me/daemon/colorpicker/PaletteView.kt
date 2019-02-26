@@ -125,7 +125,7 @@ class PaletteView @JvmOverloads constructor(
     ) {
         val painter = palettePainter ?: return
 
-        painter.onUpdate(this, x, y, paletteValue.reset(), propagate)
+        painter.onUpdate(this, x, y, paletteValue.reset())
 
         if (!paletteValue.set) {
             throw java.lang.IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}#onUpdate" +
