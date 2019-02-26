@@ -23,7 +23,7 @@ class PaletteView @JvmOverloads constructor(
 
     private var isChanging = false
 
-    class PaletteValue() {
+    class PaletteValue {
 
         var hue: Float = 0f
             private set
@@ -34,10 +34,11 @@ class PaletteView @JvmOverloads constructor(
         var set = false
             private set
 
-        fun setValue(hue: Float, saturation: Float) {
+        fun setValue(hue: Float, saturation: Float): PaletteValue {
             this.hue = hue
             this.saturation = saturation
             this.set = true
+            return this
         }
 
         fun reset(): PaletteValue {
@@ -115,6 +116,7 @@ class PaletteView @JvmOverloads constructor(
      *                       调色板绘制器
      */
     fun setPalettePainter(palettePainter: PalettePainter1?) {
+        palettePainter?.updateByValue(this, paletteValue.setValue(colorPicker.getHue(), colorPicker.getSaturation()))
         this.palettePainter = palettePainter
     }
 

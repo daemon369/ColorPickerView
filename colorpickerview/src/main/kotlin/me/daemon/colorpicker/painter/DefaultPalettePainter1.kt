@@ -108,8 +108,10 @@ class DefaultPalettePainter1 : PalettePainter1 {
             yReal *= ratio
         }
 
-        currentPoint.x = xReal + paletteCenterX
-        currentPoint.y = yReal + paletteCenterY
+        currentPoint.apply {
+            this.x = xReal + paletteCenterX
+            this.y = yReal + paletteCenterY
+        }
 
         val hue = (Math.atan2(yReal.toDouble(), (-xReal).toDouble()) / Math.PI * 180f).toFloat() + 180
         val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
@@ -121,5 +123,12 @@ class DefaultPalettePainter1 : PalettePainter1 {
             paletteView: PaletteView,
             paletteValue: PaletteValue
     ) {
+        val r = paletteValue.saturation * paletteRadius
+        val radian = (paletteValue.hue / 180f * Math.PI).toFloat()
+
+        currentPoint.apply {
+            x = (r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat()
+            y = (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat()
+        }
     }
 }
