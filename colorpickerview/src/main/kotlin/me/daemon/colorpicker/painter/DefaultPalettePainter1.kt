@@ -115,4 +115,11 @@ class DefaultPalettePainter1 : PalettePainter1 {
 
         paletteView.updateHueAndSaturation(hue, saturation, propagate)
     }
+
+    override fun updateByHueAndSaturation(
+            paletteView: PaletteView,
+            hue: Float,
+            saturation: Float
+    ) {
+    }
 }

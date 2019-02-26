@@ -95,4 +95,9 @@ interface PalettePainter1 {
             propagate: Boolean
     )
 
+    fun updateByHueAndSaturation(
+            paletteView: PaletteView,
+            hue: Float,
+            saturation: Float
+    )
 }
