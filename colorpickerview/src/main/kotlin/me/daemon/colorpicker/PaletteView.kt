@@ -48,7 +48,7 @@ class PaletteView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        val painter = palettePainter ?: return super.onTouchEvent(event)
+        palettePainter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y
@@ -59,18 +59,18 @@ class PaletteView @JvmOverloads constructor(
 
                 isChanging = true
 
-                update(painter, x, y)
+                update(x, y, true)
                 return true
             }
 
             MotionEvent.ACTION_MOVE -> {
-                update(painter, x, y)
+                update(x, y, true)
             }
 
             MotionEvent.ACTION_UP -> {
                 isChanging = false
 
-                update(painter, x, y)
+                update(x, y, true)
 
                 performClick()
 
@@ -95,22 +95,25 @@ class PaletteView @JvmOverloads constructor(
     }
 
     private fun update(
-            painter: PalettePainter1,
             x: Float,
-            y: Float
+            y: Float,
+            propagate: Boolean
     ) {
+        val painter = palettePainter ?: return
+
         updated = false
-        painter.onUpdate(this, x, y)
+        painter.onUpdate(this, x, y, propagate)
         if (!updated) {
             throw IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}#onUpdate" +
                     " did not update hue and saturation by calling" +
-                    " PaletteView#updateHueAndSaturation(Float, Float)")
+                    " PaletteView#updateHueAndSaturation(Float, Float, Boolean)")
         }
     }
 
     fun updateHueAndSaturation(
             hue: Float,
-            saturation: Float
+            saturation: Float,
+            propagate: Boolean
     ) {
         updated = true
         val colorPicker = this.colorPicker
@@ -118,7 +121,7 @@ class PaletteView @JvmOverloads constructor(
                 .beginTransaction()
                 .hue(hue)
                 .saturation(saturation)
-                .commit(propagate = true, force = true)
+                .commit(propagate, force = true)
 
         invalidate()
     }

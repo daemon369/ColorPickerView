@@ -86,11 +86,13 @@ interface PalettePainter1 {
      * @param paletteView PaletteView
      * @param x           touch event x
      * @param y           touch event y
+     * @param propagate   whether propagate this update
      */
     fun onUpdate(
             paletteView: PaletteView,
             x: Float,
-            y: Float
+            y: Float,
+            propagate: Boolean
     )
 
 }

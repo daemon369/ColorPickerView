@@ -94,7 +94,8 @@ class DefaultPalettePainter1 : PalettePainter1 {
     override fun onUpdate(
             paletteView: PaletteView,
             x: Float,
-            y: Float
+            y: Float,
+            propagate: Boolean
     ) {
         var xReal = x - paletteCenterX
         var yReal = y - paletteCenterY
@@ -112,6 +113,6 @@ class DefaultPalettePainter1 : PalettePainter1 {
         val hue = (Math.atan2(yReal.toDouble(), (-xReal).toDouble()) / Math.PI * 180f).toFloat() + 180
         val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
 
-        paletteView.updateHueAndSaturation(hue, saturation)
+        paletteView.updateHueAndSaturation(hue, saturation, propagate)
     }
 }
