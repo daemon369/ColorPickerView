@@ -59,6 +59,14 @@ class PaletteView @JvmOverloads constructor(
                 w,
                 h
         )
+
+        palettePainter?.updateByValue(
+                this,
+                paletteValue.setValue(
+                        colorPicker.getHue(),
+                        colorPicker.getSaturation()
+                )
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -116,7 +124,13 @@ class PaletteView @JvmOverloads constructor(
      *                       调色板绘制器
      */
     fun setPalettePainter(palettePainter: PalettePainter1?) {
-        palettePainter?.updateByValue(this, paletteValue.setValue(colorPicker.getHue(), colorPicker.getSaturation()))
+        palettePainter?.updateByValue(
+                this,
+                paletteValue.setValue(
+                        colorPicker.getHue(),
+                        colorPicker.getSaturation()
+                )
+        )
         this.palettePainter = palettePainter
     }
 
@@ -130,9 +144,10 @@ class PaletteView @JvmOverloads constructor(
         painter.onUpdate(this, x, y, paletteValue.reset())
 
         if (!paletteValue.set) {
-            throw java.lang.IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}#onUpdate" +
-                    " did not update hue and saturation by calling" +
-                    " PaletteValue#setValue(Float, Float)")
+            throw java.lang.IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}" +
+                    "#onUpdate did not update hue and saturation by calling" +
+                    " PaletteValue#setValue(Float, Float)"
+            )
         }
 
         val colorPicker = this.colorPicker

@@ -88,7 +88,6 @@ interface PalettePainter1 {
      * @param x            touch event x
      * @param y            touch event y
      * @param paletteValue palette value
-     * @param propagate    whether propagate this update
      */
     fun onUpdate(
             paletteView: PaletteView,
