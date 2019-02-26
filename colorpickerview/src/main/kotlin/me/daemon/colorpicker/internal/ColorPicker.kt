@@ -8,7 +8,7 @@ import me.daemon.colorpicker.ColorObserver
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorPicker(private val callback: Callback) : ColorObservable {
+internal class ColorPicker : ColorObservable {
 
     private var alpha: Float = 0f
 
@@ -25,6 +25,8 @@ internal class ColorPicker(private val callback: Callback) : ColorObservable {
     private val transaction = Transaction(this)
 
     private val observers = ArrayList<ColorObserver>()
+
+    private val callbacks = ArrayList<Callback>()
 
     fun beginTransaction(): Transaction {
         return transaction.begin()
@@ -70,6 +72,14 @@ internal class ColorPicker(private val callback: Callback) : ColorObservable {
         observers.remove(observer)
     }
 
+    fun addCallback(callback: Callback) {
+        callbacks.add(callback)
+    }
+
+    fun removeCallback(callback: Callback) {
+        callbacks.remove(callback)
+    }
+
     fun commit(propagate: Boolean) {
         for (factor in transaction.factors) {
             when (factor) {
@@ -102,13 +112,14 @@ internal class ColorPicker(private val callback: Callback) : ColorObservable {
             color: Int,
             propagate: Boolean
     ) {
-        callback.callback(
-                color,
-                getHue(),
-                getSaturation(),
-                getBrightness(),
-                getAlpha()
-        )
+        callbacks.forEach {
+            it.callback(
+                    getHue(),
+                    getSaturation(),
+                    getBrightness(),
+                    getAlpha()
+            )
+        }
 
         if (propagate) {
             propagate(color)

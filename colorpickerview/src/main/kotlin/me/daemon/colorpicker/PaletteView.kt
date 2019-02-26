@@ -17,7 +17,7 @@ class PaletteView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), Callback {
 
-    private var colorPicker: ColorPicker = ColorPicker(this)
+    private lateinit var colorPicker: ColorPicker
 
     private var palettePainter: PalettePainter1? = null
 
@@ -75,7 +75,7 @@ class PaletteView @JvmOverloads constructor(
                 canvas,
                 colorPicker.getColor(),
                 isChanging
-        ) ?: super.onDraw(canvas)
+        )
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -113,6 +113,12 @@ class PaletteView @JvmOverloads constructor(
         }
 
         return super.onTouchEvent(event)
+    }
+
+    internal fun setColorPicker(colorPicker: ColorPicker) {
+        this.colorPicker = colorPicker.apply {
+            addCallback(this@PaletteView)
+        }
     }
 
     /**
@@ -161,7 +167,6 @@ class PaletteView @JvmOverloads constructor(
     }
 
     override fun callback(
-            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,

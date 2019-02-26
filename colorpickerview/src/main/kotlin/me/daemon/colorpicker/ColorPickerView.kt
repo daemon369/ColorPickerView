@@ -102,7 +102,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
 
-    private val colorPicker: ColorPicker = ColorPicker(this)
+    private val colorPicker: ColorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
 
     private val defaultBrightnessProvider = object : BrightnessProvider {
         override val brightness: Float
@@ -365,7 +365,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     override fun callback(
-            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,
