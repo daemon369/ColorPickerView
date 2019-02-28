@@ -8,14 +8,14 @@ import android.view.View;
 
 import me.daemon.colorpicker.ColorObserver;
 import me.daemon.colorpicker.ColorPickerView;
-import me.daemon.colorpicker.PaletteView;
+import me.daemon.colorpicker.ColorPickerView1;
 import me.daemon.colorpicker.painter.DefaultPalettePainter1;
 
 public class MainActivity extends AppCompatActivity {
 
     private ColorPickerView colorPickerView;
 
-    private PaletteView paletteView;
+    private ColorPickerView1 colorPickerView1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        paletteView = findViewById(R.id.palette);
-        paletteView.setPalettePainter(new DefaultPalettePainter1());
-        paletteView.subscribe(new ColorObserver() {
+        colorPickerView1 = findViewById(R.id.color_picker_1);
+        colorPickerView1.setPalettePainter(new DefaultPalettePainter1());
+        colorPickerView1.subscribe(new ColorObserver() {
             @Override
             public void onColor(int color) {
-                Log.e("MainActivity", "paletteView onColor: " + color + " " + String.format("#%06X", (0xFFFFFF & color)));
+                Log.e("MainActivity", "colorPickerView1 onColor: " + color + " " + String.format("#%06X", (0xFFFFFF & color)));
             }
         });
     }

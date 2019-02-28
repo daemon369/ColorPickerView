@@ -34,8 +34,8 @@
             app:paletteOffsetY="5dp"
             app:paletteRadius="140dp" />
 
-        <me.daemon.colorpicker.PaletteView
-            android:id="@+id/palette"
+        <me.daemon.colorpicker.ColorPickerView1
+            android:id="@+id/color_picker_1"
             android:layout_width="200dp"
             android:layout_height="300dp"
             android:layout_marginTop="10dp"
