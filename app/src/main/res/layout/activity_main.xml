@@ -36,11 +36,16 @@
 
         <me.daemon.colorpicker.ColorPickerView1
             android:id="@+id/color_picker_1"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            app:initialColor="@android:color/white"
+            app:paletteGravity="right|top"
+            app:paletteOffsetX="-5dp"
+            app:paletteOffsetY="5dp"
+            app:paletteRadius="140dp" />
 
     </LinearLayout>
 
