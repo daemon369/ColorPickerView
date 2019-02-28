@@ -2,6 +2,7 @@ package me.daemon.colorpicker
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import me.daemon.colorpicker.internal.Callback
@@ -22,26 +23,53 @@ class ColorPickerView1 @JvmOverloads constructor(
         setColorPicker(colorPicker)
     }
 
+    private var isAddingInternal = false
+
     init {
-        super.addView(paletteView)
+        addViewInternal(paletteView)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
     }
 
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return super.onTouchEvent(event)
+    }
+
+    private fun addViewInternal(child: View) {
+        isAddingInternal = true
+        super.addView(child)
+        isAddingInternal = false
+    }
+
     override fun addView(child: View?) {
+        if (isAddingInternal) {
+            super.addView(child)
+        }
     }
 
     override fun addView(child: View?, index: Int) {
+        if (isAddingInternal) {
+            super.addView(child, index)
+        }
     }
 
     override fun addView(child: View?, width: Int, height: Int) {
+        if (isAddingInternal) {
+            super.addView(child, width, height)
+        }
     }
 
     override fun addView(child: View?, params: LayoutParams?) {
+        if (isAddingInternal) {
+            super.addView(child, params)
+        }
     }
 
     override fun addView(child: View?, index: Int, params: LayoutParams?) {
+        if (isAddingInternal) {
+            super.addView(child, index, params)
+        }
     }
 
     override fun removeView(view: View?) {
