@@ -3,10 +3,7 @@ package me.daemon.colorpicker
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewDebug
-import android.view.ViewGroup
+import android.view.*
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.DefaultPalettePainter1
@@ -105,6 +102,8 @@ class ColorPickerView1 @JvmOverloads constructor(
 
     private var isAddingInternal = false
 
+    private var disallowInterceptTouchEvent = false
+
     init {
         val t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView)
 
@@ -126,6 +125,11 @@ class ColorPickerView1 @JvmOverloads constructor(
 
             val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
             setColor(initialColor)
+
+            val disallowInterceptTouchEvent = t.getBoolean(
+                    R.styleable.ColorPickerView_disallowInterceptTouchEvent,
+                    false)
+            setDisallowInterceptTouchEvent(disallowInterceptTouchEvent)
         } finally {
             t.recycle()
         }
@@ -156,7 +160,28 @@ class ColorPickerView1 @JvmOverloads constructor(
         )
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (!isEnabled) return super.onTouchEvent(event)
+
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                if (disallowInterceptTouchEvent) {
+                    // resolve touch conflicts
+                    parent?.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+
+            MotionEvent.ACTION_UP -> {
+
+                performClick()
+
+                if (disallowInterceptTouchEvent) {
+                    // resolve touch conflicts
+                    parent?.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+        }
+
         return super.onTouchEvent(event)
     }
 
@@ -219,6 +244,32 @@ class ColorPickerView1 @JvmOverloads constructor(
      */
     fun setColor(color: Int) {
         colorPicker.setColor(color, true)
+    }
+
+    /**
+     * resolve touch conflict with it's parent and ancestors<br></br><br></br>
+     *
+     * if disallow is set to be true, [ColorPickerView]  will call
+     * it's [parent][ViewParent.getParent]'s
+     * [ViewParent.requestDisallowInterceptTouchEvent]
+     * when received [MotionEvent.ACTION_DOWN] event in
+     * [ColorPickerView.onTouchEvent]
+     * to disallow it's parent and ancestors to intercept touch event,
+     * and restore when received [MotionEvent.ACTION_UP] event
+     * <br></br><br></br>
+     * 解决[ColorPickerView]与其父View或祖先View的触摸事件冲突<br></br><br></br>
+     *
+     * disallow设置为true时，在[ColorPickerView.onTouchEvent]
+     * 方法中接收到[MotionEvent.ACTION_DOWN] 触摸事件时会调用
+     * [父View][ViewParent.getParent]的
+     * [ViewParent.requestDisallowInterceptTouchEvent]方法来紧张父View
+     * 及祖先View拦截触摸事件，并在收到[MotionEvent.ACTION_UP]触摸事件时恢复
+     *
+     * @param disallow whether to disallow it's parent and ancestors to intercept touch event
+     *                 是否禁止父View或祖先View拦截触摸事件冲突
+     */
+    fun setDisallowInterceptTouchEvent(disallow: Boolean) {
+        this.disallowInterceptTouchEvent = disallow
     }
 
     override fun callback(
