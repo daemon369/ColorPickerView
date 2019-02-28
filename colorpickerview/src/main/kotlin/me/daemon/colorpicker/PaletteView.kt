@@ -88,8 +88,6 @@ class PaletteView @JvmOverloads constructor(
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                parent?.requestDisallowInterceptTouchEvent(true) //TODO to be removed
-
                 isChanging = true
 
                 update(x, y, true)
@@ -107,7 +105,6 @@ class PaletteView @JvmOverloads constructor(
 
                 performClick()
 
-                parent?.requestDisallowInterceptTouchEvent(false) //TODO to be removed
             }
 
         }
@@ -172,13 +169,6 @@ class PaletteView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
-    }
-
-    /**
-     * TODO for develop
-     */
-    fun subscribe(observer: ColorObserver) {
-        colorPicker.subscribe(observer)
     }
 
 }
