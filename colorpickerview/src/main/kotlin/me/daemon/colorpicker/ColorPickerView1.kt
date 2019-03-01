@@ -289,7 +289,11 @@ class ColorPickerView1 @JvmOverloads constructor(
      *                       调色板绘制器
      */
     fun setPalettePainter(palettePainter: PalettePainter1?) {
-        paletteView.setPalettePainter(palettePainter)
+        paletteView.palettePainter = palettePainter
+    }
+
+    fun getPalettePainter(): PalettePainter1? {
+        return paletteView.palettePainter
     }
 
     override fun subscribe(observer: ColorObserver) {

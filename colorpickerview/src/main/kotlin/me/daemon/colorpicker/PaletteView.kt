@@ -19,7 +19,26 @@ class PaletteView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    private var palettePainter: PalettePainter1? = null
+    var palettePainter: PalettePainter1? = null
+        /**
+         * set custom palette painter
+         *
+         * 设置自定义调色板绘制器
+         *
+         * @param palettePainter custom palette painter
+         *                       调色板绘制器
+         */
+        set(palettePainter) {
+            field = palettePainter?.apply {
+                updateByValue(
+                        this@PaletteView,
+                        paletteValue.setValue(
+                                colorPicker.getHue(),
+                                colorPicker.getSaturation()
+                        )
+                )
+            }
+        }
 
     private var isChanging = false
 
@@ -116,25 +135,6 @@ class PaletteView @JvmOverloads constructor(
         this.colorPicker = colorPicker.apply {
             addCallback(this@PaletteView)
         }
-    }
-
-    /**
-     * set custom palette painter
-     *
-     * 设置自定义调色板绘制器
-     *
-     * @param palettePainter custom palette painter
-     *                       调色板绘制器
-     */
-    fun setPalettePainter(palettePainter: PalettePainter1?) {
-        palettePainter?.updateByValue(
-                this,
-                paletteValue.setValue(
-                        colorPicker.getHue(),
-                        colorPicker.getSaturation()
-                )
-        )
-        this.palettePainter = palettePainter
     }
 
     private fun update(
