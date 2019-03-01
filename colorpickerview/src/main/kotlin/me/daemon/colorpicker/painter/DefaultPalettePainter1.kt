@@ -8,7 +8,8 @@ import me.daemon.colorpicker.PaletteView.PaletteValue
  * @author daemon
  * @since 2019-02-24 00:09
  */
-class DefaultPalettePainter1 : PalettePainter1 {
+class DefaultPalettePainter1(override var indicatorPainter: IndicatorPainter1? = null)
+    : PalettePainter1 {
 
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
