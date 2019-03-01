@@ -45,6 +45,16 @@ interface PalettePainter1 {
                 isChanging
         )
 
+        if (
+                indicatorPainter?.drawIndicator
+                (
+                        paletteView,
+                        canvas,
+                        color,
+                        isChanging
+                ) == true
+        ) return
+
         onDrawIndicator(
                 paletteView,
                 canvas,
@@ -100,4 +110,10 @@ interface PalettePainter1 {
             paletteView: PaletteView,
             paletteValue: PaletteValue
     )
+
+    /**
+     * indicator painter
+     */
+    var indicatorPainter: IndicatorPainter1?
+
 }
