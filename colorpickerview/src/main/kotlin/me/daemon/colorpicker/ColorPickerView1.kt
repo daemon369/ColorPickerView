@@ -97,7 +97,6 @@ class ColorPickerView1 @JvmOverloads constructor(
 
     private val paletteView = PaletteView(context).apply {
         setColorPicker(colorPicker)
-        setPalettePainter(DefaultPalettePainter1())
     }
 
     private var isAddingInternal = false
@@ -134,7 +133,9 @@ class ColorPickerView1 @JvmOverloads constructor(
             t.recycle()
         }
 
-        addViewInternal(paletteView)
+        addViewInternal(paletteView.apply {
+            this.palettePainter = DefaultPalettePainter1()
+        })
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
