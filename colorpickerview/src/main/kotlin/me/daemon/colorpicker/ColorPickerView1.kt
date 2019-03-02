@@ -97,6 +97,7 @@ class ColorPickerView1 @JvmOverloads constructor(
 
     private val paletteView = PaletteView(context).apply {
         setColorPicker(colorPicker)
+        palettePainter = DefaultPalettePainter1()
     }
 
     private var isAddingInternal = false
@@ -133,9 +134,7 @@ class ColorPickerView1 @JvmOverloads constructor(
             t.recycle()
         }
 
-        addViewInternal(paletteView.apply {
-            this.palettePainter = DefaultPalettePainter1()
-        })
+        addViewInternal(paletteView)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -161,10 +160,8 @@ class ColorPickerView1 @JvmOverloads constructor(
         )
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (!isEnabled) return super.onTouchEvent(event)
-
-        when (event.actionMasked) {
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 if (disallowInterceptTouchEvent) {
                     // resolve touch conflicts
@@ -173,9 +170,6 @@ class ColorPickerView1 @JvmOverloads constructor(
             }
 
             MotionEvent.ACTION_UP -> {
-
-                performClick()
-
                 if (disallowInterceptTouchEvent) {
                     // resolve touch conflicts
                     parent?.requestDisallowInterceptTouchEvent(false)
@@ -183,7 +177,7 @@ class ColorPickerView1 @JvmOverloads constructor(
             }
         }
 
-        return super.onTouchEvent(event)
+        return super.onInterceptTouchEvent(ev)
     }
 
     private fun addViewInternal(child: View) {
