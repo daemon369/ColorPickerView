@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
+import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.BrightnessPainter
 
@@ -15,9 +16,9 @@ import me.daemon.colorpicker.painter.BrightnessPainter
  */
 class BrightnessView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs, defStyleAttr), Callback {
 
-    internal lateinit var colorPicker: ColorPicker
+    private lateinit var colorPicker: ColorPicker
 
     var brightness = 1f
         set(brightness) {
@@ -34,7 +35,7 @@ class BrightnessView @JvmOverloads constructor(
             }
         }
 
-    private var brightnessPainter: BrightnessPainter? = null
+    var brightnessPainter: BrightnessPainter? = null
 
     override fun onDraw(canvas: Canvas) {
         brightnessPainter?.drawBrightness(
@@ -54,16 +55,16 @@ class BrightnessView @JvmOverloads constructor(
 
         when (event.actionMasked) {
             ACTION_DOWN -> {
-                brightnessPainter.update(this, x, y)
+                brightnessPainter.onUpdate(this, x, y)
                 return true
             }
 
             ACTION_MOVE -> {
-                brightnessPainter.update(this, x, y)
+                brightnessPainter.onUpdate(this, x, y)
             }
 
             ACTION_UP -> {
-                brightnessPainter.update(this, x, y)
+                brightnessPainter.onUpdate(this, x, y)
 
                 performClick()
             }
@@ -71,6 +72,20 @@ class BrightnessView @JvmOverloads constructor(
         }
 
         return super.onTouchEvent(event)
+    }
+
+    internal fun setColorPicker(colorPicker: ColorPicker) {
+        this.colorPicker = colorPicker.apply {
+            addCallback(this@BrightnessView)
+        }
+    }
+
+    override fun callback(
+            hue: Float,
+            saturation: Float,
+            brightness: Float,
+            alpha: Float
+    ) {
     }
 
 }

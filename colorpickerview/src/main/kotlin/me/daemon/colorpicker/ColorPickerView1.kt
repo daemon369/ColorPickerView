@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.*
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
+import me.daemon.colorpicker.painter.DefaultBrightnessPainter
 import me.daemon.colorpicker.painter.DefaultPalettePainter1
 import me.daemon.colorpicker.painter.PalettePainter1
 
@@ -100,6 +101,11 @@ class ColorPickerView1 @JvmOverloads constructor(
         palettePainter = DefaultPalettePainter1()
     }
 
+    private val brightnessView = BrightnessView(context).apply {
+        setColorPicker(colorPicker)
+        brightnessPainter = DefaultBrightnessPainter()
+    }
+
     private var isAddingInternal = false
 
     private var disallowInterceptTouchEvent = false
@@ -135,6 +141,7 @@ class ColorPickerView1 @JvmOverloads constructor(
         }
 
         addViewInternal(paletteView)
+        addViewInternal(brightnessView)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
