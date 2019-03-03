@@ -29,7 +29,7 @@ interface BrightnessPainter {
      * @param x               touch event x
      * @param y               touch event y
      */
-    fun update(
+    fun onUpdate(
             brightnessView: BrightnessView,
             x: Float,
             y: Float

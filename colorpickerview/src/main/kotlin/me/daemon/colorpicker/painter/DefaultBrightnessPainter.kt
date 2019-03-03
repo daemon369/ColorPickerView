@@ -38,7 +38,7 @@ class DefaultBrightnessPainter : BrightnessPainter {
 
     }
 
-    override fun update(
+    override fun onUpdate(
             brightnessView: BrightnessView,
             x: Float,
             y: Float): Float {
