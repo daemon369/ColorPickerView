@@ -9,18 +9,37 @@ import me.daemon.colorpicker.BrightnessView
  */
 interface BrightnessPainter {
 
+    /**
+     * on brightness view size changed
+     *
+     * @param brightnessView BrightnessView
+     * @param w              width of this brightnessView
+     * @param h              height of this brightnessView
+     */
     fun onSizeChange(
             brightnessView: BrightnessView,
             w: Int,
             h: Int
     )
 
+    /**
+     * update brightness value based on touch event coordinate
+     *
+     * @param brightnessView  BrightnessView
+     * @param x               touch event x
+     * @param y               touch event y
+     */
     fun update(
             brightnessView: BrightnessView,
             x: Float,
             y: Float
-    )
+    ): Float
 
+    /**
+     * @param brightnessView  BrightnessView
+     * @param canvas          canvas
+     * @param brightness      brightness
+     */
     fun drawBrightness(
             brightnessView: BrightnessView,
             canvas: Canvas,
