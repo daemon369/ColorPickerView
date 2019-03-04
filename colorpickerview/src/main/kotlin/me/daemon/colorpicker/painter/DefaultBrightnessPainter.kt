@@ -45,10 +45,14 @@ class DefaultBrightnessPainter : BrightnessPainter {
         return 0f
     }
 
+    override fun updateByValue(brightnessView: BrightnessView, brightness: Float) {
+    }
+
     override fun drawBrightness(
             brightnessView: BrightnessView,
             canvas: Canvas,
-            brightness: Float
+            brightness: Float,
+            isChanging: Boolean
     ) {
     }
 

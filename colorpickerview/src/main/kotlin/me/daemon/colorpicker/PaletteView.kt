@@ -153,7 +153,6 @@ class PaletteView @JvmOverloads constructor(
             )
         }
 
-        val colorPicker = this.colorPicker
         colorPicker
                 .beginTransaction()
                 .hue(paletteValue.hue)

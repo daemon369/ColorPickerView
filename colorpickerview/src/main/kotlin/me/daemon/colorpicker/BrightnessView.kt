@@ -36,35 +36,63 @@ class BrightnessView @JvmOverloads constructor(
         }
 
     var brightnessPainter: BrightnessPainter? = null
+        set(value) {
+            field = value?.apply {
+                updateByValue(
+                        this@BrightnessView,
+                        colorPicker.getBrightness()
+                )
+            }
+        }
+
+    private var isChanging = false
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        brightnessPainter?.onSizeChange(
+                this,
+                w,
+                h
+        )
+
+        brightnessPainter?.updateByValue(
+                this,
+                brightness
+        )
+    }
 
     override fun onDraw(canvas: Canvas) {
         brightnessPainter?.drawBrightness(
                 this,
                 canvas,
-                brightness
+                brightness,
+                isChanging
         )
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        val brightnessPainter = this.brightnessPainter ?: return super.onTouchEvent(event)
+        this.brightnessPainter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y
 
         when (event.actionMasked) {
             ACTION_DOWN -> {
-                brightnessPainter.onUpdate(this, x, y)
+                isChanging = true
+
+                update(x, y, true)
                 return true
             }
 
             ACTION_MOVE -> {
-                brightnessPainter.onUpdate(this, x, y)
+                update(x, y, true)
             }
 
             ACTION_UP -> {
-                brightnessPainter.onUpdate(this, x, y)
+                isChanging = false
+
+                update(x, y, true)
 
                 performClick()
             }
@@ -78,6 +106,23 @@ class BrightnessView @JvmOverloads constructor(
         this.colorPicker = colorPicker.apply {
             addCallback(this@BrightnessView)
         }
+    }
+
+    private fun update(
+            x: Float,
+            y: Float,
+            propagate: Boolean
+    ) {
+        val painter = brightnessPainter ?: return
+
+        val brightness = painter.onUpdate(this, x, y)
+
+        colorPicker
+                .beginTransaction()
+                .brightness(brightness)
+                .commit(propagate, force = true)
+
+        invalidate()
     }
 
     override fun callback(
