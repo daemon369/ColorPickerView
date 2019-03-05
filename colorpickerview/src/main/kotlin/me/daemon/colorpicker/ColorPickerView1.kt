@@ -149,10 +149,23 @@ class ColorPickerView1 @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+
+        val wSize = MeasureSpec.getSize(widthMeasureSpec)
+        val wMode = MeasureSpec.getMode(widthMeasureSpec)
+        val hSize = MeasureSpec.getSize(heightMeasureSpec)
+        val hMode = MeasureSpec.getMode(heightMeasureSpec)
+
         measureChild(
                 paletteView,
                 MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY)
+        )
+
+        // TODO fix brightness view measurement
+        measureChild(
+                brightnessView,
+                wSize,
+                MeasureSpec.makeMeasureSpec(hSize / 8, MeasureSpec.EXACTLY)
         )
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -164,6 +177,13 @@ class ColorPickerView1 @JvmOverloads constructor(
                 paletteCenterY - paletteRadius,
                 paletteCenterX + paletteRadius,
                 paletteCenterY + paletteRadius
+        )
+
+        brightnessView.layout(
+                0,
+                measuredHeight - brightnessView.measuredHeight,
+                measuredWidth,
+                measuredHeight
         )
     }
 
