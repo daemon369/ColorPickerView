@@ -1,5 +1,6 @@
 package me.daemon.colorpicker
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -124,12 +125,12 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var disallowInterceptTouchEvent = false
 
     init {
-
-        val t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView)
+        @SuppressLint("CustomViewStyleable")
+        val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
 
         try {
-            paletteRadius = t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0f).toInt()
-            val paletteGravityInt = t.getInt(R.styleable.ColorPickerView_paletteGravity, 0)
+            paletteRadius = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteRadius, 0f).toInt()
+            val paletteGravityInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteGravity, 0)
             if (paletteGravityInt == 0) {
                 // using Gravity.CENTER if paletteRadius attribute not been set
                 paletteGravity = Gravity.CENTER
@@ -140,14 +141,14 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
             }
 
-            paletteOffsetX = t.getDimension(R.styleable.ColorPickerView_paletteOffsetX, 0f).toInt()
-            paletteOffsetY = t.getDimension(R.styleable.ColorPickerView_paletteOffsetY, 0f).toInt()
+            paletteOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetX, 0f).toInt()
+            paletteOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetY, 0f).toInt()
 
-            val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
+            val initialColor = t.getColor(R.styleable.DaemonCpColorPickerView_daemon_cp_initialColor, Color.BLACK)
             setColor(initialColor)
 
             val disallowInterceptTouchEvent = t.getBoolean(
-                    R.styleable.ColorPickerView_disallowInterceptTouchEvent,
+                    R.styleable.DaemonCpColorPickerView_daemon_cp_disallowInterceptTouchEvent,
                     false)
             setDisallowInterceptTouchEvent(disallowInterceptTouchEvent)
         } finally {

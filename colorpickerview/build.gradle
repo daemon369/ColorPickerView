@@ -28,6 +28,8 @@ android {
         }
     }
 
+    resourcePrefix 'daemon_cp_'
+
     dokka {
         moduleName = "colorpickerview"
         outputFormat = 'javadoc'
