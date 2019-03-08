@@ -72,7 +72,7 @@ class BrightnessView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        this.brightnessPainter ?: return super.onTouchEvent(event)
+        brightnessPainter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y

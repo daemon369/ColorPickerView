@@ -16,6 +16,7 @@ class DefaultBrightnessPainter : BrightnessPainter {
     private val borderPath = Path()
     private val soldPath = Path()
     private val selectorPath = Path()
+    private val currentSelectorPath = Path()
 
     private var currentValue = 1f
 
@@ -87,6 +88,9 @@ class DefaultBrightnessPainter : BrightnessPainter {
 
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)
+
+        selectorPath.offset(currentValue * (width - 2 * selectorSize), 0f, currentSelectorPath)
+        canvas.drawPath(currentSelectorPath, selectorPaint)
     }
 
 }
