@@ -71,7 +71,9 @@ class DefaultBrightnessPainter : BrightnessPainter {
             brightnessView: BrightnessView,
             x: Float,
             y: Float): Float {
-        return 0f
+        currentValue = (x - selectorSize) / (brightnessView.width - 2 * selectorSize)
+        currentValue = Math.max(0f, Math.min(1f, currentValue))
+        return currentValue
     }
 
     override fun updateByValue(brightnessView: BrightnessView, brightness: Float) {
