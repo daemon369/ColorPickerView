@@ -32,8 +32,8 @@ class DefaultBrightnessPainter : BrightnessPainter {
         selectorPath.fillType = Path.FillType.WINDING
     }
 
-    override fun onSizeChange(
-            brightnessView: BrightnessView,
+    override fun onSizeChanged(
+            view: BrightnessView,
             w: Int,
             h: Int
     ) {
@@ -47,8 +47,8 @@ class DefaultBrightnessPainter : BrightnessPainter {
         val shader = LinearGradient(
                 0f,
                 0f,
-                brightnessView.width.toFloat(),
-                brightnessView.height.toFloat(),
+                view.width.toFloat(),
+                view.height.toFloat(),
                 startColor,
                 endColor,
                 Shader.TileMode.CLAMP

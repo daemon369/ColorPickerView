@@ -29,7 +29,7 @@ class DefaultPalettePainter1(override var indicatorPainter: IndicatorPainter1? =
     }
 
     override fun onSizeChanged(
-            paletteView: PaletteView,
+            view: PaletteView,
             w: Int,
             h: Int
     ) {

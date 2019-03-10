@@ -8,20 +8,7 @@ import me.daemon.colorpicker.PaletteView.PaletteValue
  * @author daemon
  * @since 2019-02-23 23:35
  */
-interface PalettePainter1 {
-
-    /**
-     * on palette view size changed
-     *
-     * @param paletteView PaletteView
-     * @param w           width of this paletteView
-     * @param h           height of this paletteView
-     */
-    fun onSizeChanged(
-            paletteView: PaletteView,
-            w: Int,
-            h: Int
-    )
+interface PalettePainter1 : IPainter<PaletteView, PaletteValue> {
 
     /**
      * draw palette

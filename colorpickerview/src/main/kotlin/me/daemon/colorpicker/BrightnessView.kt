@@ -48,7 +48,7 @@ class BrightnessView @JvmOverloads constructor(
     private var isChanging = false
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        brightnessPainter?.onSizeChange(
+        brightnessPainter?.onSizeChanged(
                 this,
                 w,
                 h
