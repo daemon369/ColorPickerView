@@ -57,4 +57,15 @@ interface IPainter<VIEW : IView<VALUE>, VALUE : IView.Value> {
             value: VALUE
     )
 
+    /**
+     * update view by value
+     *
+     * @param view  VIEW
+     * @param value view specific value
+     */
+    fun updateByValue(
+            view: VIEW,
+            value: VALUE
+    )
+
 }

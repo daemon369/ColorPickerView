@@ -78,11 +78,6 @@ interface PalettePainter : IPainter<PaletteView, PaletteValue> {
     ) {
     }
 
-    fun updateByValue(
-            paletteView: PaletteView,
-            paletteValue: PaletteValue
-    )
-
     /**
      * indicator painter
      */

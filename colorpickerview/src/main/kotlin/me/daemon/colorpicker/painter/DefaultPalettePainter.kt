@@ -94,10 +94,10 @@ class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = n
     }
 
     override fun onUpdate(
-            paletteView: PaletteView,
+            view: PaletteView,
             x: Float,
             y: Float,
-            paletteValue: PaletteValue
+            value: PaletteValue
     ) {
         var xReal = x - paletteCenterX
         var yReal = y - paletteCenterY
@@ -117,15 +117,15 @@ class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = n
         val hue = (Math.atan2(yReal.toDouble(), (-xReal).toDouble()) / Math.PI * 180f).toFloat() + 180
         val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
 
-        paletteValue.setValue(hue, saturation)
+        value.setValue(hue, saturation)
     }
 
     override fun updateByValue(
-            paletteView: PaletteView,
-            paletteValue: PaletteValue
+            view: PaletteView,
+            value: PaletteValue
     ) {
-        val r = paletteValue.saturation * paletteRadius
-        val radian = (paletteValue.hue / 180f * Math.PI).toFloat()
+        val r = value.saturation * paletteRadius
+        val radian = (value.hue / 180f * Math.PI).toFloat()
 
         currentPoint.apply {
             x = (r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat()

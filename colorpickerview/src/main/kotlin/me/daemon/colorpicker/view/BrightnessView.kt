@@ -20,27 +20,12 @@ class BrightnessView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    var brightness = 1f
-        set(brightness) {
-            val b = Math.max(0f, Math.min(1f, brightness))
-            if (field != b) {
-                field = b
-
-                invalidate()
-
-                colorPicker
-                        .beginTransaction()
-                        .brightness(b)
-                        .commit(propagate = true, force = true)
-            }
-        }
-
     var brightnessPainter: BrightnessPainter? = null
         set(value) {
             field = value?.apply {
                 updateByValue(
                         this@BrightnessView,
-                        colorPicker.getBrightness()
+                        brightnessValue
                 )
             }
         }
@@ -70,7 +55,7 @@ class BrightnessView @JvmOverloads constructor(
 
         brightnessPainter?.updateByValue(
                 this,
-                brightness
+                brightnessValue
         )
     }
 

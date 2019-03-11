@@ -78,7 +78,7 @@ class DefaultBrightnessPainter : BrightnessPainter {
         value.setValue(currentValue)
     }
 
-    override fun updateByValue(brightnessView: BrightnessView, brightness: Float) {
+    override fun updateByValue(view: BrightnessView, value: BrightnessView.BrightnessValue) {
     }
 
     override fun onDraw(
