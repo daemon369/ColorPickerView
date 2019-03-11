@@ -11,6 +11,8 @@ import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.DefaultBrightnessPainter
 import me.daemon.colorpicker.painter.DefaultPalettePainter1
 import me.daemon.colorpicker.painter.PalettePainter1
+import me.daemon.colorpicker.view.BrightnessView
+import me.daemon.colorpicker.view.PaletteView
 
 /**
  * color picker view
@@ -24,7 +26,7 @@ import me.daemon.colorpicker.painter.PalettePainter1
  * @author daemon
  * @since 2019-02-26 21:53
  */
-class ColorPickerView1 @JvmOverloads constructor(
+class ColorPickerView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr), ColorObservable, Callback {
 
@@ -96,7 +98,7 @@ class ColorPickerView1 @JvmOverloads constructor(
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
 
-    private val colorPicker = ColorPicker().apply { addCallback(this@ColorPickerView1) }
+    private val colorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
 
     private val paletteView = PaletteView(context).apply {
         setColorPicker(colorPicker)

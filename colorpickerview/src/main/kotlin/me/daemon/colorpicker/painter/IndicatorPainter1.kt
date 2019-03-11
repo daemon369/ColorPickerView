@@ -1,7 +1,7 @@
 package me.daemon.colorpicker.painter
 
 import android.graphics.Canvas
-import me.daemon.colorpicker.PaletteView
+import me.daemon.colorpicker.view.PaletteView
 
 /**
  * indicator painter

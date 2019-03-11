@@ -1,4 +1,4 @@
-package me.daemon.colorpicker
+package me.daemon.colorpicker.view
 
 import android.content.Context
 import android.graphics.Canvas

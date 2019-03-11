@@ -1,6 +1,6 @@
 package me.daemon.colorpicker.painter
 
-import me.daemon.colorpicker.BrightnessView
+import me.daemon.colorpicker.view.BrightnessView
 
 /**
  * @author daemon

@@ -1,8 +1,8 @@
 package me.daemon.colorpicker.painter
 
 import android.graphics.Canvas
-import me.daemon.colorpicker.PaletteView
-import me.daemon.colorpicker.PaletteView.PaletteValue
+import me.daemon.colorpicker.view.PaletteView
+import me.daemon.colorpicker.view.PaletteView.PaletteValue
 
 /**
  * @author daemon

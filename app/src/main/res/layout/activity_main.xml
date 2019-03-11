@@ -24,18 +24,6 @@
         <me.daemon.colorpicker.ColorPickerView
             android:id="@+id/color_picker"
             android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:background="@android:color/white"
-            app:daemon_cp_disallowInterceptTouchEvent="true"
-            app:daemon_cp_initialColor="@android:color/white"
-            app:daemon_cp_paletteGravity="right|top"
-            app:daemon_cp_paletteOffsetX="-5dp"
-            app:daemon_cp_paletteOffsetY="5dp"
-            app:daemon_cp_paletteRadius="140dp" />
-
-        <me.daemon.colorpicker.ColorPickerView1
-            android:id="@+id/color_picker_1"
-            android:layout_width="300dp"
             android:layout_height="400dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
