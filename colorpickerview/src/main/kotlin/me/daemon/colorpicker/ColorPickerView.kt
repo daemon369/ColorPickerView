@@ -9,8 +9,8 @@ import android.view.*
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.DefaultBrightnessPainter
-import me.daemon.colorpicker.painter.DefaultPalettePainter1
-import me.daemon.colorpicker.painter.PalettePainter1
+import me.daemon.colorpicker.painter.DefaultPalettePainter
+import me.daemon.colorpicker.painter.PalettePainter
 import me.daemon.colorpicker.view.BrightnessView
 import me.daemon.colorpicker.view.PaletteView
 
@@ -102,7 +102,7 @@ class ColorPickerView @JvmOverloads constructor(
 
     private val paletteView = PaletteView(context).apply {
         setColorPicker(colorPicker)
-        palettePainter = DefaultPalettePainter1()
+        palettePainter = DefaultPalettePainter()
     }
 
     private val brightnessView = BrightnessView(context).apply {
@@ -334,11 +334,11 @@ class ColorPickerView @JvmOverloads constructor(
      * @param palettePainter custom palette painter
      *                       调色板绘制器
      */
-    fun setPalettePainter(palettePainter: PalettePainter1?) {
+    fun setPalettePainter(palettePainter: PalettePainter?) {
         paletteView.palettePainter = palettePainter
     }
 
-    fun getPalettePainter(): PalettePainter1? {
+    fun getPalettePainter(): PalettePainter? {
         return paletteView.palettePainter
     }
 

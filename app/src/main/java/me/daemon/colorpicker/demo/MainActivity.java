@@ -7,7 +7,7 @@ import android.view.View;
 
 import me.daemon.colorpicker.ColorObserver;
 import me.daemon.colorpicker.ColorPickerView;
-import me.daemon.colorpicker.painter.DefaultPalettePainter1;
+import me.daemon.colorpicker.painter.DefaultPalettePainter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         colorPickerView = findViewById(R.id.color_picker);
         colorPickerView.subscribe(colorObserver);
-        colorPickerView.setPalettePainter(new DefaultPalettePainter1());
+        colorPickerView.setPalettePainter(new DefaultPalettePainter());
 //        colorPickerView.setIndicatorPainter(new ShowPopIndicator());
 //        colorPickerView.setPalettePainter(new DisabledStatePalettePainter(Color.LTGRAY));
 

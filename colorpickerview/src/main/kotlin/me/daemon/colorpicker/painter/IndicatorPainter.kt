@@ -11,7 +11,7 @@ import me.daemon.colorpicker.view.PaletteView
  * @author daemon
  * @since 2019-03-01 19:29
  */
-interface IndicatorPainter1 {
+interface IndicatorPainter {
 
     /**
      * draw indicator
