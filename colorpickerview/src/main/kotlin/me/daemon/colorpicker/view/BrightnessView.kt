@@ -16,7 +16,7 @@ import me.daemon.colorpicker.painter.BrightnessPainter
  */
 class BrightnessView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), Callback, IView<Float> {
+) : View(context, attrs, defStyleAttr), Callback, IView<BrightnessView.BrightnessValue> {
 
     private lateinit var colorPicker: ColorPicker
 
@@ -47,6 +47,20 @@ class BrightnessView @JvmOverloads constructor(
 
     private var isChanging = false
 
+    class BrightnessValue : IView.Value() {
+
+        var brightness: Float = 1f
+            private set
+
+        fun setValue(brightness: Float): BrightnessValue {
+            this.brightness = brightness
+            this.set = true
+            return this
+        }
+    }
+
+    private val brightnessValue = BrightnessValue()
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         brightnessPainter?.onSizeChanged(
                 this,
@@ -65,7 +79,7 @@ class BrightnessView @JvmOverloads constructor(
                 this,
                 canvas,
                 colorPicker.getColor(),
-                brightness,
+                brightnessValue,
                 isChanging
         )
     }
@@ -116,11 +130,18 @@ class BrightnessView @JvmOverloads constructor(
     ) {
         val painter = brightnessPainter ?: return
 
-        val brightness = painter.onUpdate(this, x, y)
+        painter.onUpdate(this, x, y, brightnessValue.reset())
+
+        if (!brightnessValue.set) {
+            throw java.lang.IllegalStateException("BrightnessView{$this}: ${painter.javaClass.name}" +
+                    "#onUpdate did not update brightness by calling" +
+                    " BrightnessValue#setValue(Float)"
+            )
+        }
 
         colorPicker
                 .beginTransaction()
-                .brightness(brightness)
+                .brightness(brightnessValue.brightness)
                 .commit(propagate, force = true)
 
         invalidate()
@@ -132,10 +153,6 @@ class BrightnessView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
-    }
-
-    override fun setValue(value: Float) {
-        this.brightness = value
     }
 
 }

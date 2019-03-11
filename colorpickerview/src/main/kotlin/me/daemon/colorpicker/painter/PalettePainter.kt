@@ -78,21 +78,6 @@ interface PalettePainter : IPainter<PaletteView, PaletteValue> {
     ) {
     }
 
-    /**
-     * update palette value based on touch event coordinate
-     *
-     * @param paletteView  PaletteView
-     * @param x            touch event x
-     * @param y            touch event y
-     * @param paletteValue palette value
-     */
-    fun onUpdate(
-            paletteView: PaletteView,
-            x: Float,
-            y: Float,
-            paletteValue: PaletteValue
-    )
-
     fun updateByValue(
             paletteView: PaletteView,
             paletteValue: PaletteValue

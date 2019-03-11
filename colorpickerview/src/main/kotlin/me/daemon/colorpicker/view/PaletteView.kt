@@ -42,15 +42,12 @@ class PaletteView @JvmOverloads constructor(
 
     private var isChanging = false
 
-    class PaletteValue {
+    class PaletteValue : IView.Value() {
 
         var hue: Float = 0f
             private set
 
         var saturation: Float = 0f
-            private set
-
-        var set = false
             private set
 
         fun setValue(hue: Float, saturation: Float): PaletteValue {
@@ -59,12 +56,6 @@ class PaletteView @JvmOverloads constructor(
             this.set = true
             return this
         }
-
-        fun reset(): PaletteValue {
-            this.set = false
-            return this
-        }
-
     }
 
     private val paletteValue = PaletteValue()
@@ -171,10 +162,4 @@ class PaletteView @JvmOverloads constructor(
     ) {
     }
 
-    override fun setValue(value: PaletteValue) {
-        this.paletteValue.setValue(
-                value.hue,
-                value.saturation
-        )
-    }
 }

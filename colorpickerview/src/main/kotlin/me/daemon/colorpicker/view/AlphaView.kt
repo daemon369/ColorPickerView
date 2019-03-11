@@ -10,10 +10,16 @@ import android.view.View
  */
 class AlphaView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), IView<Float> {
+) : View(context, attrs, defStyleAttr), IView<AlphaView.AlphaValue> {
 
-    override fun setValue(value: Float) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    class AlphaValue : IView.Value() {
+
+        var alpha: Float = 1f
+            private set
+
+        fun setValue(alpha: Float) {
+            this.alpha = alpha
+        }
     }
 
 }

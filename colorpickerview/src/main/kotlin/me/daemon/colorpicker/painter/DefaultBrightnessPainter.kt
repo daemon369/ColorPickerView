@@ -68,12 +68,14 @@ class DefaultBrightnessPainter : BrightnessPainter {
     }
 
     override fun onUpdate(
-            brightnessView: BrightnessView,
+            view: BrightnessView,
             x: Float,
-            y: Float): Float {
-        currentValue = (x - selectorSize) / (brightnessView.width - 2 * selectorSize)
+            y: Float,
+            value: BrightnessView.BrightnessValue
+    ) {
+        currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
         currentValue = Math.max(0f, Math.min(1f, currentValue))
-        return currentValue
+        value.setValue(currentValue)
     }
 
     override fun updateByValue(brightnessView: BrightnessView, brightness: Float) {
@@ -83,7 +85,7 @@ class DefaultBrightnessPainter : BrightnessPainter {
             view: BrightnessView,
             canvas: Canvas,
             color: Int,
-            value: Float,
+            value: BrightnessView.BrightnessValue,
             isChanging: Boolean
     ) {
         val width = view.width
