@@ -3,6 +3,7 @@ package me.daemon.colorpicker
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.*
 import me.daemon.colorpicker.internal.Callback
@@ -207,6 +208,25 @@ class ColorPickerView1 @JvmOverloads constructor(
         }
 
         return super.onInterceptTouchEvent(ev)
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val savedState = SavedState(super.onSaveInstanceState())
+
+        savedState.color = colorPicker.getColor()
+
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        if (state is SavedState) {
+            super.onRestoreInstanceState(state.superState)
+
+            setColor(state.color)
+
+        } else {
+            super.onRestoreInstanceState(state)
+        }
     }
 
     private fun addViewInternal(child: View) {
