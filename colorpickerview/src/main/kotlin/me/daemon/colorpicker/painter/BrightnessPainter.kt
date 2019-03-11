@@ -1,6 +1,5 @@
 package me.daemon.colorpicker.painter
 
-import android.graphics.Canvas
 import me.daemon.colorpicker.BrightnessView
 
 /**
@@ -25,19 +24,6 @@ interface BrightnessPainter : IPainter<BrightnessView, Float> {
     fun updateByValue(
             brightnessView: BrightnessView,
             brightness: Float
-    )
-
-    /**
-     * @param brightnessView BrightnessView
-     * @param canvas         canvas
-     * @param brightness     brightness
-     * @param isChanging     whether BrightnessView is changing
-     */
-    fun drawBrightness(
-            brightnessView: BrightnessView,
-            canvas: Canvas,
-            brightness: Float,
-            isChanging: Boolean
     )
 
 }

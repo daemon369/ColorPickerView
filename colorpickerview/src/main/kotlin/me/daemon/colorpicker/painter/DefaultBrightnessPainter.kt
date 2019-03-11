@@ -79,14 +79,15 @@ class DefaultBrightnessPainter : BrightnessPainter {
     override fun updateByValue(brightnessView: BrightnessView, brightness: Float) {
     }
 
-    override fun drawBrightness(
-            brightnessView: BrightnessView,
+    override fun onDraw(
+            view: BrightnessView,
             canvas: Canvas,
-            brightness: Float,
+            color: Int,
+            value: Float,
             isChanging: Boolean
     ) {
-        val width = brightnessView.width
-        val height = brightnessView.height
+        val width = view.width
+        val height = view.height
 
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)

@@ -61,9 +61,10 @@ class BrightnessView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        brightnessPainter?.drawBrightness(
+        brightnessPainter?.onDraw(
                 this,
                 canvas,
+                colorPicker.getColor(),
                 brightness,
                 isChanging
         )

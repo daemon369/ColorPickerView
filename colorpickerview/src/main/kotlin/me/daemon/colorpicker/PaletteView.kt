@@ -93,6 +93,7 @@ class PaletteView @JvmOverloads constructor(
                 this,
                 canvas,
                 colorPicker.getColor(),
+                paletteValue,
                 isChanging
         )
     }

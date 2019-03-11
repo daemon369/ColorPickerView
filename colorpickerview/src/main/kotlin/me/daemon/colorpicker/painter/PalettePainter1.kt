@@ -15,27 +15,27 @@ interface PalettePainter1 : IPainter<PaletteView, PaletteValue> {
      *
      * 绘制调色板
      *
-     * @param paletteView PaletteView
+     * @param view PaletteView
      * @param canvas      canvas to draw
      * @param color       current color
      * @param isChanging  whether PaletteView is changing
      */
-    fun onDraw(
-            paletteView: PaletteView,
+    override fun onDraw(
+            view: PaletteView,
             canvas: Canvas,
             color: Int,
+            value: PaletteValue,
             isChanging: Boolean
     ) {
         onDrawPalette(
-                paletteView,
+                view,
                 canvas,
                 isChanging
         )
 
         if (
-                indicatorPainter?.drawIndicator
-                (
-                        paletteView,
+                indicatorPainter?.drawIndicator(
+                        view,
                         canvas,
                         color,
                         isChanging
@@ -43,7 +43,7 @@ interface PalettePainter1 : IPainter<PaletteView, PaletteValue> {
         ) return
 
         onDrawIndicator(
-                paletteView,
+                view,
                 canvas,
                 color,
                 isChanging
