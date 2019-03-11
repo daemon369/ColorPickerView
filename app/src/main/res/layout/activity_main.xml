@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -34,6 +35,17 @@
             app:daemon_cp_paletteOffsetX="-5dp"
             app:daemon_cp_paletteOffsetY="5dp"
             app:daemon_cp_paletteRadius="140dp" />
+
+        <me.daemon.colorpicker.ColorPickerView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/white"
+            app:daemon_cp_disallowInterceptTouchEvent="true"
+            app:daemon_cp_initialColor="@android:color/white"
+            app:daemon_cp_paletteGravity="center"
+            app:daemon_cp_paletteRadius="130dp" />
 
     </LinearLayout>
 
