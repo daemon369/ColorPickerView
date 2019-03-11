@@ -212,6 +212,14 @@ class ColorPickerView @JvmOverloads constructor(
         return super.onInterceptTouchEvent(ev)
     }
 
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+
+        for (i in 0 until childCount) {
+            getChildAt(i).isEnabled = enabled
+        }
+    }
+
     override fun onSaveInstanceState(): Parcelable? {
         val savedState = SavedState(super.onSaveInstanceState())
 
