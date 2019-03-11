@@ -16,7 +16,7 @@ import me.daemon.colorpicker.painter.BrightnessPainter
  */
 class BrightnessView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), Callback {
+) : View(context, attrs, defStyleAttr), Callback, IView<Float> {
 
     private lateinit var colorPicker: ColorPicker
 
@@ -132,6 +132,10 @@ class BrightnessView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun setValue(value: Float) {
+        this.brightness = value
     }
 
 }

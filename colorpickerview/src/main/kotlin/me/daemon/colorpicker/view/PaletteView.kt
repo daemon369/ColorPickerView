@@ -15,7 +15,7 @@ import me.daemon.colorpicker.painter.PalettePainter
  */
 class PaletteView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), Callback {
+) : View(context, attrs, defStyleAttr), Callback, IView<PaletteView.PaletteValue> {
 
     private lateinit var colorPicker: ColorPicker
 
@@ -171,4 +171,10 @@ class PaletteView @JvmOverloads constructor(
     ) {
     }
 
+    override fun setValue(value: PaletteValue) {
+        this.paletteValue.setValue(
+                value.hue,
+                value.saturation
+        )
+    }
 }
