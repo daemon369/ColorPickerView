@@ -63,7 +63,6 @@ class BrightnessView @JvmOverloads constructor(
         brightnessPainter?.onDraw(
                 this,
                 canvas,
-                colorPicker.getColor(),
                 brightnessValue,
                 isChanging
         )
@@ -138,6 +137,10 @@ class BrightnessView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun getColor(): Int {
+        return colorPicker.getColor()
     }
 
 }

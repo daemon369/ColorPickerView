@@ -30,14 +30,12 @@ interface IPainter<VIEW : IView<VALUE>, VALUE : IView.Value> {
      *
      * @param view       VIEW
      * @param canvas     canvas to draw
-     * @param color      current color
      * @param value      view specific value
      * @param isChanging whether view is changing
      */
     fun onDraw(
             view: VIEW,
             canvas: Canvas,
-            color: Int,
             value: VALUE,
             isChanging: Boolean
     )

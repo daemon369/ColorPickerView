@@ -60,7 +60,6 @@ class AlphaView @JvmOverloads constructor(
         alphaPainter?.onDraw(
                 this,
                 canvas,
-                colorPicker.getColor(),
                 alphaValue,
                 isChanging
         )
@@ -135,6 +134,10 @@ class AlphaView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun getColor(): Int {
+        return colorPicker.getColor()
     }
 
 }

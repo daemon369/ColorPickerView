@@ -18,4 +18,6 @@ interface IView<VALUE : IView.Value> {
 
     }
 
+    fun getColor(): Int
+
 }

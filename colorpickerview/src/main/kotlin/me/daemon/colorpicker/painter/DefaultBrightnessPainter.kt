@@ -84,7 +84,6 @@ class DefaultBrightnessPainter : BrightnessPainter {
     override fun onDraw(
             view: BrightnessView,
             canvas: Canvas,
-            color: Int,
             value: BrightnessView.BrightnessValue,
             isChanging: Boolean
     ) {

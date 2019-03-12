@@ -83,7 +83,6 @@ class PaletteView @JvmOverloads constructor(
         palettePainter?.onDraw(
                 this,
                 canvas,
-                colorPicker.getColor(),
                 paletteValue,
                 isChanging
         )
@@ -160,6 +159,10 @@ class PaletteView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun getColor(): Int {
+        return colorPicker.getColor()
     }
 
 }
