@@ -1,13 +1,14 @@
-package me.daemon.colorpicker.painter
+package me.daemon.colorpicker.painter.impl
 
 import android.graphics.*
-import me.daemon.colorpicker.view.BrightnessView
+import me.daemon.colorpicker.painter.IAlphaPainter
+import me.daemon.colorpicker.view.AlphaView
 
 /**
  * @author daemon
- * @since 2019-02-22 15:15
+ * @since 2019-03-12 21:41
  */
-class DefaultBrightnessPainter : BrightnessPainter {
+class DefaultAlphaPainter : IAlphaPainter {
 
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val solidPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -30,11 +31,7 @@ class DefaultBrightnessPainter : BrightnessPainter {
         selectorPath.fillType = Path.FillType.WINDING
     }
 
-    override fun onSizeChanged(
-            view: BrightnessView,
-            w: Int,
-            h: Int
-    ) {
+    override fun onSizeChanged(view: AlphaView, w: Int, h: Int) {
         val hsv = FloatArray(3).apply {
             Color.colorToHSV(Color.BLACK, this)
         }
@@ -65,11 +62,7 @@ class DefaultBrightnessPainter : BrightnessPainter {
         }
     }
 
-    override fun onDraw(
-            view: BrightnessView,
-            canvas: Canvas,
-            isChanging: Boolean
-    ) {
+    override fun onDraw(view: AlphaView, canvas: Canvas, isChanging: Boolean) {
         val width = view.width
         val height = view.height
 
@@ -80,17 +73,12 @@ class DefaultBrightnessPainter : BrightnessPainter {
         canvas.drawPath(currentSelectorPath, selectorPaint)
     }
 
-    override fun onUpdate(
-            view: BrightnessView,
-            x: Float,
-            y: Float
-    ) {
+    override fun onUpdate(view: AlphaView, x: Float, y: Float) {
         currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
         currentValue = Math.max(0f, Math.min(1f, currentValue))
         view.getValue().setValue(currentValue)
     }
 
-    override fun updateByValue(view: BrightnessView) {
+    override fun updateByValue(view: AlphaView) {
     }
-
 }
