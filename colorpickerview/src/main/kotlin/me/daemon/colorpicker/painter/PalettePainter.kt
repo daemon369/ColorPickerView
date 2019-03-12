@@ -22,7 +22,6 @@ interface PalettePainter : IPainter<PaletteView, PaletteValue> {
     override fun onDraw(
             view: PaletteView,
             canvas: Canvas,
-            value: PaletteValue,
             isChanging: Boolean
     ) {
         onDrawPalette(

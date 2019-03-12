@@ -30,13 +30,11 @@ interface IPainter<VIEW : IView<VALUE>, VALUE : IView.Value> {
      *
      * @param view       VIEW
      * @param canvas     canvas to draw
-     * @param value      view specific value
      * @param isChanging whether view is changing
      */
     fun onDraw(
             view: VIEW,
             canvas: Canvas,
-            value: VALUE,
             isChanging: Boolean
     )
 
@@ -46,24 +44,20 @@ interface IPainter<VIEW : IView<VALUE>, VALUE : IView.Value> {
      * @param view  VIEW
      * @param x     touch event x
      * @param y     touch event y
-     * @param value view specific value
      */
     fun onUpdate(
             view: VIEW,
             x: Float,
-            y: Float,
-            value: VALUE
+            y: Float
     )
 
     /**
      * update view by value
      *
      * @param view  VIEW
-     * @param value view specific value
      */
     fun updateByValue(
-            view: VIEW,
-            value: VALUE
+            view: VIEW
     )
 
 }

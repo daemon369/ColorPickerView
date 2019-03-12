@@ -24,8 +24,7 @@ class BrightnessView @JvmOverloads constructor(
         set(value) {
             field = value?.apply {
                 updateByValue(
-                        this@BrightnessView,
-                        brightnessValue
+                        this@BrightnessView
                 )
             }
         }
@@ -54,8 +53,7 @@ class BrightnessView @JvmOverloads constructor(
         )
 
         brightnessPainter?.updateByValue(
-                this,
-                brightnessValue
+                this
         )
     }
 
@@ -63,7 +61,6 @@ class BrightnessView @JvmOverloads constructor(
         brightnessPainter?.onDraw(
                 this,
                 canvas,
-                brightnessValue,
                 isChanging
         )
     }
@@ -114,7 +111,8 @@ class BrightnessView @JvmOverloads constructor(
     ) {
         val painter = brightnessPainter ?: return
 
-        painter.onUpdate(this, x, y, brightnessValue.reset())
+        brightnessValue.reset()
+        painter.onUpdate(this, x, y)
 
         if (!brightnessValue.set) {
             throw java.lang.IllegalStateException("BrightnessView{$this}: ${painter.javaClass.name}" +
@@ -137,6 +135,10 @@ class BrightnessView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun getValue(): BrightnessValue {
+        return brightnessValue
     }
 
     override fun getColor(): Int {

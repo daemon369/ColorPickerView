@@ -11,12 +11,17 @@ interface IView<VALUE : IView.Value> {
         var set = false
             internal set
 
-        fun <T : Value> reset(): T {
+        fun reset(): Value {
             this.set = false
-            return this as T
+            return this
         }
 
     }
+
+    /**
+     * get view specific value
+     */
+    fun getValue(): VALUE
 
     fun getColor(): Int
 

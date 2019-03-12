@@ -23,8 +23,7 @@ class AlphaView @JvmOverloads constructor(
         set(value) {
             field = value?.apply {
                 updateByValue(
-                        this@AlphaView,
-                        alphaValue
+                        this@AlphaView
                 )
             }
         }
@@ -51,8 +50,7 @@ class AlphaView @JvmOverloads constructor(
         )
 
         alphaPainter?.updateByValue(
-                this,
-                alphaValue
+                this
         )
     }
 
@@ -60,7 +58,6 @@ class AlphaView @JvmOverloads constructor(
         alphaPainter?.onDraw(
                 this,
                 canvas,
-                alphaValue,
                 isChanging
         )
     }
@@ -111,7 +108,8 @@ class AlphaView @JvmOverloads constructor(
     ) {
         val painter = alphaPainter ?: return
 
-        painter.onUpdate(this, x, y, alphaValue.reset())
+        alphaValue.reset()
+        painter.onUpdate(this, x, y)
 
         if (!alphaValue.set) {
             throw java.lang.IllegalStateException("AlphaView{$this}: ${painter.javaClass.name}" +
@@ -134,6 +132,10 @@ class AlphaView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun getValue(): AlphaValue {
+        return alphaValue
     }
 
     override fun getColor(): Int {

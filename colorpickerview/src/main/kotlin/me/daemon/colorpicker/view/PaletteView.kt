@@ -31,11 +31,7 @@ class PaletteView @JvmOverloads constructor(
         set(palettePainter) {
             field = palettePainter?.apply {
                 updateByValue(
-                        this@PaletteView,
-                        paletteValue.setValue(
-                                colorPicker.getHue(),
-                                colorPicker.getSaturation()
-                        )
+                        this@PaletteView
                 )
             }
         }
@@ -71,11 +67,7 @@ class PaletteView @JvmOverloads constructor(
         )
 
         palettePainter?.updateByValue(
-                this,
-                paletteValue.setValue(
-                        colorPicker.getHue(),
-                        colorPicker.getSaturation()
-                )
+                this
         )
     }
 
@@ -83,7 +75,6 @@ class PaletteView @JvmOverloads constructor(
         palettePainter?.onDraw(
                 this,
                 canvas,
-                paletteValue,
                 isChanging
         )
     }
@@ -135,7 +126,8 @@ class PaletteView @JvmOverloads constructor(
     ) {
         val painter = palettePainter ?: return
 
-        painter.onUpdate(this, x, y, paletteValue.reset())
+        paletteValue.reset()
+        painter.onUpdate(this, x, y)
 
         if (!paletteValue.set) {
             throw java.lang.IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}" +
@@ -159,6 +151,10 @@ class PaletteView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+    }
+
+    override fun getValue(): PaletteValue {
+        return paletteValue
     }
 
     override fun getColor(): Int {
