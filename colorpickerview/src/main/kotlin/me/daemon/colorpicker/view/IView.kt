@@ -9,7 +9,11 @@ interface IView<VALUE : IView.Value> {
     abstract class Value {
 
         var set = false
-            internal set
+            private set
+
+        fun set() {
+            set = true
+        }
 
         fun reset(): Value {
             this.set = false

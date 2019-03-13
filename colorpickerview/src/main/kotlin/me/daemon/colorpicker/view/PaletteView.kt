@@ -49,7 +49,7 @@ class PaletteView @JvmOverloads constructor(
         fun setValue(hue: Float, saturation: Float): PaletteValue {
             this.hue = hue
             this.saturation = saturation
-            this.set = true
+            set()
             return this
         }
     }

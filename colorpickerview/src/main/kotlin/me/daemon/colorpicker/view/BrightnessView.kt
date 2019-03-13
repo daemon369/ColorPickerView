@@ -38,7 +38,7 @@ class BrightnessView @JvmOverloads constructor(
 
         fun setValue(brightness: Float): BrightnessValue {
             this.brightness = brightness
-            this.set = true
+            set()
             return this
         }
     }
