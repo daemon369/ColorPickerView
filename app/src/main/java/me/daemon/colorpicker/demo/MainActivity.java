@@ -7,7 +7,7 @@ import android.view.View;
 
 import me.daemon.colorpicker.ColorObserver;
 import me.daemon.colorpicker.ColorPickerView;
-import me.daemon.colorpicker.painter.DefaultPalettePainter;
+import me.daemon.colorpicker.painter.impl.DefaultPalettePainter;
 
 public class MainActivity extends AppCompatActivity {
 

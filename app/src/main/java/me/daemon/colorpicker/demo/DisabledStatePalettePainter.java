@@ -5,7 +5,7 @@
 //import android.graphics.Paint;
 //
 //import me.daemon.colorpicker.ColorPickerView;
-//import me.daemon.colorpicker.painter.DefaultPalettePainter;
+//import me.daemon.colorpicker.painter.impl.DefaultPalettePainter;
 //
 ///**
 // * @author daemon

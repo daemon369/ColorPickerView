@@ -6,4 +6,4 @@ import me.daemon.colorpicker.view.BrightnessView
  * @author daemon
  * @since 2019-02-22 14:44
  */
-interface BrightnessPainter : IPainter<BrightnessView, BrightnessView.BrightnessValue>
+interface IBrightnessPainter : IPainter<BrightnessView, BrightnessView.BrightnessValue>

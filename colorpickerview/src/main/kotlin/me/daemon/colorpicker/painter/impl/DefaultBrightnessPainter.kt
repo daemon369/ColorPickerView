@@ -1,13 +1,14 @@
-package me.daemon.colorpicker.painter
+package me.daemon.colorpicker.painter.impl
 
 import android.graphics.*
+import me.daemon.colorpicker.painter.IBrightnessPainter
 import me.daemon.colorpicker.view.BrightnessView
 
 /**
  * @author daemon
  * @since 2019-02-22 15:15
  */
-class DefaultBrightnessPainter : BrightnessPainter {
+class DefaultBrightnessPainter : IBrightnessPainter {
 
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val solidPaint = Paint(Paint.ANTI_ALIAS_FLAG)

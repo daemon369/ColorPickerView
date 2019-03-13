@@ -8,7 +8,7 @@ import me.daemon.colorpicker.view.PaletteView.PaletteValue
  * @author daemon
  * @since 2019-02-23 23:35
  */
-interface PalettePainter : IPainter<PaletteView, PaletteValue> {
+interface IPalettePainter : IPainter<PaletteView, PaletteValue> {
 
     /**
      * draw palette

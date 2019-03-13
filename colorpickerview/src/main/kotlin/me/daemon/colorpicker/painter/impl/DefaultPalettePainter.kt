@@ -1,6 +1,8 @@
-package me.daemon.colorpicker.painter
+package me.daemon.colorpicker.painter.impl
 
 import android.graphics.*
+import me.daemon.colorpicker.painter.IndicatorPainter
+import me.daemon.colorpicker.painter.IPalettePainter
 import me.daemon.colorpicker.view.PaletteView
 
 /**
@@ -8,7 +10,7 @@ import me.daemon.colorpicker.view.PaletteView
  * @since 2019-02-24 00:09
  */
 class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = null)
-    : PalettePainter {
+    : IPalettePainter {
 
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0

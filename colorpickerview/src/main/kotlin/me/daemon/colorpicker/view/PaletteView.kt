@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
-import me.daemon.colorpicker.painter.PalettePainter
+import me.daemon.colorpicker.painter.IPalettePainter
 
 /**
  * @author daemon
@@ -19,7 +19,7 @@ class PaletteView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    var palettePainter: PalettePainter? = null
+    var palettePainter: IPalettePainter? = null
         /**
          * set custom palette painter
          *

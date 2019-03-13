@@ -8,7 +8,7 @@ import android.view.MotionEvent.*
 import android.view.View
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
-import me.daemon.colorpicker.painter.BrightnessPainter
+import me.daemon.colorpicker.painter.IBrightnessPainter
 
 /**
  * @author daemon
@@ -20,7 +20,7 @@ class BrightnessView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    var brightnessPainter: BrightnessPainter? = null
+    var brightnessPainter: IBrightnessPainter? = null
         set(value) {
             field = value?.apply {
                 updateByValue(
