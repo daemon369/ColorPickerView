@@ -35,8 +35,10 @@ class AlphaView @JvmOverloads constructor(
         var alpha: Float = 1f
             private set
 
-        fun setValue(alpha: Float) {
+        fun setValue(alpha: Float): AlphaValue {
             this.alpha = alpha
+            set()
+            return this
         }
     }
 
