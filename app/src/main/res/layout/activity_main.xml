@@ -4,16 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ff00ff00">
 
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ff00aa00"
+        android:layout_margin="10dp"
         android:clipChildren="false"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="10dp"
         tools:context=".MainActivity">
 
         <Button
@@ -30,7 +32,7 @@
             android:layout_marginBottom="10dp"
             android:background="@android:color/white"
             app:daemon_cp_disallowInterceptTouchEvent="true"
-            app:daemon_cp_initialColor="@android:color/white"
+            app:daemon_cp_initialColor="@android:color/black"
             app:daemon_cp_paletteGravity="right|top"
             app:daemon_cp_paletteOffsetX="-5dp"
             app:daemon_cp_paletteOffsetY="5dp"
