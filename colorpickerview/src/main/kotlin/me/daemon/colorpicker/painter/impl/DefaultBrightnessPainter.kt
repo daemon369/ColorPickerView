@@ -37,7 +37,7 @@ class DefaultBrightnessPainter : IBrightnessPainter {
             h: Int
     ) {
         val hsv = FloatArray(3).apply {
-            Color.colorToHSV(Color.BLACK, this)
+            Color.colorToHSV(view.getColor(), this)
         }
 
         val startColor = Color.HSVToColor(hsv.apply { this[2] = 0f })

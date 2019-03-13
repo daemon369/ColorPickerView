@@ -33,11 +33,11 @@ class DefaultAlphaPainter : IAlphaPainter {
 
     override fun onSizeChanged(view: AlphaView, w: Int, h: Int) {
         val hsv = FloatArray(3).apply {
-            Color.colorToHSV(Color.BLACK, this)
+            Color.colorToHSV(view.getColor(), this)
         }
 
-        val startColor = Color.HSVToColor(hsv.apply { this[2] = 0f })
-        val endColor = Color.HSVToColor(hsv.apply { this[2] = 1f })
+        val startColor = Color.HSVToColor(0, hsv)
+        val endColor = Color.HSVToColor(255, hsv)
 
         val shader = LinearGradient(
                 0f,
