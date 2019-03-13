@@ -1,8 +1,8 @@
 package me.daemon.colorpicker.painter.impl
 
 import android.graphics.*
-import me.daemon.colorpicker.painter.IndicatorPainter
 import me.daemon.colorpicker.painter.IPalettePainter
+import me.daemon.colorpicker.painter.IndicatorPainter
 import me.daemon.colorpicker.view.PaletteView
 
 /**
@@ -131,5 +131,8 @@ class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = n
             x = (r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat()
             y = (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat()
         }
+    }
+
+    override fun onColorChanged(view: PaletteView, color: Int) {
     }
 }

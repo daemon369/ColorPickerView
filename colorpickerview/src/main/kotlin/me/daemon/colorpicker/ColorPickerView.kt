@@ -349,6 +349,7 @@ class ColorPickerView @JvmOverloads constructor(
     }
 
     override fun callback(
+            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,

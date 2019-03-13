@@ -146,11 +146,13 @@ class PaletteView @JvmOverloads constructor(
     }
 
     override fun callback(
+            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,
             alpha: Float
     ) {
+        palettePainter?.onColorChanged(this, color)
     }
 
     override fun getValue(): PaletteValue {

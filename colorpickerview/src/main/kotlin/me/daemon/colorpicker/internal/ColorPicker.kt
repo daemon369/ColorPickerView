@@ -114,6 +114,7 @@ internal class ColorPicker : ColorObservable {
     ) {
         callbacks.forEach {
             it.callback(
+                    color,
                     getHue(),
                     getSaturation(),
                     getBrightness(),

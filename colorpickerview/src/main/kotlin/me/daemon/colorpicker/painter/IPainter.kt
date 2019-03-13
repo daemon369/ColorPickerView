@@ -60,4 +60,9 @@ interface IPainter<VIEW : IView<VALUE>, VALUE : IView.Value> {
             view: VIEW
     )
 
+    fun onColorChanged(
+            view: VIEW,
+            color: Int
+    )
+
 }

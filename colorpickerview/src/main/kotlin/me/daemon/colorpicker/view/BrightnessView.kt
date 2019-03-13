@@ -130,11 +130,13 @@ class BrightnessView @JvmOverloads constructor(
     }
 
     override fun callback(
+            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,
             alpha: Float
     ) {
+        brightnessPainter?.onColorChanged(this, color)
     }
 
     override fun getValue(): BrightnessValue {

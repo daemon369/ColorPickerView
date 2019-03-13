@@ -94,4 +94,7 @@ class DefaultBrightnessPainter : IBrightnessPainter {
     override fun updateByValue(view: BrightnessView) {
     }
 
+    override fun onColorChanged(view: BrightnessView, color: Int) {
+    }
+
 }

@@ -32,24 +32,7 @@ class DefaultAlphaPainter : IAlphaPainter {
     }
 
     override fun onSizeChanged(view: AlphaView, w: Int, h: Int) {
-        val hsv = FloatArray(3).apply {
-            Color.colorToHSV(view.getColor(), this)
-        }
-
-        val startColor = Color.HSVToColor(0, hsv)
-        val endColor = Color.HSVToColor(255, hsv)
-
-        val shader = LinearGradient(
-                0f,
-                0f,
-                view.width.toFloat(),
-                view.height.toFloat(),
-                startColor,
-                endColor,
-                Shader.TileMode.CLAMP
-        )
-
-        solidPaint.shader = shader
+        updatePainter(view, view.getColor())
 
         selectorSize = h * 0.25f
 
@@ -80,5 +63,32 @@ class DefaultAlphaPainter : IAlphaPainter {
     }
 
     override fun updateByValue(view: AlphaView) {
+    }
+
+    override fun onColorChanged(view: AlphaView, color: Int) {
+        updatePainter(view, color)
+    }
+
+    private fun updatePainter(
+            view: AlphaView,
+            color: Int
+    ) {
+        val hsv = FloatArray(3)
+        Color.colorToHSV(color, hsv)
+
+        val startColor = Color.HSVToColor(0, hsv)
+        val endColor = Color.HSVToColor(255, hsv)
+
+        val shader = LinearGradient(
+                0f,
+                0f,
+                view.width.toFloat(),
+                view.height.toFloat(),
+                startColor,
+                endColor,
+                Shader.TileMode.CLAMP
+        )
+
+        solidPaint.shader = shader
     }
 }

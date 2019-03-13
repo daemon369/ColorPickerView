@@ -129,11 +129,13 @@ class AlphaView @JvmOverloads constructor(
     }
 
     override fun callback(
+            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,
             alpha: Float
     ) {
+        alphaPainter?.onColorChanged(this, color)
     }
 
     override fun getValue(): AlphaValue {
