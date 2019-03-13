@@ -11,6 +11,8 @@ import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.DefaultBrightnessPainter
 import me.daemon.colorpicker.painter.DefaultPalettePainter
 import me.daemon.colorpicker.painter.PalettePainter
+import me.daemon.colorpicker.painter.impl.DefaultAlphaPainter
+import me.daemon.colorpicker.view.AlphaView
 import me.daemon.colorpicker.view.BrightnessView
 import me.daemon.colorpicker.view.PaletteView
 
@@ -110,6 +112,11 @@ class ColorPickerView @JvmOverloads constructor(
         brightnessPainter = DefaultBrightnessPainter()
     }
 
+    private val alphaView = AlphaView(context).apply {
+        setColorPicker(colorPicker)
+        alphaPainter = DefaultAlphaPainter()
+    }
+
     private var isAddingInternal = false
 
     private var disallowInterceptTouchEvent = false
@@ -147,6 +154,7 @@ class ColorPickerView @JvmOverloads constructor(
 
         addViewInternal(paletteView)
         addViewInternal(brightnessView)
+        addViewInternal(alphaView)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -166,9 +174,15 @@ class ColorPickerView @JvmOverloads constructor(
                 MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY)
         )
 
-        // TODO fix brightness view measurement
+        // TODO fix brightnessView & alphaView measurement
         measureChild(
                 brightnessView,
+                wSize,
+                MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+        )
+
+        measureChild(
+                alphaView,
                 wSize,
                 MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
         )
@@ -184,9 +198,17 @@ class ColorPickerView @JvmOverloads constructor(
                 paletteCenterY + paletteRadius
         )
 
+        // TODO fix brightnessView & alphaView layout
         brightnessView.layout(
                 0,
-                measuredHeight - brightnessView.measuredHeight,
+                measuredHeight - brightnessView.measuredHeight * 3,
+                measuredWidth,
+                measuredHeight - brightnessView.measuredHeight * 2
+        )
+
+        alphaView.layout(
+                0,
+                measuredHeight - alphaView.measuredHeight,
                 measuredWidth,
                 measuredHeight
         )
