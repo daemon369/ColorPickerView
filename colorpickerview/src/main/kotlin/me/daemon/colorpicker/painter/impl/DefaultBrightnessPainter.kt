@@ -36,24 +36,7 @@ class DefaultBrightnessPainter : IBrightnessPainter {
             w: Int,
             h: Int
     ) {
-        val hsv = FloatArray(3).apply {
-            Color.colorToHSV(view.getColor(), this)
-        }
-
-        val startColor = Color.HSVToColor(hsv.apply { this[2] = 0f })
-        val endColor = Color.HSVToColor(hsv.apply { this[2] = 1f })
-
-        val shader = LinearGradient(
-                0f,
-                0f,
-                view.width.toFloat(),
-                view.height.toFloat(),
-                startColor,
-                endColor,
-                Shader.TileMode.CLAMP
-        )
-
-        solidPaint.shader = shader
+        updatePainter(view, view.getColor())
 
         selectorSize = h * 0.25f
 
@@ -95,6 +78,31 @@ class DefaultBrightnessPainter : IBrightnessPainter {
     }
 
     override fun onColorChanged(view: BrightnessView, color: Int) {
+        updatePainter(view, color)
+    }
+
+    private fun updatePainter(
+            view: BrightnessView,
+            color: Int
+    ) {
+        val hsv = FloatArray(3).apply {
+            Color.colorToHSV(color, this)
+        }
+
+        val startColor = Color.HSVToColor(hsv.apply { this[2] = 0f })
+        val endColor = Color.HSVToColor(hsv.apply { this[2] = 1f })
+
+        val shader = LinearGradient(
+                0f,
+                0f,
+                view.width.toFloat(),
+                view.height.toFloat(),
+                startColor,
+                endColor,
+                Shader.TileMode.CLAMP
+        )
+
+        solidPaint.shader = shader
     }
 
 }

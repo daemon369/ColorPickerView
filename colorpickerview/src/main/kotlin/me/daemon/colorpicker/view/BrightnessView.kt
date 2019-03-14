@@ -137,6 +137,7 @@ class BrightnessView @JvmOverloads constructor(
             alpha: Float
     ) {
         brightnessPainter?.onColorChanged(this, color)
+        invalidate()
     }
 
     override fun getValue(): BrightnessValue {

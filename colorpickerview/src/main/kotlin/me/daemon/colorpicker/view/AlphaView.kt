@@ -136,6 +136,7 @@ class AlphaView @JvmOverloads constructor(
             alpha: Float
     ) {
         alphaPainter?.onColorChanged(this, color)
+        invalidate()
     }
 
     override fun getValue(): AlphaValue {
