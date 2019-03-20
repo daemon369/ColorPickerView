@@ -8,10 +8,10 @@ import android.util.AttributeSet
 import android.view.*
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
-import me.daemon.colorpicker.painter.impl.DefaultBrightnessPainter
-import me.daemon.colorpicker.painter.impl.DefaultPalettePainter
 import me.daemon.colorpicker.painter.IPalettePainter
 import me.daemon.colorpicker.painter.impl.DefaultAlphaPainter
+import me.daemon.colorpicker.painter.impl.DefaultBrightnessPainter
+import me.daemon.colorpicker.painter.impl.DefaultPalettePainter
 import me.daemon.colorpicker.view.AlphaView
 import me.daemon.colorpicker.view.BrightnessView
 import me.daemon.colorpicker.view.PaletteView
@@ -122,6 +122,10 @@ class ColorPickerView @JvmOverloads constructor(
     private var disallowInterceptTouchEvent = false
 
     init {
+        addViewInternal(paletteView)
+        addViewInternal(brightnessView)
+        addViewInternal(alphaView)
+
         @SuppressLint("CustomViewStyleable")
         val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
 
@@ -151,10 +155,6 @@ class ColorPickerView @JvmOverloads constructor(
         } finally {
             t.recycle()
         }
-
-        addViewInternal(paletteView)
-        addViewInternal(brightnessView)
-        addViewInternal(alphaView)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

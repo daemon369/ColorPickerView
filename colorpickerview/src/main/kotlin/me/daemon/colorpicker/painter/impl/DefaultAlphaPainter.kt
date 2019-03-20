@@ -63,9 +63,12 @@ class DefaultAlphaPainter : IAlphaPainter {
     }
 
     override fun updateByValue(view: AlphaView) {
+        currentValue = view.getValue().alpha
+        view.invalidate()
     }
 
     override fun onColorChanged(view: AlphaView, color: Int) {
+        currentValue = view.getValue().alpha
         updatePainter(view, color)
     }
 

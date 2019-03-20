@@ -45,7 +45,7 @@
             android:layout_marginBottom="10dp"
             android:background="@android:color/white"
             app:daemon_cp_disallowInterceptTouchEvent="true"
-            app:daemon_cp_initialColor="@android:color/white"
+            app:daemon_cp_initialColor="#a0ff0000"
             app:daemon_cp_paletteGravity="center"
             app:daemon_cp_paletteRadius="130dp" />
 

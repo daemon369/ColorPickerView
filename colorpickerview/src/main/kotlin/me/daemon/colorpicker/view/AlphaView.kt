@@ -135,6 +135,7 @@ class AlphaView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+        alphaValue.setValue(alpha)
         alphaPainter?.onColorChanged(this, color)
         invalidate()
     }
