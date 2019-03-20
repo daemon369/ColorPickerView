@@ -17,8 +17,6 @@ class DefaultAlphaPainter : IAlphaPainter {
     private val selectorPath = Path()
     private val currentSelectorPath = Path()
 
-    private var currentValue = 1f
-
     private var selectorSize = 0f
 
     init {
@@ -52,23 +50,21 @@ class DefaultAlphaPainter : IAlphaPainter {
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)
 
-        selectorPath.offset(currentValue * (width - 2 * selectorSize), 0f, currentSelectorPath)
+        selectorPath.offset(view.getValue().alpha * (width - 2 * selectorSize), 0f, currentSelectorPath)
         canvas.drawPath(currentSelectorPath, selectorPaint)
     }
 
     override fun onUpdate(view: AlphaView, x: Float, y: Float) {
-        currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
+        var currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
         currentValue = Math.max(0f, Math.min(1f, currentValue))
         view.getValue().setValue(currentValue)
     }
 
     override fun updateByValue(view: AlphaView) {
-        currentValue = view.getValue().alpha
         view.invalidate()
     }
 
     override fun onColorChanged(view: AlphaView, color: Int) {
-        currentValue = view.getValue().alpha
         updatePainter(view, color)
     }
 
