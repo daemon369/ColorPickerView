@@ -86,22 +86,16 @@ internal class ColorPicker : ColorObservable {
             }
         }
 
-        onColorChange(propagate)
+        onColorChange(
+                getColor(),
+                propagate
+        )
     }
 
     private fun propagate(color: Int) {
         for (observer in observers) {
             observer.onColor(color)
         }
-    }
-
-    private fun onColorChange(
-            propagate: Boolean
-    ) {
-        onColorChange(
-                getColor(),
-                propagate
-        )
     }
 
     private fun onColorChange(
