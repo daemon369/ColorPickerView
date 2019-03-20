@@ -125,8 +125,6 @@ class BrightnessView @JvmOverloads constructor(
                 .beginTransaction()
                 .brightness(brightnessValue.brightness)
                 .commit(propagate, force = true)
-
-        invalidate()
     }
 
     override fun callback(
@@ -136,6 +134,7 @@ class BrightnessView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+        brightnessValue.setValue(brightness)
         brightnessPainter?.onColorChanged(this, color)
         invalidate()
     }

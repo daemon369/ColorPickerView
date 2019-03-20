@@ -141,8 +141,6 @@ class PaletteView @JvmOverloads constructor(
                 .hue(paletteValue.hue)
                 .saturation(paletteValue.saturation)
                 .commit(propagate, force = true)
-
-        invalidate()
     }
 
     override fun callback(
@@ -152,7 +150,9 @@ class PaletteView @JvmOverloads constructor(
             brightness: Float,
             alpha: Float
     ) {
+        paletteValue.setValue(hue, saturation)
         palettePainter?.onColorChanged(this, color)
+        invalidate()
     }
 
     override fun getValue(): PaletteValue {

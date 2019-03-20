@@ -124,8 +124,6 @@ class AlphaView @JvmOverloads constructor(
                 .beginTransaction()
                 .alpha(alphaValue.alpha)
                 .commit(propagate, force = true)
-
-        invalidate()
     }
 
     override fun callback(
