@@ -17,8 +17,6 @@ class DefaultBrightnessPainter : IBrightnessPainter {
     private val selectorPath = Path()
     private val currentSelectorPath = Path()
 
-    private var currentValue = 1f
-
     private var selectorSize = 0f
 
     init {
@@ -60,7 +58,7 @@ class DefaultBrightnessPainter : IBrightnessPainter {
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
         canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)
 
-        selectorPath.offset(currentValue * (width - 2 * selectorSize), 0f, currentSelectorPath)
+        selectorPath.offset(view.getValue().brightness * (width - 2 * selectorSize), 0f, currentSelectorPath)
         canvas.drawPath(currentSelectorPath, selectorPaint)
     }
 
@@ -69,7 +67,7 @@ class DefaultBrightnessPainter : IBrightnessPainter {
             x: Float,
             y: Float
     ) {
-        currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
+        var currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
         currentValue = Math.max(0f, Math.min(1f, currentValue))
         view.getValue().setValue(currentValue)
     }
