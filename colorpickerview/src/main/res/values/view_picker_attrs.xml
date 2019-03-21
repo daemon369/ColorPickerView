@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="ColorPickerView">
+    <declare-styleable name="DaemonCpColorPickerView">
 
         <!-- palette -->
-        <attr name="paletteRadius" format="dimension" />
-        <attr name="paletteGravity" format="flags">
+        <attr name="daemon_cp_paletteRadius" format="dimension" />
+        <attr name="daemon_cp_paletteGravity" format="flags">
             <flag name="left" value="1" />
             <flag name="top" value="2" />
             <flag name="right" value="4" />
@@ -14,11 +14,11 @@
             <flag name="center_vertical" value="32" />
             <flag name="center" value="48" />
         </attr>
-        <attr name="paletteOffsetX" format="dimension" />
-        <attr name="paletteOffsetY" format="dimension" />
+        <attr name="daemon_cp_paletteOffsetX" format="dimension" />
+        <attr name="daemon_cp_paletteOffsetY" format="dimension" />
 
-        <attr name="initialColor" format="color" />
-        <attr name="disallowInterceptTouchEvent" format="boolean" />
+        <attr name="daemon_cp_initialColor" format="color" />
+        <attr name="daemon_cp_disallowInterceptTouchEvent" format="boolean" />
 
     </declare-styleable>
 

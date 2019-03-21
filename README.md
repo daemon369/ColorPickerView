@@ -27,7 +27,7 @@ allprojects {
 
 ```
 dependencies {
-    implementation 'me.daemon:colorpickerview:0.1.6'
+    implementation 'me.daemon:colorpickerview:0.1.7'
 }
 ```
 
@@ -50,12 +50,12 @@ dependencies {
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:background="@android:color/white"
-        app:disallowInterceptTouchEvent="true"
-        app:initialColor="@android:color/white"
-        app:paletteGravity="right|top"
-        app:paletteOffsetX="-5dp"
-        app:paletteOffsetY="5dp"
-        app:paletteRadius="140dp" />
+        app:daemon_cp_disallowInterceptTouchEvent="true"
+        app:daemon_cp_initialColor="#90aa0011"
+        app:daemon_cp_paletteGravity="right|top"
+        app:daemon_cp_paletteOffsetX="-5dp"
+        app:daemon_cp_paletteOffsetY="5dp"
+        app:daemon_cp_paletteRadius="140dp" />
 
 </LinearLayout>
 ```

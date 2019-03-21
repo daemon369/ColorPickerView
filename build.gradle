@@ -2,15 +2,15 @@
 
 buildscript {
 
-    ext.min_sdk_version = 14
-    ext.target_sdk_version = 26
-    ext.compile_sdk_version = 28
-    ext.build_tools_version = '28.0.3'
-    ext.support_library_version = '28.0.0'
-    ext.kotlin_version = '1.3.21'
     ext {
-        library_version = '0.1.6'
+        min_sdk_version = 14
+        target_sdk_version = 26
+        compile_sdk_version = 28
+        build_tools_version = '28.0.3'
+        support_library_version = '28.0.0'
+        kotlin_version = '1.3.21'
         dokka_version = '0.9.17'
+        library_version = '0.1.7'
     }
 
     repositories {
@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.android.tools.build:gradle:3.3.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

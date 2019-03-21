@@ -1,22 +1,22 @@
 package me.daemon.colorpicker
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.PointF
-import android.os.Build
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewDebug
-import android.view.ViewParent
+import android.view.*
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
-import me.daemon.colorpicker.painter.DefaultIndicatorPainter
-import me.daemon.colorpicker.painter.DefaultPalettePainter
-import me.daemon.colorpicker.painter.IndicatorPainter
-import me.daemon.colorpicker.painter.PalettePainter
+import me.daemon.colorpicker.painter.IAlphaPainter
+import me.daemon.colorpicker.painter.IBrightnessPainter
+import me.daemon.colorpicker.painter.IPalettePainter
+import me.daemon.colorpicker.painter.impl.DefaultAlphaPainter
+import me.daemon.colorpicker.painter.impl.DefaultBrightnessPainter
+import me.daemon.colorpicker.painter.impl.DefaultPalettePainter
+import me.daemon.colorpicker.view.AlphaView
+import me.daemon.colorpicker.view.BrightnessView
+import me.daemon.colorpicker.view.PaletteView
 
 /**
  * color picker view
@@ -28,9 +28,11 @@ import me.daemon.colorpicker.painter.PalettePainter
  * [jcenter](https://bintray.com/beta/#/daemon336699/maven/colorpickerview?tab=overview)
  *
  * @author daemon
- * @since 2019-01-27 18:04
+ * @since 2019-02-26 21:53
  */
-class ColorPickerView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr), ColorObservable, Callback {
+class ColorPickerView @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : ViewGroup(context, attrs, defStyleAttr), ColorObservable, Callback {
 
     /**
      * radius of palette
@@ -97,39 +99,41 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
-    private val currentPoint: PointF = PointF()
-
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
 
-    private val colorPicker: ColorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
+    private val colorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
 
-    private val defaultBrightnessProvider = object : BrightnessProvider {
-        override val brightness: Float
-            get() = 1.0f
+    private val paletteView = PaletteView(context).apply {
+        setColorPicker(colorPicker)
+        painter = DefaultPalettePainter()
     }
 
-    private var brightnessProvider: BrightnessProvider? = null
+    private val brightnessView = BrightnessView(context).apply {
+        setColorPicker(colorPicker)
+        painter = DefaultBrightnessPainter()
+    }
 
-    private val defaultPalettePainter = DefaultPalettePainter()
+    private val alphaView = AlphaView(context).apply {
+        setColorPicker(colorPicker)
+        painter = DefaultAlphaPainter()
+    }
 
-    private var palettePainter: PalettePainter? = null
-
-    private val defaultIndicatorPainter = DefaultIndicatorPainter()
-
-    private var indicatorPainter: IndicatorPainter? = null
-
-    private var isChanging = false
+    private var isAddingInternal = false
 
     private var disallowInterceptTouchEvent = false
 
     init {
+        addViewInternal(paletteView)
+        addViewInternal(brightnessView)
+        addViewInternal(alphaView)
 
-        val t = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView)
+        @SuppressLint("CustomViewStyleable")
+        val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
 
         try {
-            paletteRadius = t.getDimension(R.styleable.ColorPickerView_paletteRadius, 0f).toInt()
-            val paletteGravityInt = t.getInt(R.styleable.ColorPickerView_paletteGravity, 0)
+            paletteRadius = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteRadius, 0f).toInt()
+            val paletteGravityInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteGravity, 0)
             if (paletteGravityInt == 0) {
                 // using Gravity.CENTER if paletteRadius attribute not been set
                 paletteGravity = Gravity.CENTER
@@ -140,20 +144,170 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
             }
 
-            paletteOffsetX = t.getDimension(R.styleable.ColorPickerView_paletteOffsetX, 0f).toInt()
-            paletteOffsetY = t.getDimension(R.styleable.ColorPickerView_paletteOffsetY, 0f).toInt()
+            paletteOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetX, 0f).toInt()
+            paletteOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetY, 0f).toInt()
 
-            val initialColor = t.getColor(R.styleable.ColorPickerView_initialColor, Color.BLACK)
+            val initialColor = t.getColor(R.styleable.DaemonCpColorPickerView_daemon_cp_initialColor, Color.BLACK)
             setColor(initialColor)
 
             val disallowInterceptTouchEvent = t.getBoolean(
-                    R.styleable.ColorPickerView_disallowInterceptTouchEvent,
+                    R.styleable.DaemonCpColorPickerView_daemon_cp_disallowInterceptTouchEvent,
                     false)
             setDisallowInterceptTouchEvent(disallowInterceptTouchEvent)
         } finally {
             t.recycle()
         }
+    }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        updatePaletteCenter(w, h)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+
+        val wSize = MeasureSpec.getSize(widthMeasureSpec)
+
+        measureChild(
+                paletteView,
+                MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY)
+        )
+
+        // TODO fix brightnessView & alphaView measurement
+        measureChild(
+                brightnessView,
+                wSize,
+                MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+        )
+
+        measureChild(
+                alphaView,
+                wSize,
+                MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+        )
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        paletteView.layout(
+                paletteCenterX - paletteRadius,
+                paletteCenterY - paletteRadius,
+                paletteCenterX + paletteRadius,
+                paletteCenterY + paletteRadius
+        )
+
+        // TODO fix brightnessView & alphaView layout
+        brightnessView.layout(
+                0,
+                measuredHeight - brightnessView.measuredHeight * 3,
+                measuredWidth,
+                measuredHeight - brightnessView.measuredHeight * 2
+        )
+
+        alphaView.layout(
+                0,
+                measuredHeight - alphaView.measuredHeight,
+                measuredWidth,
+                measuredHeight
+        )
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                if (disallowInterceptTouchEvent) {
+                    // resolve touch conflicts
+                    parent?.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+
+            MotionEvent.ACTION_UP -> {
+                if (disallowInterceptTouchEvent) {
+                    // resolve touch conflicts
+                    parent?.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+        }
+
+        return super.onInterceptTouchEvent(ev)
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+
+        for (i in 0 until childCount) {
+            getChildAt(i).isEnabled = enabled
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val savedState = SavedState(super.onSaveInstanceState())
+
+        savedState.color = colorPicker.getColor()
+
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        if (state is SavedState) {
+            super.onRestoreInstanceState(state.superState)
+
+            setColor(state.color)
+
+        } else {
+            super.onRestoreInstanceState(state)
+        }
+    }
+
+    private fun addViewInternal(child: View) {
+        isAddingInternal = true
+        super.addView(child)
+        isAddingInternal = false
+    }
+
+    override fun addView(child: View?) {
+        if (isAddingInternal) {
+            super.addView(child)
+        }
+    }
+
+    override fun addView(child: View?, index: Int) {
+        if (isAddingInternal) {
+            super.addView(child, index)
+        }
+    }
+
+    override fun addView(child: View?, width: Int, height: Int) {
+        if (isAddingInternal) {
+            super.addView(child, width, height)
+        }
+    }
+
+    override fun addView(child: View?, params: LayoutParams?) {
+        if (isAddingInternal) {
+            super.addView(child, params)
+        }
+    }
+
+    override fun addView(child: View?, index: Int, params: LayoutParams?) {
+        if (isAddingInternal) {
+            super.addView(child, index, params)
+        }
+    }
+
+    override fun removeView(view: View?) {
+    }
+
+    override fun removeViewAt(index: Int) {
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
     }
 
     /**
@@ -193,164 +347,32 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         this.disallowInterceptTouchEvent = disallow
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldW: Int, oldH: Int) {
-        updatePaletteCenter(w, h)
-
-        colorPicker.setColor(colorPicker.getColor(), false)
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        (palettePainter ?: defaultPalettePainter).drawPalette(
-                this,
-                canvas,
-                paletteRadius,
-                paletteCenterX,
-                paletteCenterY
-        )
-
-        (indicatorPainter ?: defaultIndicatorPainter).drawIndicator(
-                this,
-                canvas,
-                currentPoint,
-                colorPicker.getColor(),
-                isChanging
-        )
-    }
-
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (!isEnabled) return super.onTouchEvent(event)
-
-        val clickable = (isClickable
-                || isLongClickable
-                || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && isContextClickable)
-        if (!clickable) return super.onTouchEvent(event)
-
-        val x = event.x
-        val y = event.y
-
-        when (event.actionMasked) {
-            MotionEvent.ACTION_DOWN -> {
-                if (disallowInterceptTouchEvent) {
-                    // resolve touch conflicts
-                    parent?.requestDisallowInterceptTouchEvent(true)
-                }
-
-                isChanging = true
-                update(x, y, true)
-                return true
-            }
-
-            MotionEvent.ACTION_MOVE -> update(x, y, false)
-
-            MotionEvent.ACTION_UP -> {
-                isChanging = false
-                update(x, y, true)
-
-                performClick()
-
-                if (disallowInterceptTouchEvent) {
-                    // resolve touch conflicts
-                    parent?.requestDisallowInterceptTouchEvent(false)
-                }
-            }
-        }
-        return super.onTouchEvent(event)
-    }
-
-    override fun performClick(): Boolean {
-        return super.performClick()
-    }
-
-    override fun onSaveInstanceState(): Parcelable? {
-        val savedState = SavedState(super.onSaveInstanceState())
-
-        savedState.color = colorPicker.getColor()
-
-        return savedState
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable) {
-        if (state is SavedState) {
-            super.onRestoreInstanceState(state.superState)
-
-            setColor(state.color)
-
-        } else {
-            super.onRestoreInstanceState(state)
-        }
-    }
-
-    private fun update(eventX: Float, eventY: Float, forceCommit: Boolean) {
-        val x = eventX - paletteCenterX
-        val y = eventY - paletteCenterY
-        val r = Math.sqrt((x * x + y * y).toDouble())
-
-        val b = (brightnessProvider ?: defaultBrightnessProvider).brightness
-
-        val hue = (Math.atan2(y.toDouble(), (-x).toDouble()) / Math.PI * 180f).toFloat() + 180
-        val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
-        val brightness = Math.max(0f, Math.min(1f, b))
-        val alpha = 1f
-
-        colorPicker
-                .beginTransaction()
-                .hue(hue)
-                .saturation(saturation)
-                .brightness(brightness)
-                .alpha(alpha)
-                .commit(true, forceCommit)
-    }
-
-    private fun updateIndicator(eventX: Float, eventY: Float) {
-        var x = eventX - paletteCenterX
-        var y = eventY - paletteCenterY
-        val r = Math.sqrt((x * x + y * y).toDouble())
-
-        if (r > paletteRadius) {
-            val ratio = (paletteRadius / r).toFloat()
-            x *= ratio
-            y *= ratio
-        }
-        currentPoint.x = x + paletteCenterX
-        currentPoint.y = y + paletteCenterY
-
+    override fun callback(
+            color: Int,
+            hue: Float,
+            saturation: Float,
+            brightness: Float,
+            alpha: Float
+    ) {
     }
 
     /**
-     * set custom palette painter, using [DefaultPalettePainter] as default
-     * palette painter
+     * set custom palette painter
      *
-     * 设置自定义调色板绘制器，默认使用[DefaultPalettePainter]
+     * 设置自定义调色板绘制器
      *
-     * @param palettePainter custom palette painter
+     * @param painter custom palette painter
      *                       调色板绘制器
      */
-    fun setPalettePainter(palettePainter: PalettePainter?) {
-        this.palettePainter = palettePainter
-    }
+    fun setPalettePainter(painter: IPalettePainter?) = apply { paletteView.painter = painter }
 
-    /**
-     * set custom indicator painter, using [DefaultIndicatorPainter]
-     * if custom indicator not been set
-     *
-     * 设置自定义指示器绘制器，如果没有设置则使用[默认绘制器][DefaultIndicatorPainter]
-     *
-     * @param indicatorPainter custom indicator painter
-     */
-    fun setIndicatorPainter(indicatorPainter: IndicatorPainter?) {
-        this.indicatorPainter = indicatorPainter
-    }
+    fun getPalettePainter() = paletteView.painter
 
-    /**
-     * set custom brightness provider
-     *
-     * 设置自定义透明度提供器
-     *
-     * @param brightnessProvider custom brightness provider
-     */
-    fun setBrightnessProvider(brightnessProvider: BrightnessProvider?) {
-        this.brightnessProvider = brightnessProvider
-    }
+    fun setBrightnessPainter(painter: IBrightnessPainter?) = apply { brightnessView.painter = painter }
+
+    fun getBrightnessPainter() = brightnessView.painter
+
+    fun setAlphaPainter(painter: IAlphaPainter?) = apply { alphaView.painter = painter }
 
     override fun subscribe(observer: ColorObserver) {
         colorPicker.subscribe(observer)
@@ -362,18 +384,6 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     override fun getColor(): Int {
         return colorPicker.getColor()
-    }
-
-    override fun callback(
-            hue: Float,
-            saturation: Float,
-            brightness: Float,
-            alpha: Float
-    ) {
-        val r = saturation * paletteRadius
-        val radian = (hue / 180f * Math.PI).toFloat()
-        updateIndicator((r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat(), (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat())
-        invalidate()
     }
 
     private fun updatePaletteCenter(w: Int, h: Int) {
@@ -398,14 +408,7 @@ class ColorPickerView @JvmOverloads constructor(context: Context, attrs: Attribu
         this.paletteCenterX = paletteCenterX
         this.paletteCenterY = paletteCenterY
 
-        (palettePainter ?: defaultPalettePainter).onSizeChanged(
-                w,
-                h,
-                paletteRadius,
-                paletteCenterX,
-                paletteCenterY
-        )
-
         invalidate()
     }
+
 }

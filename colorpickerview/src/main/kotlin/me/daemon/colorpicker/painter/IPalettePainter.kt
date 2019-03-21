@@ -1,52 +1,48 @@
 package me.daemon.colorpicker.painter
 
 import android.graphics.Canvas
-import me.daemon.colorpicker.PaletteView
-import me.daemon.colorpicker.PaletteView.PaletteValue
+import me.daemon.colorpicker.view.PaletteView
+import me.daemon.colorpicker.view.PaletteView.PaletteValue
 
 /**
  * @author daemon
  * @since 2019-02-23 23:35
  */
-interface PalettePainter1 {
-
-    /**
-     * on palette view size changed
-     *
-     * @param paletteView PaletteView
-     * @param w           width of this paletteView
-     * @param h           height of this paletteView
-     */
-    fun onSizeChanged(
-            paletteView: PaletteView,
-            w: Int,
-            h: Int
-    )
+interface IPalettePainter : IPainter<PaletteView, PaletteValue> {
 
     /**
      * draw palette
      *
      * 绘制调色板
      *
-     * @param paletteView PaletteView
+     * @param view PaletteView
      * @param canvas      canvas to draw
-     * @param color       current color
      * @param isChanging  whether PaletteView is changing
      */
-    fun onDraw(
-            paletteView: PaletteView,
+    override fun onDraw(
+            view: PaletteView,
             canvas: Canvas,
-            color: Int,
             isChanging: Boolean
     ) {
         onDrawPalette(
-                paletteView,
+                view,
                 canvas,
                 isChanging
         )
 
+        val color = view.getColor()
+
+        if (
+                indicatorPainter?.drawIndicator(
+                        view,
+                        canvas,
+                        color,
+                        isChanging
+                ) == true
+        ) return
+
         onDrawIndicator(
-                paletteView,
+                view,
                 canvas,
                 color,
                 isChanging
@@ -82,22 +78,8 @@ interface PalettePainter1 {
     }
 
     /**
-     * update palette value based on touch event coordinate
-     *
-     * @param paletteView  PaletteView
-     * @param x            touch event x
-     * @param y            touch event y
-     * @param paletteValue palette value
+     * indicator painter
      */
-    fun onUpdate(
-            paletteView: PaletteView,
-            x: Float,
-            y: Float,
-            paletteValue: PaletteValue
-    )
+    var indicatorPainter: IndicatorPainter?
 
-    fun updateByValue(
-            paletteView: PaletteView,
-            paletteValue: PaletteValue
-    )
 }

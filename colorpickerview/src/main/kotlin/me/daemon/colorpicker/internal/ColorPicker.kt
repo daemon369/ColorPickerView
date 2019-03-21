@@ -37,13 +37,9 @@ internal class ColorPicker : ColorObservable {
         return Color.HSVToColor(alphaInt, hsv)
     }
 
-    fun setColor(color: Int) {
+    fun setColor(color: Int, propagate: Boolean) {
         Color.colorToHSV(color, hsv)
         alpha = Color.alpha(color) / 255f
-    }
-
-    fun setColor(color: Int, propagate: Boolean) {
-        setColor(color)
 
         onColorChange(color, propagate)
     }
@@ -90,7 +86,10 @@ internal class ColorPicker : ColorObservable {
             }
         }
 
-        onColorChange(propagate)
+        onColorChange(
+                getColor(),
+                propagate
+        )
     }
 
     private fun propagate(color: Int) {
@@ -100,20 +99,12 @@ internal class ColorPicker : ColorObservable {
     }
 
     private fun onColorChange(
-            propagate: Boolean
-    ) {
-        onColorChange(
-                getColor(),
-                propagate
-        )
-    }
-
-    private fun onColorChange(
             color: Int,
             propagate: Boolean
     ) {
         callbacks.forEach {
             it.callback(
+                    color,
                     getHue(),
                     getSaturation(),
                     getBrightness(),

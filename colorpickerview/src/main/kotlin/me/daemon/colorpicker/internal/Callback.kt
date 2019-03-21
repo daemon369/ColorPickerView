@@ -7,6 +7,7 @@ package me.daemon.colorpicker.internal
 internal interface Callback {
 
     fun callback(
+            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,

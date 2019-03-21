@@ -1,14 +1,16 @@
-package me.daemon.colorpicker.painter
+package me.daemon.colorpicker.painter.impl
 
 import android.graphics.*
-import me.daemon.colorpicker.PaletteView
-import me.daemon.colorpicker.PaletteView.PaletteValue
+import me.daemon.colorpicker.painter.IPalettePainter
+import me.daemon.colorpicker.painter.IndicatorPainter
+import me.daemon.colorpicker.view.PaletteView
 
 /**
  * @author daemon
  * @since 2019-02-24 00:09
  */
-class DefaultPalettePainter1 : PalettePainter1 {
+class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = null)
+    : IPalettePainter {
 
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
@@ -28,7 +30,7 @@ class DefaultPalettePainter1 : PalettePainter1 {
     }
 
     override fun onSizeChanged(
-            paletteView: PaletteView,
+            view: PaletteView,
             w: Int,
             h: Int
     ) {
@@ -93,10 +95,9 @@ class DefaultPalettePainter1 : PalettePainter1 {
     }
 
     override fun onUpdate(
-            paletteView: PaletteView,
+            view: PaletteView,
             x: Float,
-            y: Float,
-            paletteValue: PaletteValue
+            y: Float
     ) {
         var xReal = x - paletteCenterX
         var yReal = y - paletteCenterY
@@ -116,19 +117,22 @@ class DefaultPalettePainter1 : PalettePainter1 {
         val hue = (Math.atan2(yReal.toDouble(), (-xReal).toDouble()) / Math.PI * 180f).toFloat() + 180
         val saturation = Math.max(0f, Math.min(1f, (r / paletteRadius).toFloat()))
 
-        paletteValue.setValue(hue, saturation)
+        view.getValue().setValue(hue, saturation)
     }
 
     override fun updateByValue(
-            paletteView: PaletteView,
-            paletteValue: PaletteValue
+            view: PaletteView
     ) {
-        val r = paletteValue.saturation * paletteRadius
-        val radian = (paletteValue.hue / 180f * Math.PI).toFloat()
+        val value = view.getValue()
+        val r = value.saturation * paletteRadius
+        val radian = (value.hue / 180f * Math.PI).toFloat()
 
         currentPoint.apply {
             x = (r * Math.cos(radian.toDouble()) + paletteCenterX).toFloat()
             y = (-r * Math.sin(radian.toDouble()) + paletteCenterY).toFloat()
         }
+    }
+
+    override fun onColorChanged(view: PaletteView, color: Int) {
     }
 }

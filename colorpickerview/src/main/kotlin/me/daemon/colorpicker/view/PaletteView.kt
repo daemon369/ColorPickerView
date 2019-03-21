@@ -1,4 +1,4 @@
-package me.daemon.colorpicker
+package me.daemon.colorpicker.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
-import me.daemon.colorpicker.painter.PalettePainter1
+import me.daemon.colorpicker.painter.IPalettePainter
 
 /**
  * @author daemon
@@ -15,15 +15,30 @@ import me.daemon.colorpicker.painter.PalettePainter1
  */
 class PaletteView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : View(context, attrs, defStyleAttr), Callback {
+) : View(context, attrs, defStyleAttr), Callback, IView<PaletteView.PaletteValue> {
 
     private lateinit var colorPicker: ColorPicker
 
-    private var palettePainter: PalettePainter1? = null
+    var painter: IPalettePainter? = null
+        /**
+         * set custom palette painter
+         *
+         * 设置自定义调色板绘制器
+         *
+         * @param painter custom palette painter
+         *                       调色板绘制器
+         */
+        set(painter) {
+            field = painter?.apply {
+                updateByValue(
+                        this@PaletteView
+                )
+            }
+        }
 
     private var isChanging = false
 
-    class PaletteValue {
+    class PaletteValue : IView.Value() {
 
         var hue: Float = 0f
             private set
@@ -31,21 +46,12 @@ class PaletteView @JvmOverloads constructor(
         var saturation: Float = 0f
             private set
 
-        var set = false
-            private set
-
         fun setValue(hue: Float, saturation: Float): PaletteValue {
             this.hue = hue
             this.saturation = saturation
-            this.set = true
+            set()
             return this
         }
-
-        fun reset(): PaletteValue {
-            this.set = false
-            return this
-        }
-
     }
 
     private val paletteValue = PaletteValue()
@@ -54,26 +60,21 @@ class PaletteView @JvmOverloads constructor(
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        palettePainter?.onSizeChanged(
+        painter?.onSizeChanged(
                 this,
                 w,
                 h
         )
 
-        palettePainter?.updateByValue(
-                this,
-                paletteValue.setValue(
-                        colorPicker.getHue(),
-                        colorPicker.getSaturation()
-                )
+        painter?.updateByValue(
+                this
         )
     }
 
     override fun onDraw(canvas: Canvas) {
-        palettePainter?.onDraw(
+        painter?.onDraw(
                 this,
                 canvas,
-                colorPicker.getColor(),
                 isChanging
         )
     }
@@ -81,15 +82,13 @@ class PaletteView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        palettePainter ?: return super.onTouchEvent(event)
+        painter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
-                parent?.requestDisallowInterceptTouchEvent(true) //TODO to be removed
-
                 isChanging = true
 
                 update(x, y, true)
@@ -107,7 +106,6 @@ class PaletteView @JvmOverloads constructor(
 
                 performClick()
 
-                parent?.requestDisallowInterceptTouchEvent(false) //TODO to be removed
             }
 
         }
@@ -121,33 +119,15 @@ class PaletteView @JvmOverloads constructor(
         }
     }
 
-    /**
-     * set custom palette painter
-     *
-     * 设置自定义调色板绘制器
-     *
-     * @param palettePainter custom palette painter
-     *                       调色板绘制器
-     */
-    fun setPalettePainter(palettePainter: PalettePainter1?) {
-        palettePainter?.updateByValue(
-                this,
-                paletteValue.setValue(
-                        colorPicker.getHue(),
-                        colorPicker.getSaturation()
-                )
-        )
-        this.palettePainter = palettePainter
-    }
-
     private fun update(
             x: Float,
             y: Float,
             propagate: Boolean
     ) {
-        val painter = palettePainter ?: return
+        val painter = painter ?: return
 
-        painter.onUpdate(this, x, y, paletteValue.reset())
+        paletteValue.reset()
+        painter.onUpdate(this, x, y)
 
         if (!paletteValue.set) {
             throw java.lang.IllegalStateException("PaletteView{$this}: ${painter.javaClass.name}" +
@@ -156,29 +136,31 @@ class PaletteView @JvmOverloads constructor(
             )
         }
 
-        val colorPicker = this.colorPicker
         colorPicker
                 .beginTransaction()
                 .hue(paletteValue.hue)
                 .saturation(paletteValue.saturation)
                 .commit(propagate, force = true)
-
-        invalidate()
     }
 
     override fun callback(
+            color: Int,
             hue: Float,
             saturation: Float,
             brightness: Float,
             alpha: Float
     ) {
+        paletteValue.setValue(hue, saturation)
+        painter?.onColorChanged(this, color)
+        invalidate()
     }
 
-    /**
-     * TODO for develop
-     */
-    fun subscribe(observer: ColorObserver) {
-        colorPicker.subscribe(observer)
+    override fun getValue(): PaletteValue {
+        return paletteValue
+    }
+
+    override fun getColor(): Int {
+        return colorPicker.getColor()
     }
 
 }
