@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.6] - 2019-02-21
+
+### Added
+
+- add `paletteRadius`、`paletteGravity`、`paletteOffsetX` and `paletteOffsetY` to provide more flexible palette position and radius
+
+### Changed
+
+### Removed
+
+- remove `palettePadding` attribute
+
+### 添加
+
+- 添加 `paletteRadius`、`paletteGravity`、`paletteOffsetX` 以及 `paletteOffsetY` 提供更加灵活的调色板的位置与大小
+
+### 变更
+
+### 删除
+
+- 删除 `palettePadding` 属性
+
 ## [0.1.5] - 2019-02-19
 
 remove 'square' attribute & 'initialColor' field
