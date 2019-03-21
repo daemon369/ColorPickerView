@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.container).setBackgroundColor(colorPickerView.getColor());
     }
 
     @Override
