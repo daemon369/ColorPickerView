@@ -1,6 +1,43 @@
 # Changelog
 
+## [0.1.7] - 2019-03-21
+
+refactoring; support brightness & alpha adjustment
+
+重构库的实现，增加了对亮度与透明度的调整的支持
+
+### Added
+
+- add `PaletteView` & `IPalettePainter` to draw palette view
+- add `BrightnessView` & `IBrightnessPainter` to draw brightness view
+- add `AlphaView` & `IAlphaPainter` to draw alpha view
+
+### Changed
+
+- refactor color picker view, change it from `View` to `ViewGroup`
+- set `resourcePrefix`('daemon_cp_') for the library to avoid conflict to another library or project
+
+### Removed
+
+### 添加
+
+- 添加`PaletteView` & `IPalettePainter`用来绘制调色板视图
+- 添加`BrightnessView` & `IBrightnessPainter`用来绘制亮度视图
+- 添加`AlphaView` & `IAlphaPainter`用来绘制透明度视图
+
+### 变更
+
+- 重构颜色选择器的实现方式，由`View`改为`ViewGroup`
+- 设置`resourcePrefix`('daemon_cp_')属性已添加统一的资源前缀，防止和其他库或项目冲突
+
+### 删除
+
+
 ## [0.1.6] - 2019-02-21
+
+providing more flexible palette position and radius
+
+提供更加灵活的调色板位置与半径
 
 ### Added
 

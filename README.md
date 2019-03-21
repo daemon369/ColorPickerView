@@ -51,7 +51,7 @@ dependencies {
         android:layout_height="300dp"
         android:background="@android:color/white"
         app:daemon_cp_disallowInterceptTouchEvent="true"
-        app:daemon_cp_initialColor="@android:color/white"
+        app:daemon_cp_initialColor="#90aa0011"
         app:daemon_cp_paletteGravity="right|top"
         app:daemon_cp_paletteOffsetX="-5dp"
         app:daemon_cp_paletteOffsetY="5dp"
