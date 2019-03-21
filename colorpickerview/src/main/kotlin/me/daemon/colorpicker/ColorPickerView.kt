@@ -8,6 +8,8 @@ import android.util.AttributeSet
 import android.view.*
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
+import me.daemon.colorpicker.painter.IAlphaPainter
+import me.daemon.colorpicker.painter.IBrightnessPainter
 import me.daemon.colorpicker.painter.IPalettePainter
 import me.daemon.colorpicker.painter.impl.DefaultAlphaPainter
 import me.daemon.colorpicker.painter.impl.DefaultBrightnessPainter
@@ -104,17 +106,17 @@ class ColorPickerView @JvmOverloads constructor(
 
     private val paletteView = PaletteView(context).apply {
         setColorPicker(colorPicker)
-        palettePainter = DefaultPalettePainter()
+        painter = DefaultPalettePainter()
     }
 
     private val brightnessView = BrightnessView(context).apply {
         setColorPicker(colorPicker)
-        brightnessPainter = DefaultBrightnessPainter()
+        painter = DefaultBrightnessPainter()
     }
 
     private val alphaView = AlphaView(context).apply {
         setColorPicker(colorPicker)
-        alphaPainter = DefaultAlphaPainter()
+        painter = DefaultAlphaPainter()
     }
 
     private var isAddingInternal = false
@@ -164,9 +166,6 @@ class ColorPickerView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
         val wSize = MeasureSpec.getSize(widthMeasureSpec)
-        val wMode = MeasureSpec.getMode(widthMeasureSpec)
-        val hSize = MeasureSpec.getSize(heightMeasureSpec)
-        val hMode = MeasureSpec.getMode(heightMeasureSpec)
 
         measureChild(
                 paletteView,
@@ -362,16 +361,18 @@ class ColorPickerView @JvmOverloads constructor(
      *
      * 设置自定义调色板绘制器
      *
-     * @param palettePainter custom palette painter
+     * @param painter custom palette painter
      *                       调色板绘制器
      */
-    fun setPalettePainter(palettePainter: IPalettePainter?) {
-        paletteView.palettePainter = palettePainter
-    }
+    fun setPalettePainter(painter: IPalettePainter?) = apply { paletteView.painter = painter }
 
-    fun getPalettePainter(): IPalettePainter? {
-        return paletteView.palettePainter
-    }
+    fun getPalettePainter() = paletteView.painter
+
+    fun setBrightnessPainter(painter: IBrightnessPainter?) = apply { brightnessView.painter = painter }
+
+    fun getBrightnessPainter() = brightnessView.painter
+
+    fun setAlphaPainter(painter: IAlphaPainter?) = apply { alphaView.painter = painter }
 
     override fun subscribe(observer: ColorObserver) {
         colorPicker.subscribe(observer)

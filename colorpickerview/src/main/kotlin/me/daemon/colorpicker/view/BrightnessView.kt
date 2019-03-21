@@ -20,9 +20,9 @@ class BrightnessView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    var brightnessPainter: IBrightnessPainter? = null
-        set(value) {
-            field = value?.apply {
+    var painter: IBrightnessPainter? = null
+        set(painter) {
+            field = painter?.apply {
                 updateByValue(
                         this@BrightnessView
                 )
@@ -46,19 +46,19 @@ class BrightnessView @JvmOverloads constructor(
     private val brightnessValue = BrightnessValue()
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        brightnessPainter?.onSizeChanged(
+        painter?.onSizeChanged(
                 this,
                 w,
                 h
         )
 
-        brightnessPainter?.updateByValue(
+        painter?.updateByValue(
                 this
         )
     }
 
     override fun onDraw(canvas: Canvas) {
-        brightnessPainter?.onDraw(
+        painter?.onDraw(
                 this,
                 canvas,
                 isChanging
@@ -68,7 +68,7 @@ class BrightnessView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        brightnessPainter ?: return super.onTouchEvent(event)
+        painter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y
@@ -109,7 +109,7 @@ class BrightnessView @JvmOverloads constructor(
             y: Float,
             propagate: Boolean
     ) {
-        val painter = brightnessPainter ?: return
+        val painter = painter ?: return
 
         brightnessValue.reset()
         painter.onUpdate(this, x, y)
@@ -135,7 +135,7 @@ class BrightnessView @JvmOverloads constructor(
             alpha: Float
     ) {
         brightnessValue.setValue(brightness)
-        brightnessPainter?.onColorChanged(this, color)
+        painter?.onColorChanged(this, color)
         invalidate()
     }
 

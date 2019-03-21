@@ -19,17 +19,17 @@ class PaletteView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    var palettePainter: IPalettePainter? = null
+    var painter: IPalettePainter? = null
         /**
          * set custom palette painter
          *
          * 设置自定义调色板绘制器
          *
-         * @param palettePainter custom palette painter
+         * @param painter custom palette painter
          *                       调色板绘制器
          */
-        set(palettePainter) {
-            field = palettePainter?.apply {
+        set(painter) {
+            field = painter?.apply {
                 updateByValue(
                         this@PaletteView
                 )
@@ -60,19 +60,19 @@ class PaletteView @JvmOverloads constructor(
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        palettePainter?.onSizeChanged(
+        painter?.onSizeChanged(
                 this,
                 w,
                 h
         )
 
-        palettePainter?.updateByValue(
+        painter?.updateByValue(
                 this
         )
     }
 
     override fun onDraw(canvas: Canvas) {
-        palettePainter?.onDraw(
+        painter?.onDraw(
                 this,
                 canvas,
                 isChanging
@@ -82,7 +82,7 @@ class PaletteView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        palettePainter ?: return super.onTouchEvent(event)
+        painter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y
@@ -124,7 +124,7 @@ class PaletteView @JvmOverloads constructor(
             y: Float,
             propagate: Boolean
     ) {
-        val painter = palettePainter ?: return
+        val painter = painter ?: return
 
         paletteValue.reset()
         painter.onUpdate(this, x, y)
@@ -151,7 +151,7 @@ class PaletteView @JvmOverloads constructor(
             alpha: Float
     ) {
         paletteValue.setValue(hue, saturation)
-        palettePainter?.onColorChanged(this, color)
+        painter?.onColorChanged(this, color)
         invalidate()
     }
 

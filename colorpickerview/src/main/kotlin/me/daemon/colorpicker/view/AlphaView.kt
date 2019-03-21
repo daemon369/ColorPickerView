@@ -19,7 +19,7 @@ class AlphaView @JvmOverloads constructor(
 
     private lateinit var colorPicker: ColorPicker
 
-    var alphaPainter: IAlphaPainter? = null
+    var painter: IAlphaPainter? = null
         set(value) {
             field = value?.apply {
                 updateByValue(
@@ -45,19 +45,19 @@ class AlphaView @JvmOverloads constructor(
     private val alphaValue = AlphaValue()
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        alphaPainter?.onSizeChanged(
+        painter?.onSizeChanged(
                 this,
                 w,
                 h
         )
 
-        alphaPainter?.updateByValue(
+        painter?.updateByValue(
                 this
         )
     }
 
     override fun onDraw(canvas: Canvas) {
-        alphaPainter?.onDraw(
+        painter?.onDraw(
                 this,
                 canvas,
                 isChanging
@@ -67,7 +67,7 @@ class AlphaView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (!isEnabled) return super.onTouchEvent(event)
 
-        alphaPainter ?: return super.onTouchEvent(event)
+        painter ?: return super.onTouchEvent(event)
 
         val x = event.x
         val y = event.y
@@ -108,7 +108,7 @@ class AlphaView @JvmOverloads constructor(
             y: Float,
             propagate: Boolean
     ) {
-        val painter = alphaPainter ?: return
+        val painter = painter ?: return
 
         alphaValue.reset()
         painter.onUpdate(this, x, y)
@@ -134,7 +134,7 @@ class AlphaView @JvmOverloads constructor(
             alpha: Float
     ) {
         alphaValue.setValue(alpha)
-        alphaPainter?.onColorChanged(this, color)
+        painter?.onColorChanged(this, color)
         invalidate()
     }
 
