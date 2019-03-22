@@ -84,21 +84,6 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
-    /**
-     * when paletteGravity is basic gravity, transform it to combination gravity
-     */
-    private val realPaletteGravity: Gravity
-        get() {
-            return when (paletteGravity) {
-                Gravity.LEFT -> Gravity.LEFT_CENTER
-                Gravity.TOP -> Gravity.CENTER_TOP
-                Gravity.RIGHT -> Gravity.RIGHT_CENTER
-                Gravity.BOTTOM -> Gravity.CENTER_BOTTOM
-                Gravity.CENTER_VERTICAL, Gravity.CENTER_HORIZONTAL -> Gravity.CENTER
-                else -> paletteGravity
-            }
-        }
-
     private var paletteCenterX: Int = 0
     private var paletteCenterY: Int = 0
 
@@ -387,13 +372,15 @@ class ColorPickerView @JvmOverloads constructor(
     }
 
     private fun updatePaletteCenter(w: Int, h: Int) {
-        val paletteCenterX = when (realPaletteGravity) {
+        val gravity = Gravity.calibrate(paletteGravity)
+
+        val paletteCenterX = when (gravity) {
             Gravity.LEFT_TOP, Gravity.LEFT_CENTER, Gravity.LEFT_BOTTOM -> paletteRadius
             Gravity.RIGHT_TOP, Gravity.RIGHT_CENTER, Gravity.RIGHT_BOTTOM -> w - paletteRadius
             else -> w / 2
         } + paletteOffsetX
 
-        val paletteCenterY = when (realPaletteGravity) {
+        val paletteCenterY = when (gravity) {
             Gravity.LEFT_TOP, Gravity.CENTER_TOP, Gravity.RIGHT_TOP -> paletteRadius
             Gravity.LEFT_BOTTOM, Gravity.CENTER_BOTTOM, Gravity.RIGHT_BOTTOM -> w - paletteRadius
             else -> h / 2

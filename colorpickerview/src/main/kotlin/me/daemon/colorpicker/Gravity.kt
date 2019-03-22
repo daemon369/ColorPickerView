@@ -75,6 +75,20 @@ enum class Gravity {
         fun from(gravity: Int): Gravity {
             return map[gravity] ?: UNKNOWN
         }
+
+        /**
+         * calibrate  basic gravity to combination gravity
+         */
+        fun calibrate(gravity: Gravity): Gravity {
+            return when (gravity) {
+                Gravity.LEFT -> Gravity.LEFT_CENTER
+                Gravity.TOP -> Gravity.CENTER_TOP
+                Gravity.RIGHT -> Gravity.RIGHT_CENTER
+                Gravity.BOTTOM -> Gravity.CENTER_BOTTOM
+                Gravity.CENTER_VERTICAL, Gravity.CENTER_HORIZONTAL -> Gravity.CENTER
+                else -> gravity
+            }
+        }
     }
 
 }
