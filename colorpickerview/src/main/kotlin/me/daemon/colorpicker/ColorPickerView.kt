@@ -290,20 +290,19 @@ class ColorPickerView @JvmOverloads constructor(
                 MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY)
         )
 
-        // TODO fix brightnessView & alphaView measurement
         if (brightnessEnable) {
             measureChild(
                     brightnessView,
-                    wSize,
-                    MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+                    MeasureSpec.makeMeasureSpec(brightnessWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(brightnessHeight, MeasureSpec.EXACTLY)
             )
         }
 
         if (alphaEnable) {
             measureChild(
                     alphaView,
-                    wSize,
-                    MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+                    MeasureSpec.makeMeasureSpec(alphaWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(alphaHeight, MeasureSpec.EXACTLY)
             )
         }
 
@@ -323,7 +322,7 @@ class ColorPickerView @JvmOverloads constructor(
             brightnessView.layout(
                     0,
                     measuredHeight - brightnessView.measuredHeight * 3,
-                    measuredWidth,
+                    brightnessView.measuredWidth,
                     measuredHeight - brightnessView.measuredHeight * 2
             )
         }
@@ -332,7 +331,7 @@ class ColorPickerView @JvmOverloads constructor(
             alphaView.layout(
                     0,
                     measuredHeight - alphaView.measuredHeight,
-                    measuredWidth,
+                    alphaView.measuredWidth,
                     measuredHeight
             )
         }
