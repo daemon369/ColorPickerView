@@ -89,17 +89,17 @@ class ColorPickerView @JvmOverloads constructor(
 
     private val colorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
 
-    private val paletteView = PaletteView(context).apply {
+    private val paletteView = PaletteView(context, attrs).apply {
         setColorPicker(colorPicker)
         painter = DefaultPalettePainter()
     }
 
-    private val brightnessView = BrightnessView(context).apply {
+    private val brightnessView = BrightnessView(context, attrs).apply {
         setColorPicker(colorPicker)
         painter = DefaultBrightnessPainter()
     }
 
-    private val alphaView = AlphaView(context).apply {
+    private val alphaView = AlphaView(context, attrs).apply {
         setColorPicker(colorPicker)
         painter = DefaultAlphaPainter()
     }
@@ -108,11 +108,127 @@ class ColorPickerView @JvmOverloads constructor(
 
     private var disallowInterceptTouchEvent = false
 
-    init {
-        addViewInternal(paletteView)
-        addViewInternal(brightnessView)
-        addViewInternal(alphaView)
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var brightnessEnable: Boolean = true
+        set(brightnessEnable) {
+            if (field != brightnessEnable) {
+                field = brightnessEnable
 
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var brightnessWidth: Int = 0
+        set(brightnessWidth) {
+            if (field != brightnessWidth) {
+                field = brightnessWidth
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var brightnessHeight: Int = 0
+        set(brightnessHeight) {
+            if (field != brightnessHeight) {
+                field = brightnessHeight
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var brightnessGravity: Gravity = Gravity.CENTER_BOTTOM
+        set(brightnessGravity) {
+            if (field != brightnessGravity) {
+                field = brightnessGravity
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var brightnessOffsetX: Int = 0
+        set(brightnessOffsetX) {
+            if (field != brightnessOffsetX) {
+                field = brightnessOffsetX
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var brightnessOffsetY: Int = 0
+        set(brightnessOffsetY) {
+            if (field != brightnessOffsetY) {
+                field = brightnessOffsetY
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var alphaEnable: Boolean = true
+        set(alphaEnable) {
+            if (field != alphaEnable) {
+                field = alphaEnable
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var alphaWidth: Int = 0
+        set(alphaWidth) {
+            if (field != alphaWidth) {
+                field = alphaWidth
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var alphaHeight: Int = 0
+        set(alphaHeight) {
+            if (field != alphaHeight) {
+                field = alphaHeight
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var alphaGravity: Gravity = Gravity.CENTER_BOTTOM
+        set(alphaGravity) {
+            if (field != alphaGravity) {
+                field = alphaGravity
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var alphaOffsetX: Int = 0
+        set(alphaOffsetX) {
+            if (field != alphaOffsetX) {
+                field = alphaOffsetX
+
+                invalidate()
+            }
+        }
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var alphaOffsetY: Int = 0
+        set(alphaOffsetY) {
+            if (field != alphaOffsetY) {
+                field = alphaOffsetY
+
+                invalidate()
+            }
+        }
+
+    init {
         @SuppressLint("CustomViewStyleable")
         val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
 
@@ -142,6 +258,10 @@ class ColorPickerView @JvmOverloads constructor(
         } finally {
             t.recycle()
         }
+
+        addViewInternal(paletteView)
+        addViewInternal(brightnessView)
+        addViewInternal(alphaView)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
