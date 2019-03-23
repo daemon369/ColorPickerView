@@ -3,8 +3,8 @@
 
     <declare-styleable name="DaemonCpColorPickerView">
 
-        <attr name="daemon_cp_brightness_enable" format="boolean" />
-        <attr name="daemon_cp_alpha_enable" format="boolean" />
+        <attr name="daemon_cp_brightnessEnable" format="boolean" />
+        <attr name="daemon_cp_alphaEnable" format="boolean" />
 
         <!-- palette -->
         <attr name="daemon_cp_paletteRadius" format="dimension" />

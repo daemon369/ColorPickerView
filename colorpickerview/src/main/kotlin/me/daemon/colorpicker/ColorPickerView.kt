@@ -255,6 +255,18 @@ class ColorPickerView @JvmOverloads constructor(
                     R.styleable.DaemonCpColorPickerView_daemon_cp_disallowInterceptTouchEvent,
                     false)
             setDisallowInterceptTouchEvent(disallowInterceptTouchEvent)
+
+            brightnessEnable = t.getBoolean(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessEnable, true)
+            brightnessWidth = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessWidth, 0f).toInt()
+            brightnessHeight = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessHeight, 0f).toInt()
+            brightnessOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetX, 0f).toInt()
+            brightnessOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetY, 0f).toInt()
+
+            alphaEnable = t.getBoolean(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaEnable, true)
+            alphaWidth = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaWidth, 0f).toInt()
+            alphaHeight = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaHeight, 0f).toInt()
+            alphaOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetX, 0f).toInt()
+            alphaOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetY, 0f).toInt()
         } finally {
             t.recycle()
         }
