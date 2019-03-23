@@ -20,6 +20,37 @@
         <attr name="daemon_cp_initialColor" format="color" />
         <attr name="daemon_cp_disallowInterceptTouchEvent" format="boolean" />
 
+        <!-- brightness -->
+        <attr name="daemon_cp_brightnessGravity" format="flags">
+            <flag name="left" value="1" />
+            <flag name="top" value="2" />
+            <flag name="right" value="4" />
+            <flag name="bottom" value="8" />
+            <flag name="center_horizontal" value="16" />
+            <flag name="center_vertical" value="32" />
+            <flag name="center" value="48" />
+        </attr>
+        <attr name="daemon_cp_brightnessWidth" format="dimension" />
+        <attr name="daemon_cp_brightnessHeight" format="dimension" />
+        <attr name="daemon_cp_brightnessOffsetX" format="dimension" />
+        <attr name="daemon_cp_brightnessOffsetY" format="dimension" />
+
+        <!-- alpha -->
+        <attr name="daemon_cp_alphaGravity" format="flags">
+            <flag name="left" value="1" />
+            <flag name="top" value="2" />
+            <flag name="right" value="4" />
+            <flag name="bottom" value="8" />
+            <flag name="center_horizontal" value="16" />
+            <flag name="center_vertical" value="32" />
+            <flag name="center" value="48" />
+        </attr>
+        <attr name="daemon_cp_alphaWidth" format="dimension" />
+        <attr name="daemon_cp_alphaHeight" format="dimension" />
+        <attr name="daemon_cp_alphaOffsetX" format="dimension" />
+        <attr name="daemon_cp_alphaOffsetY" format="dimension" />
+
+
     </declare-styleable>
 
 </resources>
