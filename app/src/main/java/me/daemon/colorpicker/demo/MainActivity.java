@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onColor(int color) {
             Log.e("MainActivity", "onColor: " + color + " " + String.format("#%06X", (0xFFFFFF & color)));
-            findViewById(R.id.container).setBackgroundColor(colorPickerView.getColor());
+            findViewById(R.id.container).setBackgroundColor(color);
+            findViewById(R.id.root).setBackgroundColor(~color);
         }
     };
 }

@@ -233,21 +233,7 @@ class ColorPickerView @JvmOverloads constructor(
         val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
 
         try {
-            paletteRadius = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteRadius, 0f).toInt()
-            val paletteGravityInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteGravity, 0)
-            if (paletteGravityInt == 0) {
-                // using Gravity.CENTER if paletteRadius attribute not been set
-                paletteGravity = Gravity.CENTER
-            } else {
-                paletteGravity = Gravity.from(paletteGravityInt)
-                if (paletteGravity == Gravity.UNKNOWN) {
-                    throw IllegalArgumentException("Illegal paletteGravity: $paletteGravityInt")
-                }
-            }
-
-            paletteOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetX, 0f).toInt()
-            paletteOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetY, 0f).toInt()
-
+            // base
             val initialColor = t.getColor(R.styleable.DaemonCpColorPickerView_daemon_cp_initialColor, Color.BLACK)
             setColor(initialColor)
 
@@ -256,15 +242,50 @@ class ColorPickerView @JvmOverloads constructor(
                     false)
             setDisallowInterceptTouchEvent(disallowInterceptTouchEvent)
 
+            // palette
+            paletteRadius = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteRadius, 0f).toInt()
+            val paletteGravityInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteGravity, 0)
+            paletteGravity = if (paletteGravityInt == 0) {
+                Gravity.CENTER
+            } else {
+                Gravity.from(paletteGravityInt)
+            }
+            if (paletteGravity == Gravity.UNKNOWN) {
+                throw IllegalArgumentException("Illegal paletteGravity: $paletteGravityInt")
+            }
+
+            paletteOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetX, 0f).toInt()
+            paletteOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetY, 0f).toInt()
+
+            // brightness
             brightnessEnable = t.getBoolean(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessEnable, true)
             brightnessWidth = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessWidth, 0f).toInt()
             brightnessHeight = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessHeight, 0f).toInt()
+            val brightnessGravityInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessGravity, 0)
+            brightnessGravity = if (brightnessGravityInt == 0) {
+                Gravity.CENTER
+            } else {
+                Gravity.from(brightnessGravityInt)
+            }
+            if (brightnessGravity == Gravity.UNKNOWN) {
+                throw IllegalArgumentException("Illegal brightnessGravity: $brightnessGravityInt")
+            }
             brightnessOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetX, 0f).toInt()
             brightnessOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetY, 0f).toInt()
 
+            // alpha
             alphaEnable = t.getBoolean(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaEnable, true)
             alphaWidth = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaWidth, 0f).toInt()
             alphaHeight = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaHeight, 0f).toInt()
+            val alphaGravityInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaGravity, 0)
+            alphaGravity = if (alphaGravityInt == 0) {
+                Gravity.CENTER
+            } else {
+                Gravity.from(alphaGravityInt)
+            }
+            if (alphaGravity == Gravity.UNKNOWN) {
+                throw IllegalArgumentException("Illegal alphaGravity: $alphaGravityInt")
+            }
             alphaOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetX, 0f).toInt()
             alphaOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetY, 0f).toInt()
         } finally {
@@ -281,8 +302,6 @@ class ColorPickerView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-
-        val wSize = MeasureSpec.getSize(widthMeasureSpec)
 
         measureChild(
                 paletteView,
@@ -317,22 +336,21 @@ class ColorPickerView @JvmOverloads constructor(
                 paletteCenterY + paletteRadius
         )
 
-        // TODO fix brightnessView & alphaView layout
         if (brightnessEnable) {
-            brightnessView.layout(
-                    0,
-                    measuredHeight - brightnessView.measuredHeight * 3,
-                    brightnessView.measuredWidth,
-                    measuredHeight - brightnessView.measuredHeight * 2
+            layout(
+                    brightnessView,
+                    brightnessGravity,
+                    brightnessOffsetX,
+                    brightnessOffsetY
             )
         }
 
         if (alphaEnable) {
-            alphaView.layout(
-                    0,
-                    measuredHeight - alphaView.measuredHeight,
-                    alphaView.measuredWidth,
-                    measuredHeight
+            layout(
+                    alphaView,
+                    alphaGravity,
+                    alphaOffsetX,
+                    alphaOffsetY
             )
         }
     }
@@ -537,4 +555,28 @@ class ColorPickerView @JvmOverloads constructor(
         invalidate()
     }
 
+    private fun layout(view: View, viewGravity: Gravity, offsetX: Int, offsetY: Int) {
+        val gravity = Gravity.calibrate(viewGravity)
+        val w = view.measuredWidth
+        val h = view.measuredHeight
+
+        val left = when (gravity) {
+            Gravity.LEFT_TOP, Gravity.LEFT_CENTER, Gravity.LEFT_BOTTOM -> 0
+            Gravity.RIGHT_TOP, Gravity.RIGHT_CENTER, Gravity.RIGHT_BOTTOM -> measuredWidth - w
+            else -> (measuredWidth - w) / 2
+        } + offsetX
+
+        val top = when (gravity) {
+            Gravity.LEFT_TOP, Gravity.CENTER_TOP, Gravity.RIGHT_TOP -> 0
+            Gravity.LEFT_BOTTOM, Gravity.CENTER_BOTTOM, Gravity.RIGHT_BOTTOM -> measuredHeight - h
+            else -> (measuredHeight - h) / 2
+        } + offsetY
+
+        view.layout(
+                left,
+                top,
+                left + w,
+                top + h
+        )
+    }
 }
