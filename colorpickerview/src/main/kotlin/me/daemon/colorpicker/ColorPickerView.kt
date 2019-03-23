@@ -291,17 +291,21 @@ class ColorPickerView @JvmOverloads constructor(
         )
 
         // TODO fix brightnessView & alphaView measurement
-        measureChild(
-                brightnessView,
-                wSize,
-                MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
-        )
+        if (brightnessEnable) {
+            measureChild(
+                    brightnessView,
+                    wSize,
+                    MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+            )
+        }
 
-        measureChild(
-                alphaView,
-                wSize,
-                MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
-        )
+        if (alphaEnable) {
+            measureChild(
+                    alphaView,
+                    wSize,
+                    MeasureSpec.makeMeasureSpec(40, MeasureSpec.EXACTLY)
+            )
+        }
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
@@ -315,19 +319,23 @@ class ColorPickerView @JvmOverloads constructor(
         )
 
         // TODO fix brightnessView & alphaView layout
-        brightnessView.layout(
-                0,
-                measuredHeight - brightnessView.measuredHeight * 3,
-                measuredWidth,
-                measuredHeight - brightnessView.measuredHeight * 2
-        )
+        if (brightnessEnable) {
+            brightnessView.layout(
+                    0,
+                    measuredHeight - brightnessView.measuredHeight * 3,
+                    measuredWidth,
+                    measuredHeight - brightnessView.measuredHeight * 2
+            )
+        }
 
-        alphaView.layout(
-                0,
-                measuredHeight - alphaView.measuredHeight,
-                measuredWidth,
-                measuredHeight
-        )
+        if (alphaEnable) {
+            alphaView.layout(
+                    0,
+                    measuredHeight - alphaView.measuredHeight,
+                    measuredWidth,
+                    measuredHeight
+            )
+        }
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {

@@ -31,6 +31,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@android:color/white"
+            app:daemon_cp_alphaEnable="false"
+            app:daemon_cp_brightnessEnable="false"
             app:daemon_cp_disallowInterceptTouchEvent="true"
             app:daemon_cp_initialColor="#90aa0011"
             app:daemon_cp_paletteGravity="right|top"
