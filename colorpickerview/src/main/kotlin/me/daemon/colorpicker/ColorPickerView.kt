@@ -84,9 +84,6 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
-    private var paletteCenterX: Int = 0
-    private var paletteCenterY: Int = 0
-
     private val colorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
 
     private val paletteView = PaletteView(context, attrs).apply {
@@ -297,16 +294,12 @@ class ColorPickerView @JvmOverloads constructor(
         addViewInternal(alphaView)
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        updatePaletteCenter(w, h)
-    }
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
         measureChild(
                 paletteView,
-                MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(paletteRadius, MeasureSpec.EXACTLY)
+                MeasureSpec.makeMeasureSpec(paletteRadius * 2, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(paletteRadius * 2, MeasureSpec.EXACTLY)
         )
 
         if (brightnessEnable) {
@@ -329,11 +322,11 @@ class ColorPickerView @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        paletteView.layout(
-                paletteCenterX - paletteRadius,
-                paletteCenterY - paletteRadius,
-                paletteCenterX + paletteRadius,
-                paletteCenterY + paletteRadius
+        layout(
+                paletteView,
+                paletteGravity,
+                paletteOffsetX,
+                paletteOffsetY
         )
 
         if (brightnessEnable) {
@@ -526,33 +519,6 @@ class ColorPickerView @JvmOverloads constructor(
 
     override fun getColor(): Int {
         return colorPicker.getColor()
-    }
-
-    private fun updatePaletteCenter(w: Int, h: Int) {
-        val gravity = Gravity.calibrate(paletteGravity)
-
-        val paletteCenterX = when (gravity) {
-            Gravity.LEFT_TOP, Gravity.LEFT_CENTER, Gravity.LEFT_BOTTOM -> paletteRadius
-            Gravity.RIGHT_TOP, Gravity.RIGHT_CENTER, Gravity.RIGHT_BOTTOM -> w - paletteRadius
-            else -> w / 2
-        } + paletteOffsetX
-
-        val paletteCenterY = when (gravity) {
-            Gravity.LEFT_TOP, Gravity.CENTER_TOP, Gravity.RIGHT_TOP -> paletteRadius
-            Gravity.LEFT_BOTTOM, Gravity.CENTER_BOTTOM, Gravity.RIGHT_BOTTOM -> w - paletteRadius
-            else -> h / 2
-        } + paletteOffsetY
-
-        if (this.paletteCenterX == paletteCenterX
-                && this.paletteCenterY == paletteCenterY) {
-            // nothing will happen
-            return
-        }
-
-        this.paletteCenterX = paletteCenterX
-        this.paletteCenterY = paletteCenterY
-
-        invalidate()
     }
 
     private fun layout(view: View, viewGravity: Gravity, offsetX: Int, offsetY: Int) {
