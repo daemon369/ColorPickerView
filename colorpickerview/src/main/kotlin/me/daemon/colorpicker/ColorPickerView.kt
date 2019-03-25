@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.*
-import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorPicker
 import me.daemon.colorpicker.painter.IAlphaPainter
 import me.daemon.colorpicker.painter.IBrightnessPainter
@@ -32,7 +31,7 @@ import me.daemon.colorpicker.view.PaletteView
  */
 class ColorPickerView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : ViewGroup(context, attrs, defStyleAttr), ColorObservable, Callback {
+) : ViewGroup(context, attrs, defStyleAttr), ColorObservable {
 
     /**
      * radius of palette
@@ -84,7 +83,7 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
-    private val colorPicker = ColorPicker().apply { addCallback(this@ColorPickerView) }
+    private val colorPicker = ColorPicker()
 
     private val paletteView = PaletteView(context, attrs).apply {
         setColorPicker(colorPicker)
@@ -480,15 +479,6 @@ class ColorPickerView @JvmOverloads constructor(
      */
     fun setDisallowInterceptTouchEvent(disallow: Boolean) {
         this.disallowInterceptTouchEvent = disallow
-    }
-
-    override fun callback(
-            color: Int,
-            hue: Float,
-            saturation: Float,
-            brightness: Float,
-            alpha: Float
-    ) {
     }
 
     /**
