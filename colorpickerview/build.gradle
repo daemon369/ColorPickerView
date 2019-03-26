@@ -1,7 +1,9 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-android'
-apply plugin: 'org.jetbrains.dokka-android'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android-extensions'
+    id 'kotlin-android'
+    id 'org.jetbrains.dokka-android'
+}
 
 android {
     compileSdkVersion compile_sdk_version
