@@ -53,6 +53,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * palette gravity
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var paletteGravity: Gravity = Gravity.CENTER
         set(paletteGravity) {
@@ -63,6 +66,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * palette center offset x
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var paletteOffsetX: Int = 0
         set(paletteOffsetX) {
@@ -73,6 +79,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * palette center offset y
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var paletteOffsetY: Int = 0
         set(paletteOffsetY) {
@@ -104,6 +113,9 @@ class ColorPickerView @JvmOverloads constructor(
 
     private var disallowInterceptTouchEvent = false
 
+    /**
+     * enable brightness view if `brightnessEnable` is true
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessEnable: Boolean = true
         set(brightnessEnable) {
@@ -114,6 +126,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * width of brightness view
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessWidth: Int = 0
         set(brightnessWidth) {
@@ -124,6 +139,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * height of brighness view
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessHeight: Int = 0
         set(brightnessHeight) {
@@ -134,6 +152,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * gravity of brightness view
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessGravity: Gravity = Gravity.CENTER_BOTTOM
         set(brightnessGravity) {
@@ -144,6 +165,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * brightness view offset x
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessOffsetX: Int = 0
         set(brightnessOffsetX) {
@@ -154,6 +178,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * brightness view offset y
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessOffsetY: Int = 0
         set(brightnessOffsetY) {
@@ -164,6 +191,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * enable alpha view if `alphaEnable` is true
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var alphaEnable: Boolean = true
         set(alphaEnable) {
@@ -174,6 +204,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * width of alpha view
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var alphaWidth: Int = 0
         set(alphaWidth) {
@@ -184,6 +217,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * height of alpha view
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var alphaHeight: Int = 0
         set(alphaHeight) {
@@ -194,6 +230,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * gravity of alpha view
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var alphaGravity: Gravity = Gravity.CENTER_BOTTOM
         set(alphaGravity) {
@@ -204,6 +243,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * alpha view offset x
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var alphaOffsetX: Int = 0
         set(alphaOffsetX) {
@@ -214,6 +256,9 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
+    /**
+     * alpha view offset y
+     */
     @ViewDebug.ExportedProperty(category = "daemon")
     var alphaOffsetY: Int = 0
         set(alphaOffsetY) {
@@ -436,14 +481,6 @@ class ColorPickerView @JvmOverloads constructor(
     override fun removeViewAt(index: Int) {
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-    }
-
     /**
      * set current picked color
      *
@@ -491,13 +528,30 @@ class ColorPickerView @JvmOverloads constructor(
      */
     fun setPalettePainter(painter: IPalettePainter?) = apply { paletteView.painter = painter }
 
+    /**
+     * get custom palette painter
+     */
     fun getPalettePainter() = paletteView.painter
 
+    /**
+     * set custom brightness painter
+     */
     fun setBrightnessPainter(painter: IBrightnessPainter?) = apply { brightnessView.painter = painter }
 
+    /**
+     * get custom brightness painter
+     */
     fun getBrightnessPainter() = brightnessView.painter
 
+    /**
+     * set custom alpha painter
+     */
     fun setAlphaPainter(painter: IAlphaPainter?) = apply { alphaView.painter = painter }
+
+    /**
+     * get custom alpha painter
+     */
+    fun getAlphaPainter() = alphaView.painter
 
     override fun subscribe(observer: ColorObserver) {
         colorPicker.subscribe(observer)
