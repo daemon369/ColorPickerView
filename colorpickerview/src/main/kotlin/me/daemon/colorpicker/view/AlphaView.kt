@@ -35,10 +35,9 @@ class AlphaView @JvmOverloads constructor(
         var alpha: Float = 1f
             private set
 
-        fun setValue(alpha: Float): AlphaValue {
+        fun setValue(alpha: Float) = apply {
             this.alpha = alpha
             set()
-            return this
         }
     }
 
@@ -138,12 +137,8 @@ class AlphaView @JvmOverloads constructor(
         invalidate()
     }
 
-    override fun getValue(): AlphaValue {
-        return alphaValue
-    }
+    override fun getValue() = alphaValue
 
-    override fun getColor(): Int {
-        return colorPicker.getColor()
-    }
+    override fun getColor() = colorPicker.getColor()
 
 }

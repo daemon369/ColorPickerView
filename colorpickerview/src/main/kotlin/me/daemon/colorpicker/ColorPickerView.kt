@@ -561,9 +561,7 @@ class ColorPickerView @JvmOverloads constructor(
         colorPicker.unsubscribe(observer)
     }
 
-    override fun getColor(): Int {
-        return colorPicker.getColor()
-    }
+    override fun getColor() = colorPicker.getColor()
 
     private fun layout(view: View, viewGravity: Gravity, offsetX: Int, offsetY: Int) {
         val gravity = Gravity.calibrate(viewGravity)

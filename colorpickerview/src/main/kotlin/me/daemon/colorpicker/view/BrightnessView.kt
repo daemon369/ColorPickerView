@@ -36,10 +36,9 @@ class BrightnessView @JvmOverloads constructor(
         var brightness: Float = 1f
             private set
 
-        fun setValue(brightness: Float): BrightnessValue {
+        fun setValue(brightness: Float) = apply {
             this.brightness = brightness
             set()
-            return this
         }
     }
 
@@ -139,12 +138,8 @@ class BrightnessView @JvmOverloads constructor(
         invalidate()
     }
 
-    override fun getValue(): BrightnessValue {
-        return brightnessValue
-    }
+    override fun getValue() = brightnessValue
 
-    override fun getColor(): Int {
-        return colorPicker.getColor()
-    }
+    override fun getColor() = colorPicker.getColor()
 
 }

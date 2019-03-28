@@ -46,18 +46,14 @@ class PaletteView @JvmOverloads constructor(
         var saturation: Float = 0f
             private set
 
-        fun setValue(hue: Float, saturation: Float): PaletteValue {
+        fun setValue(hue: Float, saturation: Float) = apply {
             this.hue = hue
             this.saturation = saturation
             set()
-            return this
         }
     }
 
     private val paletteValue = PaletteValue()
-
-    init {
-    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         painter?.onSizeChanged(
@@ -155,12 +151,8 @@ class PaletteView @JvmOverloads constructor(
         invalidate()
     }
 
-    override fun getValue(): PaletteValue {
-        return paletteValue
-    }
+    override fun getValue() = paletteValue
 
-    override fun getColor(): Int {
-        return colorPicker.getColor()
-    }
+    override fun getColor() = colorPicker.getColor()
 
 }

@@ -12,41 +12,36 @@ internal class Transaction(private val colorPicker: ColorPicker) {
 
     private var committing = false
 
-    internal fun begin(): Transaction {
+    internal fun begin() = apply {
         if (committing) {
             throw IllegalStateException("last transaction not been committed")
         }
         committing = true
         factors.clear()
-        return this
     }
 
-    fun hue(hue: Float): Transaction {
+    fun hue(hue: Float) = apply {
         if (hue != colorPicker.getHue()) {
             factors.add(Factor.HUE.value(hue))
         }
-        return this
     }
 
-    fun saturation(saturation: Float): Transaction {
+    fun saturation(saturation: Float) = apply {
         if (saturation != colorPicker.getSaturation()) {
             factors.add(Factor.SATURATION.value(saturation))
         }
-        return this
     }
 
-    fun brightness(brightness: Float): Transaction {
+    fun brightness(brightness: Float) = apply {
         if (brightness != colorPicker.getBrightness()) {
             factors.add(Factor.BRIGHTNESS.value(brightness))
         }
-        return this
     }
 
-    fun alpha(alpha: Float): Transaction {
+    fun alpha(alpha: Float) = apply {
         if (alpha != colorPicker.getAlpha()) {
             factors.add(Factor.ALPHA.value(alpha))
         }
-        return this
     }
 
     fun commit(propagate: Boolean, force: Boolean) {

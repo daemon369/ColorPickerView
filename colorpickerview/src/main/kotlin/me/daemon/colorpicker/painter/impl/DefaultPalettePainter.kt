@@ -12,11 +12,11 @@ import me.daemon.colorpicker.view.PaletteView
 class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = null)
     : IPalettePainter {
 
-    private var paletteCenterX: Int = 0
-    private var paletteCenterY: Int = 0
-    private var paletteRadius: Int = 0
+    private var paletteCenterX = 0
+    private var paletteCenterY = 0
+    private var paletteRadius = 0
 
-    private val currentPoint: PointF = PointF()
+    private val currentPoint = PointF()
 
     private val huePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val saturationPaint = Paint(Paint.ANTI_ALIAS_FLAG)

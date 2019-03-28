@@ -28,9 +28,7 @@ internal class ColorPicker : ColorObservable {
 
     private val callbacks = ArrayList<Callback>()
 
-    fun beginTransaction(): Transaction {
-        return transaction.begin()
-    }
+    fun beginTransaction() = transaction.begin()
 
     override fun getColor(): Int {
         val alphaInt: Int = (alpha * 255).toInt()
@@ -44,21 +42,13 @@ internal class ColorPicker : ColorObservable {
         onColorChange(color, propagate)
     }
 
-    fun getHue(): Float {
-        return hsv[0]
-    }
+    fun getHue() = hsv[0]
 
-    fun getSaturation(): Float {
-        return hsv[1]
-    }
+    fun getSaturation() = hsv[1]
 
-    fun getBrightness(): Float {
-        return hsv[2]
-    }
+    fun getBrightness() = hsv[2]
 
-    fun getAlpha(): Float {
-        return alpha
-    }
+    fun getAlpha() = alpha
 
     override fun subscribe(observer: ColorObserver) {
         observers.add(observer)
@@ -77,12 +67,12 @@ internal class ColorPicker : ColorObservable {
     }
 
     fun commit(propagate: Boolean) {
-        for (factor in transaction.factors) {
-            when (factor) {
-                Factor.HUE -> this.hsv[0] = factor.value
-                Factor.SATURATION -> this.hsv[1] = Math.max(0f, Math.min(1f, factor.value))
-                Factor.BRIGHTNESS -> this.hsv[2] = Math.max(0f, Math.min(1f, factor.value))
-                Factor.ALPHA -> this.alpha = Math.max(0f, Math.min(1f, factor.value))
+        transaction.factors.forEach {
+            when (it) {
+                Factor.HUE -> this.hsv[0] = it.value
+                Factor.SATURATION -> this.hsv[1] = Math.max(0f, Math.min(1f, it.value))
+                Factor.BRIGHTNESS -> this.hsv[2] = Math.max(0f, Math.min(1f, it.value))
+                Factor.ALPHA -> this.alpha = Math.max(0f, Math.min(1f, it.value))
             }
         }
 
@@ -93,8 +83,8 @@ internal class ColorPicker : ColorObservable {
     }
 
     private fun propagate(color: Int) {
-        for (observer in observers) {
-            observer.onColor(color)
+        observers.forEach {
+            it.onColor(color)
         }
     }
 
