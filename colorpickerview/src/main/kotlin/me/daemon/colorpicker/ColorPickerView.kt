@@ -192,19 +192,6 @@ class ColorPickerView @JvmOverloads constructor(
         }
 
     /**
-     * brightness view orientation
-     */
-    @ViewDebug.ExportedProperty(category = "daemon")
-    var brightnessOrientation: Orientation = Orientation.HORIZONTAL
-        set(brightnessOrientation) {
-            if (field != brightnessOrientation) {
-                field = brightnessOrientation
-
-                invalidate()
-            }
-        }
-
-    /**
      * enable alpha view if `alphaEnable` is true
      */
     @ViewDebug.ExportedProperty(category = "daemon")
@@ -339,11 +326,6 @@ class ColorPickerView @JvmOverloads constructor(
             }
             brightnessOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetX, 0f).toInt()
             brightnessOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetY, 0f).toInt()
-            val brightnessOrientationInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOrientation, Orientation.HORIZONTAL.ordinal)
-            brightnessOrientation = Orientation.from(brightnessOrientationInt)
-            if (brightnessOrientation == Orientation.UNKNOWN) {
-                throw IllegalArgumentException("Illegal brightnessOrientation: $brightnessOrientationInt")
-            }
 
             // alpha
             alphaEnable = t.getBoolean(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaEnable, true)
