@@ -1,10 +1,14 @@
 package me.daemon.colorpicker.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewDebug
+import me.daemon.colorpicker.Orientation
+import me.daemon.colorpicker.R
 import me.daemon.colorpicker.internal.Callback
 import me.daemon.colorpicker.internal.ColorCenter
 import me.daemon.colorpicker.painter.IAlphaPainter
@@ -16,6 +20,16 @@ import me.daemon.colorpicker.painter.IAlphaPainter
 class AlphaView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), Callback, IView<AlphaView.AlphaValue> {
+
+    @ViewDebug.ExportedProperty(category = "daemon")
+    var orientation: Orientation = Orientation.HORIZONTAL
+        set(orientation) {
+            if (field != orientation) {
+                field = orientation
+
+                invalidate()
+            }
+        }
 
     private lateinit var colorCenter: ColorCenter
 
@@ -42,6 +56,21 @@ class AlphaView @JvmOverloads constructor(
     }
 
     private val alphaValue = AlphaValue()
+
+    init {
+        @SuppressLint("CustomViewStyleable")
+        val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
+
+        try {
+            val orientationInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOrientation, Orientation.HORIZONTAL.ordinal)
+            orientation = Orientation.from(orientationInt)
+            if (orientation == Orientation.UNKNOWN) {
+                throw IllegalArgumentException("Illegal orientation: $orientationInt")
+            }
+        } finally {
+            t.recycle()
+        }
+    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         painter?.onSizeChanged(

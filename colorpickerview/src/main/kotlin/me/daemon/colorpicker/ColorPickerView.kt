@@ -269,19 +269,6 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
-    /**
-     * alpha view orientation
-     */
-    @ViewDebug.ExportedProperty(category = "daemon")
-    var alphaOrientation: Orientation = Orientation.HORIZONTAL
-        set(alphaOrientation) {
-            if (field != alphaOrientation) {
-                field = alphaOrientation
-
-                invalidate()
-            }
-        }
-
     init {
         @SuppressLint("CustomViewStyleable")
         val t = context.obtainStyledAttributes(attrs, R.styleable.DaemonCpColorPickerView)
@@ -342,11 +329,6 @@ class ColorPickerView @JvmOverloads constructor(
             }
             alphaOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetX, 0f).toInt()
             alphaOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetY, 0f).toInt()
-            val alphaOrientationInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOrientation, Orientation.HORIZONTAL.ordinal)
-            alphaOrientation = Orientation.from(alphaOrientationInt)
-            if (alphaOrientation == Orientation.UNKNOWN) {
-                throw IllegalArgumentException("Illegal alphaOrientation: $alphaOrientationInt")
-            }
         } finally {
             t.recycle()
         }
