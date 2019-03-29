@@ -37,6 +37,10 @@
         <attr name="daemon_cp_brightnessHeight" format="dimension" />
         <attr name="daemon_cp_brightnessOffsetX" format="dimension" />
         <attr name="daemon_cp_brightnessOffsetY" format="dimension" />
+        <attr name="daemon_cp_brightnessOrientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
 
         <!-- alpha -->
         <attr name="daemon_cp_alphaGravity" format="flags">
@@ -52,6 +56,10 @@
         <attr name="daemon_cp_alphaHeight" format="dimension" />
         <attr name="daemon_cp_alphaOffsetX" format="dimension" />
         <attr name="daemon_cp_alphaOffsetY" format="dimension" />
+        <attr name="daemon_cp_alphaOrientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
 
 
     </declare-styleable>
