@@ -194,6 +194,7 @@ class ColorPickerView @JvmOverloads constructor(
     /**
      * brightness view orientation
      */
+    @ViewDebug.ExportedProperty(category = "daemon")
     var brightnessOrientation: Orientation = Orientation.HORIZONTAL
         set(brightnessOrientation) {
             if (field != brightnessOrientation) {
@@ -284,6 +285,7 @@ class ColorPickerView @JvmOverloads constructor(
     /**
      * alpha view orientation
      */
+    @ViewDebug.ExportedProperty(category = "daemon")
     var alphaOrientation: Orientation = Orientation.HORIZONTAL
         set(alphaOrientation) {
             if (field != alphaOrientation) {
