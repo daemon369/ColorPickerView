@@ -92,20 +92,20 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
-    private val colorPicker = ColorCenter()
+    private val colorCenter = ColorCenter()
 
     private val paletteView = PaletteView(context, attrs).apply {
-        setColorPicker(colorPicker)
+        setColorCenter(colorCenter)
         painter = DefaultPalettePainter()
     }
 
     private val brightnessView = BrightnessView(context, attrs).apply {
-        setColorPicker(colorPicker)
+        setColorCenter(colorCenter)
         painter = DefaultBrightnessPainter()
     }
 
     private val alphaView = AlphaView(context, attrs).apply {
-        setColorPicker(colorPicker)
+        setColorCenter(colorCenter)
         painter = DefaultAlphaPainter()
     }
 
@@ -423,7 +423,7 @@ class ColorPickerView @JvmOverloads constructor(
     override fun onSaveInstanceState(): Parcelable? {
         val savedState = SavedState(super.onSaveInstanceState())
 
-        savedState.color = colorPicker.getColor()
+        savedState.color = colorCenter.getColor()
 
         return savedState
     }
@@ -489,7 +489,7 @@ class ColorPickerView @JvmOverloads constructor(
      * @param color 颜色值
      */
     fun setColor(color: Int) {
-        colorPicker.setColor(color, true)
+        colorCenter.setColor(color, true)
     }
 
     /**
@@ -554,14 +554,14 @@ class ColorPickerView @JvmOverloads constructor(
     fun getAlphaPainter() = alphaView.painter
 
     override fun subscribe(observer: ColorObserver) {
-        colorPicker.subscribe(observer)
+        colorCenter.subscribe(observer)
     }
 
     override fun unsubscribe(observer: ColorObserver) {
-        colorPicker.unsubscribe(observer)
+        colorCenter.unsubscribe(observer)
     }
 
-    override fun getColor() = colorPicker.getColor()
+    override fun getColor() = colorCenter.getColor()
 
     private fun layout(view: View, viewGravity: Gravity, offsetX: Int, offsetY: Int) {
         val gravity = Gravity.calibrate(viewGravity)

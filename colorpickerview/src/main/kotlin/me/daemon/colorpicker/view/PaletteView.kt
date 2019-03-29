@@ -119,7 +119,7 @@ class PaletteView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    internal fun setColorPicker(colorCenter: ColorCenter) {
+    internal fun setColorCenter(colorCenter: ColorCenter) {
         this.colorCenter = colorCenter.apply {
             addCallback(this@PaletteView)
         }
