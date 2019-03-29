@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import me.daemon.colorpicker.internal.Callback
-import me.daemon.colorpicker.internal.ColorPicker
+import me.daemon.colorpicker.internal.ColorCenter
 import me.daemon.colorpicker.painter.IAlphaPainter
 
 /**
@@ -17,7 +17,7 @@ class AlphaView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), Callback, IView<AlphaView.AlphaValue> {
 
-    private lateinit var colorPicker: ColorPicker
+    private lateinit var colorCenter: ColorCenter
 
     var painter: IAlphaPainter? = null
         set(value) {
@@ -98,16 +98,16 @@ class AlphaView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        colorPicker.addCallback(this)
+        colorCenter.addCallback(this)
     }
 
     override fun onDetachedFromWindow() {
-        colorPicker.removeCallback(this)
+        colorCenter.removeCallback(this)
         super.onDetachedFromWindow()
     }
 
-    internal fun setColorPicker(colorPicker: ColorPicker) {
-        this.colorPicker = colorPicker.apply {
+    internal fun setColorPicker(colorCenter: ColorCenter) {
+        this.colorCenter = colorCenter.apply {
             addCallback(this@AlphaView)
         }
     }
@@ -129,7 +129,7 @@ class AlphaView @JvmOverloads constructor(
             )
         }
 
-        colorPicker
+        colorCenter
                 .beginTransaction()
                 .alpha(alphaValue.alpha)
                 .commit(propagate, force = true)
@@ -149,6 +149,6 @@ class AlphaView @JvmOverloads constructor(
 
     override fun getValue() = alphaValue
 
-    override fun getColor() = colorPicker.getColor()
+    override fun getColor() = colorCenter.getColor()
 
 }

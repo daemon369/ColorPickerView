@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.*
-import me.daemon.colorpicker.internal.ColorPicker
+import me.daemon.colorpicker.internal.ColorCenter
 import me.daemon.colorpicker.painter.IAlphaPainter
 import me.daemon.colorpicker.painter.IBrightnessPainter
 import me.daemon.colorpicker.painter.IPalettePainter
@@ -92,7 +92,7 @@ class ColorPickerView @JvmOverloads constructor(
             }
         }
 
-    private val colorPicker = ColorPicker()
+    private val colorPicker = ColorCenter()
 
     private val paletteView = PaletteView(context, attrs).apply {
         setColorPicker(colorPicker)

@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import me.daemon.colorpicker.internal.Callback
-import me.daemon.colorpicker.internal.ColorPicker
+import me.daemon.colorpicker.internal.ColorCenter
 import me.daemon.colorpicker.painter.IPalettePainter
 
 /**
@@ -17,7 +17,7 @@ class PaletteView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), Callback, IView<PaletteView.PaletteValue> {
 
-    private lateinit var colorPicker: ColorPicker
+    private lateinit var colorCenter: ColorCenter
 
     var painter: IPalettePainter? = null
         /**
@@ -111,16 +111,16 @@ class PaletteView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        colorPicker.addCallback(this)
+        colorCenter.addCallback(this)
     }
 
     override fun onDetachedFromWindow() {
-        colorPicker.removeCallback(this)
+        colorCenter.removeCallback(this)
         super.onDetachedFromWindow()
     }
 
-    internal fun setColorPicker(colorPicker: ColorPicker) {
-        this.colorPicker = colorPicker.apply {
+    internal fun setColorPicker(colorCenter: ColorCenter) {
+        this.colorCenter = colorCenter.apply {
             addCallback(this@PaletteView)
         }
     }
@@ -142,7 +142,7 @@ class PaletteView @JvmOverloads constructor(
             )
         }
 
-        colorPicker
+        colorCenter
                 .beginTransaction()
                 .hue(paletteValue.hue)
                 .saturation(paletteValue.saturation)
@@ -163,6 +163,6 @@ class PaletteView @JvmOverloads constructor(
 
     override fun getValue() = paletteValue
 
-    override fun getColor() = colorPicker.getColor()
+    override fun getColor() = colorCenter.getColor()
 
 }

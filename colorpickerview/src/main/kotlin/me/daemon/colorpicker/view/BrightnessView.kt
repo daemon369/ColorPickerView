@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.MotionEvent.*
 import android.view.View
 import me.daemon.colorpicker.internal.Callback
-import me.daemon.colorpicker.internal.ColorPicker
+import me.daemon.colorpicker.internal.ColorCenter
 import me.daemon.colorpicker.painter.IBrightnessPainter
 
 /**
@@ -18,7 +18,7 @@ class BrightnessView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), Callback, IView<BrightnessView.BrightnessValue> {
 
-    private lateinit var colorPicker: ColorPicker
+    private lateinit var colorCenter: ColorCenter
 
     var painter: IBrightnessPainter? = null
         set(painter) {
@@ -99,16 +99,16 @@ class BrightnessView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        colorPicker.addCallback(this)
+        colorCenter.addCallback(this)
     }
 
     override fun onDetachedFromWindow() {
-        colorPicker.removeCallback(this)
+        colorCenter.removeCallback(this)
         super.onDetachedFromWindow()
     }
 
-    internal fun setColorPicker(colorPicker: ColorPicker) {
-        this.colorPicker = colorPicker.apply {
+    internal fun setColorPicker(colorCenter: ColorCenter) {
+        this.colorCenter = colorCenter.apply {
             addCallback(this@BrightnessView)
         }
     }
@@ -130,7 +130,7 @@ class BrightnessView @JvmOverloads constructor(
             )
         }
 
-        colorPicker
+        colorCenter
                 .beginTransaction()
                 .brightness(brightnessValue.brightness)
                 .commit(propagate, force = true)
@@ -150,6 +150,6 @@ class BrightnessView @JvmOverloads constructor(
 
     override fun getValue() = brightnessValue
 
-    override fun getColor() = colorPicker.getColor()
+    override fun getColor() = colorCenter.getColor()
 
 }

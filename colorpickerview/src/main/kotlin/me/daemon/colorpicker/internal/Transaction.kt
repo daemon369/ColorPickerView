@@ -6,7 +6,7 @@ package me.daemon.colorpicker.internal
  * @author daemon
  * @since 2019-02-18 10:55
  */
-internal class Transaction(private val colorPicker: ColorPicker) {
+internal class Transaction(private val colorCenter: ColorCenter) {
 
     val factors = ArrayList<Factor>()
 
@@ -21,32 +21,32 @@ internal class Transaction(private val colorPicker: ColorPicker) {
     }
 
     fun hue(hue: Float) = apply {
-        if (hue != colorPicker.getHue()) {
+        if (hue != colorCenter.getHue()) {
             factors.add(Factor.HUE.value(hue))
         }
     }
 
     fun saturation(saturation: Float) = apply {
-        if (saturation != colorPicker.getSaturation()) {
+        if (saturation != colorCenter.getSaturation()) {
             factors.add(Factor.SATURATION.value(saturation))
         }
     }
 
     fun brightness(brightness: Float) = apply {
-        if (brightness != colorPicker.getBrightness()) {
+        if (brightness != colorCenter.getBrightness()) {
             factors.add(Factor.BRIGHTNESS.value(brightness))
         }
     }
 
     fun alpha(alpha: Float) = apply {
-        if (alpha != colorPicker.getAlpha()) {
+        if (alpha != colorCenter.getAlpha()) {
             factors.add(Factor.ALPHA.value(alpha))
         }
     }
 
     fun commit(propagate: Boolean, force: Boolean) {
         if (force || factors.size > 0) {
-            colorPicker.commit(propagate)
+            colorCenter.commit(propagate)
         }
         committing = false
     }

@@ -5,10 +5,12 @@ import me.daemon.colorpicker.ColorObservable
 import me.daemon.colorpicker.ColorObserver
 
 /**
+ * internal color center
+ *
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorPicker : ColorObservable {
+internal class ColorCenter : ColorObservable {
 
     private var alpha: Float = 0f
 
