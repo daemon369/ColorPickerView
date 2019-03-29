@@ -6,5 +6,16 @@ package me.daemon.colorpicker
  */
 enum class Orientation {
     HORIZONTAL,
-    VERTICAL
+    VERTICAL,
+    UNKNOWN;
+
+    companion object {
+        fun from(orientation: Int): Orientation {
+            return when (orientation) {
+                HORIZONTAL.ordinal -> HORIZONTAL
+                VERTICAL.ordinal -> VERTICAL
+                else -> UNKNOWN
+            }
+        }
+    }
 }
