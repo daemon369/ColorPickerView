@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.0.0] - 2019-03-26
+
+add several attributes to customize position and size of brightness view and alpha view
+
+增加亮度View与透明度View的位置与尺寸属性
+
+### Added
+
+- add position attributes and size attributes for brightness view and alpha view
+
+### Changed
+
+### Removed
+    
+### 添加
+
+- 新增多个属性以调整亮度View与透明度View的位置与尺寸
+
+### 变更
+
+### 删除
+
 ## [0.1.7] - 2019-03-21
 
 refactoring; support brightness & alpha adjustment
