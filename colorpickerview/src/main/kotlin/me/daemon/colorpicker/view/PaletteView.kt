@@ -109,6 +109,16 @@ class PaletteView @JvmOverloads constructor(
         return super.onTouchEvent(event)
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        colorPicker.addCallback(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        colorPicker.removeCallback(this)
+        super.onDetachedFromWindow()
+    }
+
     internal fun setColorPicker(colorPicker: ColorPicker) {
         this.colorPicker = colorPicker.apply {
             addCallback(this@PaletteView)

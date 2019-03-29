@@ -59,12 +59,14 @@ internal class ColorPicker : ColorObservable {
     }
 
     fun addCallback(callback: Callback) {
-        callbacks.add(callback)
+        if (!callbacks.contains(callback)) {
+            callbacks.add(callback)
+        }
     }
 
-    fun removeCallback(callback: Callback) {
-        callbacks.remove(callback)
-    }
+    fun removeCallback(callback: Callback) = callbacks.remove(callback)
+
+    fun removeCallbacks() = callbacks.clear()
 
     fun commit(propagate: Boolean) {
         transaction.factors.forEach {
@@ -82,12 +84,6 @@ internal class ColorPicker : ColorObservable {
         )
     }
 
-    private fun propagate(color: Int) {
-        observers.forEach {
-            it.onColor(color)
-        }
-    }
-
     private fun onColorChange(
             color: Int,
             propagate: Boolean
@@ -103,7 +99,9 @@ internal class ColorPicker : ColorObservable {
         }
 
         if (propagate) {
-            propagate(color)
+            observers.forEach {
+                it.onColor(color)
+            }
         }
 
     }
