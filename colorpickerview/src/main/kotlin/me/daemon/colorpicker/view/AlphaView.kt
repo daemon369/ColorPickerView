@@ -64,9 +64,6 @@ class AlphaView @JvmOverloads constructor(
         try {
             val orientationInt = t.getInt(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOrientation, Orientation.HORIZONTAL.ordinal)
             orientation = Orientation.from(orientationInt)
-            if (orientation == Orientation.UNKNOWN) {
-                throw IllegalArgumentException("Illegal orientation: $orientationInt")
-            }
         } finally {
             t.recycle()
         }
