@@ -1,6 +1,7 @@
 package me.daemon.colorpicker.painter.impl
 
 import android.graphics.*
+import me.daemon.colorpicker.Orientation
 import me.daemon.colorpicker.painter.IBrightnessPainter
 import me.daemon.colorpicker.view.BrightnessView
 
@@ -36,13 +37,25 @@ class DefaultBrightnessPainter : IBrightnessPainter {
     ) {
         updatePainter(view, view.getColor())
 
-        selectorSize = h * 0.25f
+        selectorSize = when (view.orientation) {
+            Orientation.HORIZONTAL -> h
+            Orientation.VERTICAL -> w
+        } * 0.25f
 
         selectorPath.apply {
             reset()
-            moveTo(0f, 0f)
-            lineTo(selectorSize * 2, 0f)
-            lineTo(selectorSize, selectorSize)
+            when (view.orientation) {
+                Orientation.HORIZONTAL -> {
+                    moveTo(0f, 0f)
+                    lineTo(selectorSize * 2, 0f)
+                    lineTo(selectorSize, selectorSize)
+                }
+                Orientation.VERTICAL -> {
+                    moveTo(0f, selectorSize)
+                    lineTo(selectorSize, 0f)
+                    lineTo(selectorSize, selectorSize * 2)
+                }
+            }
             close()
         }
     }
@@ -55,10 +68,20 @@ class DefaultBrightnessPainter : IBrightnessPainter {
         val width = view.width
         val height = view.height
 
-        canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
-        canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)
+        when (view.orientation) {
+            Orientation.HORIZONTAL -> {
+                canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
+                canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)
 
-        selectorPath.offset(view.getValue().brightness * (width - 2 * selectorSize), 0f, currentSelectorPath)
+                selectorPath.offset(view.getValue().brightness * (width - 2 * selectorSize), 0f, currentSelectorPath)
+            }
+            Orientation.VERTICAL -> {
+                canvas.drawRect(0f, selectorSize, width - selectorSize, height - selectorSize, solidPaint)
+                canvas.drawRect(0f, selectorSize, width - selectorSize, height - selectorSize, borderPaint)
+
+                selectorPath.offset(width - selectorSize, view.getValue().brightness * (height - 2 * selectorSize), currentSelectorPath)
+            }
+        }
         canvas.drawPath(currentSelectorPath, selectorPaint)
     }
 
@@ -67,7 +90,10 @@ class DefaultBrightnessPainter : IBrightnessPainter {
             x: Float,
             y: Float
     ) {
-        var currentValue = (x - selectorSize) / (view.width - 2 * selectorSize)
+        var currentValue = when (view.orientation) {
+            Orientation.HORIZONTAL -> (x - selectorSize) / (view.width - 2 * selectorSize)
+            Orientation.VERTICAL -> (y - selectorSize) / (view.height - 2 * selectorSize)
+        }
         currentValue = Math.max(0f, Math.min(1f, currentValue))
         view.getValue().setValue(currentValue)
     }

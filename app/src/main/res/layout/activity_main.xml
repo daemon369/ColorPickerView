@@ -38,16 +38,18 @@
             app:daemon_cp_alphaOffsetY="-5dp"
             app:daemon_cp_alphaWidth="300dp"
             app:daemon_cp_brightnessEnable="true"
-            app:daemon_cp_brightnessGravity="bottom|center_horizontal"
-            app:daemon_cp_brightnessHeight="20dp"
-            app:daemon_cp_brightnessOffsetY="-35dp"
-            app:daemon_cp_brightnessWidth="300dp"
+            app:daemon_cp_brightnessGravity="left|top"
+            app:daemon_cp_brightnessHeight="300dp"
+            app:daemon_cp_brightnessOffsetX="5dp"
+            app:daemon_cp_brightnessOffsetY="0dp"
+            app:daemon_cp_brightnessOrientation="vertical"
+            app:daemon_cp_brightnessWidth="20dp"
             app:daemon_cp_disallowInterceptTouchEvent="true"
             app:daemon_cp_initialColor="#90aa0011"
-            app:daemon_cp_paletteGravity="top|center_horizontal"
+            app:daemon_cp_paletteGravity="top|right"
             app:daemon_cp_paletteOffsetX="-5dp"
             app:daemon_cp_paletteOffsetY="5dp"
-            app:daemon_cp_paletteRadius="140dp" />
+            app:daemon_cp_paletteRadius="130dp" />
 
         <me.daemon.colorpicker.ColorPickerView
             android:layout_width="300dp"
