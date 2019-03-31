@@ -6,15 +6,14 @@ package me.daemon.colorpicker
  */
 enum class Orientation {
     HORIZONTAL,
-    VERTICAL,
-    UNKNOWN;
+    VERTICAL;
 
     companion object {
         fun from(orientation: Int): Orientation {
             return when (orientation) {
                 HORIZONTAL.ordinal -> HORIZONTAL
                 VERTICAL.ordinal -> VERTICAL
-                else -> UNKNOWN
+                else -> throw IllegalArgumentException("unknown orientation: $orientation")
             }
         }
     }
