@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.0.1] - 2019-04-01
+
+support vertical `BrightnessView` & `AlphaView`
+
+支持垂直方向的`BrightView`与`AlphaView`
+
+### Added
+
+- add `daemon_cp_brightnessOrientation` attribute to support vertical `BrightnessView`
+- add `daemon_cp_alphaOrientation` attribute to support vertical `AlphaView`
+
+### Changed
+
+### Removed
+    
+### 添加
+
+- 增加`daemon_cp_brightnessOrientation`属性以支持垂直方向的`BrightnessView`
+- 增加`daemon_cp_alphaOrientation`属性以支持垂直方向的`AlphaView`
+
+### 变更
+
+### 删除
+
 ## [1.0.0] - 2019-03-26
 
 add several attributes to customize position and size of brightness view and alpha view
