@@ -27,7 +27,7 @@ allprojects {
 
 ```
 dependencies {
-    implementation 'me.daemon:colorpickerview:1.0.0'
+    implementation 'me.daemon:colorpickerview:1.0.1'
 }
 ```
 
@@ -66,6 +66,35 @@ dependencies {
         app:daemon_cp_paletteOffsetX="-5dp"
         app:daemon_cp_paletteOffsetY="5dp"
         app:daemon_cp_paletteRadius="140dp" />
+
+    <!-- vertical brightness view & alpha view -->
+    <me.daemon.colorpicker.ColorPickerView
+        android:id="@+id/color_picker_vertical"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/white"
+        app:daemon_cp_alphaEnable="true"
+        app:daemon_cp_alphaGravity="left|center_vertical"
+        app:daemon_cp_alphaHeight="300dp"
+        app:daemon_cp_alphaOffsetX="35dp"
+        app:daemon_cp_alphaOffsetY="0dp"
+        app:daemon_cp_alphaOrientation="vertical"
+        app:daemon_cp_alphaWidth="20dp"
+        app:daemon_cp_brightnessEnable="true"
+        app:daemon_cp_brightnessGravity="left|center_vertical"
+        app:daemon_cp_brightnessHeight="300dp"
+        app:daemon_cp_brightnessOffsetX="5dp"
+        app:daemon_cp_brightnessOffsetY="0dp"
+        app:daemon_cp_brightnessOrientation="vertical"
+        app:daemon_cp_brightnessWidth="20dp"
+        app:daemon_cp_disallowInterceptTouchEvent="true"
+        app:daemon_cp_initialColor="#90aa0011"
+        app:daemon_cp_paletteGravity="center_vertical|right"
+        app:daemon_cp_paletteOffsetX="-5dp"
+        app:daemon_cp_paletteOffsetY="5dp"
+        app:daemon_cp_paletteRadius="110dp" />
 
 </LinearLayout>
 ```
