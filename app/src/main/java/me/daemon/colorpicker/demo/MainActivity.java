@@ -1,5 +1,6 @@
 package me.daemon.colorpicker.demo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         colorPickerView.subscribe(colorObserver);
         colorPickerView.setPalettePainter(new DefaultPalettePainter());
 //        colorPickerView.setIndicatorPainter(new ShowPopIndicator());
-//        colorPickerView.setPalettePainter(new DisabledStatePalettePainter(Color.LTGRAY));
+        colorPickerView.setPalettePainter(new DisabledStatePalettePainter(Color.LTGRAY));
 
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override

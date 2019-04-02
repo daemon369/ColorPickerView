@@ -9,12 +9,15 @@ import me.daemon.colorpicker.view.PaletteView
  * @author daemon
  * @since 2019-02-24 00:09
  */
-class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = null)
+open class DefaultPalettePainter(override var indicatorPainter: IndicatorPainter? = null)
     : IPalettePainter {
 
-    private var paletteCenterX = 0
-    private var paletteCenterY = 0
-    private var paletteRadius = 0
+    var paletteCenterX = 0
+        private set
+    var paletteCenterY = 0
+        private set
+    var paletteRadius = 0
+        private set
 
     private val currentPoint = PointF()
 
