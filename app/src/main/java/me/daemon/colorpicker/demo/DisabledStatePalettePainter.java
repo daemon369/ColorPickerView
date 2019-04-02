@@ -16,6 +16,14 @@ public class DisabledStatePalettePainter extends DefaultPalettePainter {
 
     private final Paint disabledPaint;
 
+    private final Paint indicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    private final float innerSize1 = 33;
+    private final float outerSize1 = 45;
+
+    private final float innerSize2 = 46.5f;
+    private final float outerSize2 = 63;
+
     public DisabledStatePalettePainter() {
         this(Color.GRAY);
     }
@@ -36,6 +44,40 @@ public class DisabledStatePalettePainter extends DefaultPalettePainter {
             super.onDrawPalette(paletteView, canvas, isChanging);
         } else {
             canvas.drawCircle(getPaletteCenterX(), getPaletteCenterY(), getPaletteRadius(), disabledPaint);
+        }
+    }
+
+    @Override
+    public void onDrawIndicator(
+            @NonNull final PaletteView paletteView,
+            @NonNull final Canvas canvas,
+            int color,
+            boolean isChanging
+    ) {
+        final float x = getCurrentPoint().x;
+        final float y = getCurrentPoint().y;
+
+        indicatorPaint.setColor(Color.WHITE);
+
+        canvas.drawCircle(x, y, outerSize1, indicatorPaint);
+
+        if (paletteView.isEnabled()) {
+            if (isChanging) {
+                canvas.drawCircle(x, y - 123, outerSize2, indicatorPaint);
+            }
+
+            indicatorPaint.setColor(color);
+
+            canvas.drawCircle(x, y, innerSize1, indicatorPaint);
+
+            if (isChanging) {
+                canvas.drawCircle(x, y - 123, innerSize2, indicatorPaint);
+            }
+        } else {
+
+            indicatorPaint.setColor(Color.GRAY);
+
+            canvas.drawCircle(x, y, innerSize1, indicatorPaint);
         }
     }
 }

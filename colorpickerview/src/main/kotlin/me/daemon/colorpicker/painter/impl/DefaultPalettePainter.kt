@@ -17,7 +17,7 @@ open class DefaultPalettePainter : IPalettePainter {
     var paletteRadius = 0
         private set
 
-    private val currentPoint = PointF()
+    val currentPoint = PointF()
 
     private val huePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val saturationPaint = Paint(Paint.ANTI_ALIAS_FLAG)
