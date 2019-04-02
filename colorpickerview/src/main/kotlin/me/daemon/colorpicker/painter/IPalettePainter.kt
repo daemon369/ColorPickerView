@@ -30,21 +30,10 @@ interface IPalettePainter : IPainter<PaletteView, PaletteValue> {
                 isChanging
         )
 
-        val color = view.getColor()
-
-        if (
-                indicatorPainter?.drawIndicator(
-                        view,
-                        canvas,
-                        color,
-                        isChanging
-                ) == true
-        ) return
-
         onDrawIndicator(
                 view,
                 canvas,
-                color,
+                view.getColor(),
                 isChanging
         )
     }
@@ -76,10 +65,5 @@ interface IPalettePainter : IPainter<PaletteView, PaletteValue> {
             isChanging: Boolean
     ) {
     }
-
-    /**
-     * indicator painter
-     */
-    var indicatorPainter: IndicatorPainter?
 
 }
