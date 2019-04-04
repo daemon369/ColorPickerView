@@ -336,6 +336,8 @@ class ColorPickerView @JvmOverloads constructor(
         addViewInternal(paletteView)
         addViewInternal(brightnessView)
         addViewInternal(alphaView)
+
+        clipChildren = false
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
