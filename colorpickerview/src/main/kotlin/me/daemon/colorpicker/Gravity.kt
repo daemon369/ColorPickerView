@@ -5,8 +5,6 @@ package me.daemon.colorpicker
  * @since 2019-02-22 00:00
  */
 enum class Gravity {
-    UNKNOWN(0),
-
     // basic
     LEFT(1),
     TOP(LEFT.value shl 1),
@@ -73,7 +71,7 @@ enum class Gravity {
         }
 
         fun from(gravity: Int): Gravity {
-            return map[gravity] ?: UNKNOWN
+            return map[gravity] ?: throw IllegalArgumentException("unknown gravity: $gravity")
         }
 
         /**

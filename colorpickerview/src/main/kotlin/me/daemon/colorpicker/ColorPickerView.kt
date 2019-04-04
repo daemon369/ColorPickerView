@@ -291,9 +291,6 @@ class ColorPickerView @JvmOverloads constructor(
             } else {
                 Gravity.from(paletteGravityInt)
             }
-            if (paletteGravity == Gravity.UNKNOWN) {
-                throw IllegalArgumentException("Illegal paletteGravity: $paletteGravityInt")
-            }
 
             paletteOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetX, 0f).toInt()
             paletteOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_paletteOffsetY, 0f).toInt()
@@ -308,9 +305,6 @@ class ColorPickerView @JvmOverloads constructor(
             } else {
                 Gravity.from(brightnessGravityInt)
             }
-            if (brightnessGravity == Gravity.UNKNOWN) {
-                throw IllegalArgumentException("Illegal brightnessGravity: $brightnessGravityInt")
-            }
             brightnessOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetX, 0f).toInt()
             brightnessOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_brightnessOffsetY, 0f).toInt()
 
@@ -323,9 +317,6 @@ class ColorPickerView @JvmOverloads constructor(
                 Gravity.CENTER
             } else {
                 Gravity.from(alphaGravityInt)
-            }
-            if (alphaGravity == Gravity.UNKNOWN) {
-                throw IllegalArgumentException("Illegal alphaGravity: $alphaGravityInt")
             }
             alphaOffsetX = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetX, 0f).toInt()
             alphaOffsetY = t.getDimension(R.styleable.DaemonCpColorPickerView_daemon_cp_alphaOffsetY, 0f).toInt()
