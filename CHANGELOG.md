@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.0.2] - 2019-04-11
+
+optimize
+
+优化
+
+### Added
+
+### Changed
+
+- make DefaultPalettePainter and some fields of it overridable
+
+### Removed
+
+- remove `IndicatorPainter`
+- remove `Gravity.UNKNOWN`
+
+### 添加
+
+### 变更
+
+- 允许`DefaultPalettePainter`及其部分属性可复写
+
+### 删除
+
+- 移除用处有限的`IndicatorPainter`
+- 移除不需要的`Gravity.UNKNOWN`
+
 ## [1.0.1] - 2019-04-01
 
 support vertical `BrightnessView` & `AlphaView`
