@@ -27,9 +27,12 @@ allprojects {
 
 ```
 dependencies {
-    implementation 'me.daemon:colorpickerview:1.0.1'
+    implementation 'me.daemon:colorpickerview:x.y.z'
 }
 ```
+
+将其中的`x`、`y`、`z`替换为真实版本号：[ ![Download](https://api.bintray.com/packages/daemon336699/maven/colorpickerview/images/download.svg) ](https://bintray.com/daemon336699/maven/colorpickerview/_latestVersion)
+
 
 ## 2. 使用
 
