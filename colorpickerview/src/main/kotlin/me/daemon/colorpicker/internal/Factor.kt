@@ -6,7 +6,7 @@ package me.daemon.colorpicker.internal
  * @author daemon
  * @since 2019-02-18 10:55
  */
-internal enum class Factor {
+enum class Factor {
     HUE,
     SATURATION,
     BRIGHTNESS,

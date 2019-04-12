@@ -3,6 +3,7 @@ package me.daemon.colorpicker.internal
 import android.graphics.Color
 import me.daemon.colorpicker.ColorObservable
 import me.daemon.colorpicker.ColorObserver
+import me.daemon.colorpicker.IFactor
 
 /**
  * internal color center
@@ -10,7 +11,7 @@ import me.daemon.colorpicker.ColorObserver
  * @author daemon
  * @since 2019-02-17 00:52
  */
-internal class ColorCenter : ColorObservable {
+internal class ColorCenter : ColorObservable, IFactor.ICenter {
 
     private var alpha: Float = 0f
 
@@ -29,6 +30,11 @@ internal class ColorCenter : ColorObservable {
     private val observers = ArrayList<ColorObserver>()
 
     private val callbacks = ArrayList<Callback>()
+
+    private var hueFactor: IFactor? = null
+    private var saturationFactor: IFactor? = null
+    private var brightnessFactor: IFactor? = null
+    private var alphaFactor: IFactor? = null
 
     fun beginTransaction() = transaction.begin()
 
@@ -106,5 +112,20 @@ internal class ColorCenter : ColorObservable {
             }
         }
 
+    }
+
+    override fun changeFactor(factor: Factor, value: Float) {
+    }
+
+    fun register(factor: Factor, factorProvider: IFactor?) {
+        factorProvider?.apply {
+            colorCenter1 = this@ColorCenter
+        }
+        when (factor) {
+            Factor.HUE -> hueFactor = factorProvider
+            Factor.SATURATION -> saturationFactor = factorProvider
+            Factor.BRIGHTNESS -> brightnessFactor = factorProvider
+            Factor.ALPHA -> alphaFactor = factorProvider
+        }
     }
 }
