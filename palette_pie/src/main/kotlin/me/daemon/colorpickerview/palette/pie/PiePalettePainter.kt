@@ -1,4 +1,4 @@
-package me.daemon.colorpicker.painter.impl
+package me.daemon.colorpickerview.palette.pie
 
 import android.graphics.*
 import me.daemon.colorpicker.painter.IPalettePainter
@@ -8,7 +8,7 @@ import me.daemon.colorpicker.view.PaletteView
  * @author daemon
  * @since 2019-02-24 00:09
  */
-open class DefaultPalettePainter : IPalettePainter {
+open class PiePalettePainter : IPalettePainter {
 
     var paletteCenterX = 0
         private set

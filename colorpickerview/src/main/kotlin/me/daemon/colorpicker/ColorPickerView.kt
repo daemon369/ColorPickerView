@@ -12,7 +12,6 @@ import me.daemon.colorpicker.painter.IBrightnessPainter
 import me.daemon.colorpicker.painter.IPalettePainter
 import me.daemon.colorpicker.painter.impl.DefaultAlphaPainter
 import me.daemon.colorpicker.painter.impl.DefaultBrightnessPainter
-import me.daemon.colorpicker.painter.impl.DefaultPalettePainter
 import me.daemon.colorpicker.view.AlphaView
 import me.daemon.colorpicker.view.BrightnessView
 import me.daemon.colorpicker.view.PaletteView
@@ -96,7 +95,6 @@ class ColorPickerView @JvmOverloads constructor(
 
     private val paletteView = PaletteView(context, attrs).apply {
         setColorCenter(colorCenter)
-        painter = DefaultPalettePainter()
     }
 
     private val brightnessView = BrightnessView(context, attrs).apply {

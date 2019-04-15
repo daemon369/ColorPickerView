@@ -4,15 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
-
-import me.daemon.colorpicker.painter.impl.DefaultPalettePainter;
 import me.daemon.colorpicker.view.PaletteView;
+import me.daemon.colorpickerview.palette.pie.PiePalettePainter;
 
 /**
  * @author daemon
  * @since 2019-02-11 22:07
  */
-public class DisabledStatePalettePainter extends DefaultPalettePainter {
+public class DisabledStatePalettePainter extends PiePalettePainter {
 
     private final Paint disabledPaint;
 
