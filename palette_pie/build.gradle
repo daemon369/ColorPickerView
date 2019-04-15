@@ -60,7 +60,7 @@ ext {
     siteUrl = 'https://github.com/daemon369/ColorPickerView'
     gitUrl = 'https://github.com/daemon369/ColorPickerView.git'
 
-    libraryVersion = library_version
+    libraryVersion = palette_pie_version
 
     developerId = 'daemon369'
     developerName = 'daemon369'
