@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ColorPickerView.iml" filepath="$PROJECT_DIR$/ColorPickerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/colorpickerview/colorpickerview.iml" filepath="$PROJECT_DIR$/colorpickerview/colorpickerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/palette_pie/palette_pie.iml" filepath="$PROJECT_DIR$/palette_pie/palette_pie.iml" />
     </modules>
   </component>
 </project>

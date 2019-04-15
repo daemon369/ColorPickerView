@@ -1,1 +1,1 @@
-include ':app', ':colorpickerview'
+include ':app', ':colorpickerview', ':palette_pie'
