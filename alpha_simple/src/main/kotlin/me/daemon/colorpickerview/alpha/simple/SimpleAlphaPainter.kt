@@ -1,4 +1,4 @@
-package me.daemon.colorpicker.painter.impl
+package me.daemon.colorpickerview.alpha.simple
 
 import android.graphics.*
 import me.daemon.colorpicker.Orientation
@@ -9,7 +9,7 @@ import me.daemon.colorpicker.view.AlphaView
  * @author daemon
  * @since 2019-03-12 21:41
  */
-class DefaultAlphaPainter : IAlphaPainter {
+class SimpleAlphaPainter : IAlphaPainter {
 
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val solidPaint = Paint(Paint.ANTI_ALIAS_FLAG)

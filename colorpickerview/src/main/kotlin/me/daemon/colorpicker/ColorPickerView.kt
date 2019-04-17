@@ -10,7 +10,6 @@ import me.daemon.colorpicker.internal.ColorCenter
 import me.daemon.colorpicker.painter.IAlphaPainter
 import me.daemon.colorpicker.painter.IBrightnessPainter
 import me.daemon.colorpicker.painter.IPalettePainter
-import me.daemon.colorpicker.painter.impl.DefaultAlphaPainter
 import me.daemon.colorpicker.painter.impl.DefaultBrightnessPainter
 import me.daemon.colorpicker.view.AlphaView
 import me.daemon.colorpicker.view.BrightnessView
@@ -104,7 +103,6 @@ class ColorPickerView @JvmOverloads constructor(
 
     private val alphaView = AlphaView(context, attrs).apply {
         setColorCenter(colorCenter)
-        painter = DefaultAlphaPainter()
     }
 
     private var isAddingInternal = false

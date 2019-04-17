@@ -31,7 +31,9 @@ dependencies {
 
     implementation project(":colorpickerview")
     implementation project(":palette_pie")
+    implementation project(":alpha_simple")
 
 //    implementation "me.daemon:colorpickerview:$library_version"
 //    implementation "me.daemon:colorpickerview-palette-pie:$palette_pie_version"
+//    implementation "me.daemon:colorpickerview-alpha-simple:alpha_simple_version"
 }
