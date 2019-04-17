@@ -57,7 +57,7 @@ ext {
 
     libraryDescription = 'An Android Library providing a color picker view'
 
-    siteUrl = 'https://github.com/daemon369/ColorPickerView'
+    siteUrl = 'https://github.com/daemon369/ColorPickerView/palette_pie'
     gitUrl = 'https://github.com/daemon369/ColorPickerView.git'
 
     libraryVersion = palette_pie_version
