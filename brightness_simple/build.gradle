@@ -1,0 +1,78 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    compileSdkVersion compile_sdk_version
+    buildToolsVersion build_tools_version
+
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        targetSdkVersion target_sdk_version
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    resourcePrefix 'daemon_cp_'
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "me.daemon:colorpickerview:$library_version"
+}
+
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'colorpickerview-brightness-simple'
+
+    bintrayOverride = false
+
+    publishedGroupId = 'me.daemon'
+    libraryName = 'ColorPickerViewBrightnessSimple'
+    artifact = 'colorpickerview-brightness-simple'
+
+    libraryDescription = 'An Android Library providing a color picker view'
+
+    siteUrl = 'https://github.com/daemon369/ColorPickerView/palette_pie'
+    gitUrl = 'https://github.com/daemon369/ColorPickerView.git'
+
+    libraryVersion = brightness_simple_version
+
+    developerId = 'daemon369'
+    developerName = 'daemon369'
+    developerEmail = 'daemon336699@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'https://gist.githubusercontent.com/daemon369/39f43c9406312f3b565b9f8a42923b10/raw/5d4e8f6c030a5b53f3cd7017e1c2b07882b0b72e/upload.gradle'
+
+bintray {
+    override = bintrayOverride
+}
