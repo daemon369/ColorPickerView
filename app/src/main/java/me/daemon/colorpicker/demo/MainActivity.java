@@ -8,6 +8,7 @@ import android.view.View;
 import me.daemon.colorpicker.ColorObserver;
 import me.daemon.colorpicker.ColorPickerView;
 import me.daemon.colorpickerview.alpha.simple.SimpleAlphaPainter;
+import me.daemon.colorpickerview.brightness.simple.SimpleBrightnessPainter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 //        colorPickerView.setIndicatorPainter(new ShowPopIndicator());
         colorPickerView.setPalettePainter(new DisabledStatePalettePainter(Color.LTGRAY));
         colorPickerView.setAlphaPainter(new SimpleAlphaPainter());
+        colorPickerView.setBrightnessPainter(new SimpleBrightnessPainter());
 
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
