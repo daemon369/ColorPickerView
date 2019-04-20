@@ -1,15 +1,15 @@
-package me.daemon.colorpickerview.alpha.simple
+package me.daemon.colorpickerview.brightness.simple
 
 import android.graphics.*
 import me.daemon.colorpicker.Orientation
-import me.daemon.colorpicker.painter.IAlphaPainter
-import me.daemon.colorpicker.view.AlphaView
+import me.daemon.colorpicker.painter.IBrightnessPainter
+import me.daemon.colorpicker.view.BrightnessView
 
 /**
  * @author daemon
- * @since 2019-03-12 21:41
+ * @since 2019-02-22 15:15
  */
-class SimpleAlphaPainter : IAlphaPainter {
+class BrightnessSimplePainter : IBrightnessPainter {
 
     private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val solidPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -31,7 +31,7 @@ class SimpleAlphaPainter : IAlphaPainter {
     }
 
     override fun onSizeChanged(
-            view: AlphaView,
+            view: BrightnessView,
             w: Int,
             h: Int
     ) {
@@ -61,7 +61,7 @@ class SimpleAlphaPainter : IAlphaPainter {
     }
 
     override fun onDraw(
-            view: AlphaView,
+            view: BrightnessView,
             canvas: Canvas,
             isChanging: Boolean
     ) {
@@ -73,20 +73,20 @@ class SimpleAlphaPainter : IAlphaPainter {
                 canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), solidPaint)
                 canvas.drawRect(selectorSize, selectorSize, width - selectorSize, height.toFloat(), borderPaint)
 
-                selectorPath.offset(view.getValue().alpha * (width - 2 * selectorSize), 0f, currentSelectorPath)
+                selectorPath.offset(view.getValue().brightness * (width - 2 * selectorSize), 0f, currentSelectorPath)
             }
             Orientation.VERTICAL -> {
                 canvas.drawRect(0f, selectorSize, width - selectorSize, height - selectorSize, solidPaint)
                 canvas.drawRect(0f, selectorSize, width - selectorSize, height - selectorSize, borderPaint)
 
-                selectorPath.offset(width - selectorSize, view.getValue().alpha * (height - 2 * selectorSize), currentSelectorPath)
+                selectorPath.offset(width - selectorSize, view.getValue().brightness * (height - 2 * selectorSize), currentSelectorPath)
             }
         }
         canvas.drawPath(currentSelectorPath, selectorPaint)
     }
 
     override fun onUpdate(
-            view: AlphaView,
+            view: BrightnessView,
             x: Float,
             y: Float
     ) {
@@ -98,22 +98,23 @@ class SimpleAlphaPainter : IAlphaPainter {
         view.getValue().setValue(currentValue)
     }
 
-    override fun updateByValue(view: AlphaView) {
+    override fun updateByValue(view: BrightnessView) {
     }
 
-    override fun onColorChanged(view: AlphaView, color: Int) {
+    override fun onColorChanged(view: BrightnessView, color: Int) {
         updatePainter(view, color)
     }
 
     private fun updatePainter(
-            view: AlphaView,
+            view: BrightnessView,
             color: Int
     ) {
-        val hsv = FloatArray(3)
-        Color.colorToHSV(color, hsv)
+        val hsv = FloatArray(3).apply {
+            Color.colorToHSV(color, this)
+        }
 
-        val startColor = Color.HSVToColor(0, hsv)
-        val endColor = Color.HSVToColor(255, hsv)
+        val startColor = Color.HSVToColor(hsv.apply { this[2] = 0f })
+        val endColor = Color.HSVToColor(hsv.apply { this[2] = 1f })
 
         val shader = LinearGradient(
                 0f,
@@ -127,4 +128,5 @@ class SimpleAlphaPainter : IAlphaPainter {
 
         solidPaint.shader = shader
     }
+
 }

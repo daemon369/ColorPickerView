@@ -8,7 +8,7 @@ import me.daemon.colorpicker.view.PaletteView
  * @author daemon
  * @since 2019-02-24 00:09
  */
-open class PiePalettePainter : IPalettePainter {
+open class PalettePiePainter : IPalettePainter {
 
     var paletteCenterX = 0
         private set
