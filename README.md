@@ -33,8 +33,33 @@ dependencies {
 
 将其中的`x`、`y`、`z`替换为真实版本号：[ ![Download](https://api.bintray.com/packages/daemon336699/maven/colorpickerview/images/download.svg) ](https://bintray.com/daemon336699/maven/colorpickerview/_latestVersion)
 
+## 2. 子模块依赖
 
-## 2. 使用
+### Palette
+
+```
+implementation 'me.daemon:colorpickerview-palette-pie:x.y.z'
+```
+
+其中`x`、`y`、`z`替换为真实版本号
+
+### Brightness
+
+```
+implementation 'me.daemon:colorpickerview-brightness-simple:x.y.z'
+```
+
+其中`x`、`y`、`z`替换为真实版本号
+
+### Alpha
+
+```
+implementation 'me.daemon:colorpickerview-alpha-simple:x.y.z'
+```
+
+其中`x`、`y`、`z`替换为真实版本号
+
+## 3. 使用
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -100,4 +125,25 @@ dependencies {
         app:daemon_cp_paletteRadius="110dp" />
 
 </LinearLayout>
+```
+
+设置：
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final ColorPickerView colorPickerView = findViewById(R.id.color_picker);
+        // set palette painter
+        colorPickerView.setPalettePainter(new PalettePiePainter());
+        // set alpha painter
+        colorPickerView.setAlphaPainter(new AlphaSimplePainter());
+        // set brightness painter
+        colorPickerView.setBrightnessPainter(new BrightnessSimplePainter());
+    }
+}
 ```
