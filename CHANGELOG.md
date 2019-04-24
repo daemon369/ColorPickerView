@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.1.0] - 2019-04-24
+
+move painter implementations to separate module
+
+将painter的实现拆分为单独的模块看，用户可以灵活选择不同的painter实现
+
+### Added
+
+### Changed
+
+- move painter implementations to separate module
+
+### Removed
+
+### 添加
+
+### 变更
+
+- 将painter的实现拆分为单独的模块
+
+### 删除
+
 ## [1.0.2] - 2019-04-11
 
 optimize
