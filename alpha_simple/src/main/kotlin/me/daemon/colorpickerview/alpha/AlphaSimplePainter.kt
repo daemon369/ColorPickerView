@@ -1,4 +1,4 @@
-package me.daemon.colorpickerview.alpha.simple
+package me.daemon.colorpickerview.alpha
 
 import android.graphics.*
 import me.daemon.colorpicker.Orientation

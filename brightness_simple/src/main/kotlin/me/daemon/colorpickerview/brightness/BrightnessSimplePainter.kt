@@ -1,4 +1,4 @@
-package me.daemon.colorpickerview.brightness.simple
+package me.daemon.colorpickerview.brightness
 
 import android.graphics.*
 import me.daemon.colorpicker.Orientation

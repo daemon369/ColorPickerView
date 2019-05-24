@@ -7,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import me.daemon.colorpicker.ColorObserver;
 import me.daemon.colorpicker.ColorPickerView;
-import me.daemon.colorpickerview.alpha.simple.AlphaSimplePainter;
-import me.daemon.colorpickerview.brightness.simple.BrightnessSimplePainter;
+import me.daemon.colorpickerview.alpha.AlphaSimplePainter;
+import me.daemon.colorpickerview.brightness.BrightnessSimplePainter;
 
 public class MainActivity extends AppCompatActivity {
 

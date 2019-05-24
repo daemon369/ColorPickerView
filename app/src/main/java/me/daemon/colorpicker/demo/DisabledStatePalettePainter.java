@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import me.daemon.colorpicker.view.PaletteView;
-import me.daemon.colorpickerview.palette.pie.PalettePiePainter;
+import me.daemon.colorpickerview.palette.PalettePiePainter;
 
 /**
  * @author daemon

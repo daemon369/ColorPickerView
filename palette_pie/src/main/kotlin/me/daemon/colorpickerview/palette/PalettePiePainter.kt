@@ -1,4 +1,4 @@
-package me.daemon.colorpickerview.palette.pie
+package me.daemon.colorpickerview.palette
 
 import android.graphics.*
 import me.daemon.colorpicker.painter.IPalettePainter
